@@ -1,0 +1,53 @@
+{
+  "course_id": 95354,
+  "course": "거대언어모델과챗GPT",
+  "fetched_at": "2026-10-20T11:33:41.644668+09:00",
+  "checked_locations": {
+    "announcements": 7,
+    "assignments": 6,
+    "boards": [
+      {
+        "id": 70219,
+        "title": "강의자료실",
+        "posts": 7,
+        "pages": 1
+      }
+    ],
+    "weekly_modules": 16
+  },
+  "sources": [
+    {
+      "kind": "announcements",
+      "id": 416274,
+      "title": "강의 관련 공지",
+      "source_url": "https://canvas.korea.ac.kr/courses/95354/discussion_topics/416274",
+      "created_at": "2026-09-10T02:26:22Z",
+      "updated_at": "2026-09-10T02:26:22Z",
+      "due_at": null,
+      "due_at_kst": null,
+      "file_ids": [],
+      "attachments": [],
+      "saved_as": "공지/announcements_416274_강의_관련_공지.md",
+      "saved_sha256": "de9e524276ea0c64268a7571bca722faa159a9952726a9e1e3cbc6b835421bd7",
+      "source_text_sha256": "cd6520a0d26b1f95d9d5cd86eed17fc8e8553538da83824d0f397bcebf59686c"
+    },
+    {
+      "kind": "board_posts",
+      "id": 431121,
+      "title": "Prompt Injection Dataset",
+      "source_url": "https://mylms.korea.ac.kr/learningx/redirect/courses/95354/external_tools/5?post_id=431121&target=web",
+      "created_at": "2026-10-15T01:09:27.000000Z",
+      "updated_at": "2026-10-20T00:17:46.000000Z",
+      "due_at": null,
+      "due_at_kst": null,
+      "file_ids": [],
+      "attachments": [],
+      "saved_as": "공지/board_posts_431121_Prompt_Injection_Dataset.md",
+      "saved_sha256": "19394f227e52b21402ad7fbca44918841480696db92f78e38e69e6752a475ec0",
+      "source_text_sha256": "495f8452a1bf7d07bfbd2b8e77b2e47b99b5ba95f4474ffb58ac7ca90495712b"
+    }
+  ],
+  "attachments": [],
+  "readme_sha256": "ec50a6afb5adb5f85cea2feaf58b2b99426140d9c6800fbba461d37a80df62c0",
+  "notes": "토큰·세션 쿠키·파일 verifier는 저장하지 않음. 동일 내용 첨부는 한 파일로 모음. 기존 파일은 재사용하고 원래 경로도 유지함. 공개 저장소에서는 강의 관련 공지의 조교 개인 연락처를 생략함. source_text_sha256는 수집 당시 원문의 해시임."
+}
