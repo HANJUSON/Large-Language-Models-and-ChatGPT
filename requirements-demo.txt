@@ -1,0 +1,35 @@
+# Report/demo environment (README 4.2): report graphs and DEMO-01/02. Install into .venv-demo, never into .venv.
+# Generated in a clean py -3.14 venv (Git Bash, repo root): pip install --dry-run --only-binary=:all: --report r.json -r requirements.txt matplotlib streamlit; every resolved package not pinned in requirements.txt is pinned below. Do not hand-edit.
+# Regenerate whenever requirements.txt changes.
+# Recreate (Git Bash, repo root): py -3.14 -m venv .venv-demo && .venv-demo/Scripts/python.exe -m pip install -r requirements-demo.txt
+# Direct dependencies: matplotlib streamlit. Run the demo with: .venv-demo/Scripts/python.exe -m streamlit run <app> --server.address 127.0.0.1 --browser.gatherUsageStats false
+-r requirements.txt
+altair==6.3.0
+attrs==26.1.0
+certifi==2026.10.23
+charset-normalizer==3.5.2
+contourpy==1.4.0
+cycler==0.12.1
+fonttools==4.68.0
+itsdangerous==2.2.0
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+kiwisolver==1.5.1
+matplotlib==3.11.2
+pandas==3.1.1
+pillow==13.0.0
+pyarrow==26.0.1
+pydeck==0.9.3
+pyparsing==3.3.3
+python-dateutil==4.0.0
+python-multipart==0.0.33
+referencing==0.37.0
+requests==2.34.2
+rpds-py==2026.9.1
+starlette==1.10.0
+streamlit==1.67.0
+tzdata==2026.6
+urllib3==2.8.0
+uvicorn==0.54.0
+watchdog==7.1.0
+websockets==17.4

@@ -3,3 +3,13 @@
 
 # Local Python virtual environment
 .venv/
+
+# Local secrets and agent/editor settings
+.claude/settings.local.json
+.env
+
+# Python bytecode
+__pycache__/
+
+# Report/demo environment (README 4.2)
+.venv-demo/
