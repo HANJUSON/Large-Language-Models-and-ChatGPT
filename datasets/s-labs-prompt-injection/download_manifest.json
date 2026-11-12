@@ -1,0 +1,99 @@
+{
+  "dataset": "S-Labs/prompt-injection-dataset",
+  "dataset_url": "https://huggingface.co/datasets/S-Labs/prompt-injection-dataset",
+  "revision": "002a9dd18514abd021869823d6b0429b38606d99",
+  "revision_date": "2026-01-29T14:20:45Z",
+  "license": "mit",
+  "downloaded_at": "2026-11-12T13:00:45+09:00",
+  "download_method": "curl from Hugging Face resolve URLs pinned to revision",
+  "excluded_from_download": [
+    ".gitattributes (Hub LFS config, not data)"
+  ],
+  "verification": "git blob SHA-1 and size compared with Hugging Face tree API at revision; rows parsed with Python csv module",
+  "all_checks_passed": true,
+  "files": [
+    {
+      "path": "README.md",
+      "source_url": "https://huggingface.co/datasets/S-Labs/prompt-injection-dataset/resolve/002a9dd18514abd021869823d6b0429b38606d99/README.md",
+      "size_bytes": 5336,
+      "sha256": "905e315a428350bdb9b132948f1d29c24b6d9274aa112e2f5aeb49e490588ad6",
+      "git_blob_sha1": "30bff2e164ca97eecfdbc068ec708a6fa161f49f",
+      "matches_hub_blob": true
+    },
+    {
+      "path": "data/train.csv",
+      "source_url": "https://huggingface.co/datasets/S-Labs/prompt-injection-dataset/resolve/002a9dd18514abd021869823d6b0429b38606d99/data/train.csv",
+      "size_bytes": 747016,
+      "sha256": "bab012fec95d4214599b18777fd6efc5cc5e9545354df581880aeca5c1d487d7",
+      "git_blob_sha1": "0702db646ae34c25a40039ba5ae7e809abfa5264",
+      "matches_hub_blob": true
+    },
+    {
+      "path": "data/validation.csv",
+      "source_url": "https://huggingface.co/datasets/S-Labs/prompt-injection-dataset/resolve/002a9dd18514abd021869823d6b0429b38606d99/data/validation.csv",
+      "size_bytes": 122918,
+      "sha256": "c7d14d24a14dd30a37ebe0de928b8ccdcdf6639c3c2e830b59561e2dd5fb7b55",
+      "git_blob_sha1": "144dcaf3ae3689cf14dbd0a567851f9feab66270",
+      "matches_hub_blob": true
+    },
+    {
+      "path": "data/test.csv",
+      "source_url": "https://huggingface.co/datasets/S-Labs/prompt-injection-dataset/resolve/002a9dd18514abd021869823d6b0429b38606d99/data/test.csv",
+      "size_bytes": 111112,
+      "sha256": "4c7a9f0fff2bf7d3f6d3e7b84863a8f5d6c48c70c3ac7fe874917074c8f27853",
+      "git_blob_sha1": "78561ffbb488b11dfa135f7f79b3f9c15b0a5846",
+      "matches_hub_blob": true
+    }
+  ],
+  "splits": {
+    "train": {
+      "file": "data/train.csv",
+      "header": [
+        "text",
+        "label"
+      ],
+      "rows": 11089,
+      "expected_rows": 11089,
+      "rows_match": true,
+      "label_counts": {
+        "0_BENIGN": 6303,
+        "1_INJECTION": 4786
+      },
+      "other_labels": {},
+      "empty_text_rows": 0
+    },
+    "validation": {
+      "file": "data/validation.csv",
+      "header": [
+        "text",
+        "label"
+      ],
+      "rows": 2101,
+      "expected_rows": 2101,
+      "rows_match": true,
+      "label_counts": {
+        "0_BENIGN": 1050,
+        "1_INJECTION": 1051
+      },
+      "other_labels": {},
+      "empty_text_rows": 0
+    },
+    "test": {
+      "file": "data/test.csv",
+      "header": [
+        "text",
+        "label"
+      ],
+      "rows": 2101,
+      "expected_rows": 2101,
+      "rows_match": true,
+      "label_counts": {
+        "0_BENIGN": 1050,
+        "1_INJECTION": 1051
+      },
+      "other_labels": {},
+      "empty_text_rows": 0
+    }
+  },
+  "note": "Raw files are byte-identical to the Hub (CSVs use CRLF line endings, README.md uses LF). Do not edit; write processed data elsewhere."
+}

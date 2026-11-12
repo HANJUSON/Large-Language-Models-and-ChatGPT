@@ -48,16 +48,17 @@
 - 언어 및 형식: 영어, CSV
 - 입력 필드: `text`
 - 정답 필드: `label` (`0` = BENIGN, `1` = INJECTION)
-- 로컬 다운로드 기준: 2026-10-19
+- 로컬 저장 위치: [datasets/s-labs-prompt-injection/](datasets/s-labs-prompt-injection/) (Hub 저장소 구조 그대로, 원본 파일은 수정하지 않음)
+- 로컬 다운로드 기준: 2026-11-12, 학습·검증용 컴퓨터에서 다시 받음 (최초 다운로드 2026-10-19와 같은 revision)
 - 로컬 저장본 revision: `002a9dd18514abd021869823d6b0429b38606d99`
-- 원본 설명: [데이터셋 README](../Prompt%20Injection%20Dataset/README.md)
-- 다운로드 이력: [download_manifest.json](../Prompt%20Injection%20Dataset/download_manifest.json)
+- 원본 설명: [데이터셋 README](datasets/s-labs-prompt-injection/README.md)
+- 다운로드 이력: [download_manifest.json](datasets/s-labs-prompt-injection/download_manifest.json) (파일별 SHA-256·Hub blob 해시 대조, 분할별 행 수·레이블 수)
 
 | 분할 | 원본 행 수 | 용도 | 파일 |
 | --- | ---: | --- | --- |
-| train | 11,089 | 모델 학습 및 학습용 증강 사례의 출발점 | [train.csv](../Prompt%20Injection%20Dataset/data/train.csv) |
-| validation | 2,101 | 중복 제외본을 이용한 체크포인트·대표 모델·임계값 선택, 개발용 취약점 분석 | [validation.csv](../Prompt%20Injection%20Dataset/data/validation.csv) |
-| test | 2,101 | 설정 확정 후 최종 평가 | [test.csv](../Prompt%20Injection%20Dataset/data/test.csv) |
+| train | 11,089 | 모델 학습 및 학습용 증강 사례의 출발점 | [train.csv](datasets/s-labs-prompt-injection/data/train.csv) |
+| validation | 2,101 | 중복 제외본을 이용한 체크포인트·대표 모델·임계값 선택, 개발용 취약점 분석 | [validation.csv](datasets/s-labs-prompt-injection/data/validation.csv) |
+| test | 2,101 | 설정 확정 후 최종 평가 | [test.csv](datasets/s-labs-prompt-injection/data/test.csv) |
 
 행 수는 원본 저장본 기준이다. 품질 점검 후 실제 사용한 행 수와 제외 사유를 따로 기록한다.
 
@@ -367,7 +368,6 @@ validation은 선택·설계에 사용하는 개발 자료이므로 개발 결�
 
 ## 10. 과제 안내 및 참고 자료
 
-- [강의자료실 안내](../Prompt%20Injection%20Dataset/강의자료실_안내.md)
 - [저장한 Prompt Injection Dataset 공지 원문](공지/board_posts_431121_Prompt_Injection_Dataset.md)
 - [저장한 강의 관련 공지](공지/announcements_416274_강의_관련_공지.md)
 - [PIDS-Bench: Evaluating Prompt-Injection Detectors Under Over-Defense, Obfuscation, and Distribution Shift](https://arxiv.org/abs/2609.15017)

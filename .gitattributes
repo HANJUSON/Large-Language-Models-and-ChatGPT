@@ -1,0 +1,3 @@
+# Keep downloaded raw datasets byte-identical to their source (no CRLF/LF conversion),
+# so the hashes in each download_manifest.json stay valid on every computer.
+datasets/** -text
