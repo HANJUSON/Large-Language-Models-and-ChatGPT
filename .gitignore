@@ -1,2 +1,5 @@
 # Local agent session and runtime state
 .omc/
+
+# Local Python virtual environment
+.venv/

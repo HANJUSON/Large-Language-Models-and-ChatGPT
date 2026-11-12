@@ -1,3 +1,6 @@
 # Keep downloaded raw datasets byte-identical to their source (no CRLF/LF conversion),
 # so the hashes in each download_manifest.json stay valid on every computer.
 datasets/** -text
+
+# Keep requirements.txt LF on every checkout so the SHA-256 recorded at freeze-1 is reproducible.
+requirements.txt text eol=lf
