@@ -25,7 +25,7 @@
 - [x] 가상환경 설치와 `requirements.txt` 고정 (4.2)
 - [ ] 시험 실행 통과 기준 확인 (4.2)
 - [ ] 상충 문장과 대소문자 쌍 검수, 공통 목록 생성 (3.2)
-- [ ] 세 토크나이저로 train 잘림 행 수 측정 (4.2)
+- [x] 세 토크나이저로 train 잘림 행 수 측정 (4.2)
 - [ ] 마감을 확인한 뒤 8절 표의 기간과 담당 채우기
 
 **핵심 수치:** `validation_clean` 2,097행 · `test_clean` 1,985행(증강 전) · 학습 예산 N = 2,073 update · 본실험 12회 · seed 42·123·2026
@@ -165,7 +165,7 @@ train–test 중복이 없으므로 학습 데이터만 제외하면 증강 전 
 | 비ASCII 문자가 있는 행 | 22 | 0 |
 | 공백 없이 40자 이상 이어지는 문자열이 있는 행 | 26 | 0 |
 
-validation에는 긴 문장, 비ASCII 문자, 긴 연속 문자열이 없으므로 `validation_clean`에 기반한 선택은 이런 입력에서의 동작을 반영하지 못한다. 이 부분은 ROB와 외부 평가 결과로 해석한다.
+validation에는 긴 문장, 비ASCII 문자, 긴 연속 문자열이 없으므로 `validation_clean`에 기반한 선택은 이런 입력에서의 동작을 반영하지 못한다. 이 부분은 ROB와 외부 평가 결과로 해석한다. 비ASCII 문자가 있는 train 22행은 모두 인젝션(레이블 1)이므로, 모델이 비ASCII 여부를 지름길 특징으로 학습할 수 있다. ROB-01과 오류 분석에서 이 가능성을 함께 확인한다.
 
 학습 데이터의 동일 문장(완전 중복 키 기준)·동일 레이블 중복은 1건을 남기는 것을 기본으로 한다. 상충 레이블은 사람이 검수하고, 정답을 명확히 정할 수 없으면 해당 문장 그룹을 학습에서 제외한다. 처리 이력을 보존하고, 유사 문장 점검 방법과 기준은 학습 전에 기록한다.
 
@@ -257,6 +257,7 @@ DeBERTa-v3-small의 수치는 임베딩을 포함한 값이다. 세 후보는 �
 
 - 보고·시연 패키지: 보고서 그래프용 matplotlib과 시연 도구(DEMO-01·02)용 streamlit은 `requirements-demo.txt`로 분리해 별도 가상환경 `.venv-demo`에 설치한다. 이 파일은 `-r requirements.txt`로 학습·평가 패키지를 그대로 포함하고 추가 패키지만 고정하므로 `.venv`와 `requirements.txt`는 바뀌지 않는다. `.venv-demo`는 보고서 그래프나 시연 작업이 처음 필요할 때 설치하고, `requirements.txt`가 바뀌면 `requirements-demo.txt`도 다시 만든다. 시연은 `--server.address 127.0.0.1 --browser.gatherUsageStats false`로 실행해 이 컴퓨터에서만 접속하고 사용 통계를 보내지 않는다.
 - 학습 코드: PyTorch 학습 루프를 직접 작성한다(HF Trainer·accelerate 미사용). 체크포인트 선택 규칙과 사례별 예측 저장(REPRO-02)을 그대로 구현하기 위해서다.
+- 토크나이저: 세 모델은 `scripts/model_specs.py`의 고정 revision으로 불러온다(BERT `86b5e09…`, RoBERTa `e2da8e2…`, DeBERTa-v3 `a36c739…`; 전체 SHA는 파일 참고). DeBERTa-v3는 `fix_mistral_regex=False`로 불러온다. 오프라인·로컬 캐시에서 불러올 때 transformers 5.22.2가 내는 경고는 오탐이며, 오프라인에서 `True`로 켜면 띄어쓰기 처리 단계가 바뀌어 train·validation 13,190문장 중 원본 SentencePiece와 일치하는 문장이 0개가 된다(온라인에서는 `True`가 아무 효과가 없다). 채택한 방식은 13,182문장(99.94%)이 일치하고, 나머지 8문장 중 6문장은 원본의 NFKC 정규화가, 2문장(제어 문자 U+008D)은 바이트 대체(byte fallback)가 빠져 다르다(9절 결정 항목). BERT·RoBERTa는 같은 `tokenizer.json`을 `tokenizers` 라이브러리로 직접 불러온 결과와 100% 일치한다. `scripts/check_tokenizers.py`를 `HF_HUB_OFFLINE=1`로 실행해 재현한다.
 - 결정성: seed를 설정하고 결정적 연산 옵션을 켠다. 지원하지 않는 연산 때문에 오류가 나면 옵션을 끄고 기록한다. 같은 seed라도 GPU에서 결과가 완전히 같지 않을 수 있으므로, 같은 seed로 다시 실행했을 때의 차이를 실행 기록에 남긴다.
 - 학습 전: 아래 기준으로 시험 실행을 통과한 뒤 본실험을 시작한다. 패키지 버전과 GPU 인식·BF16 항목은 `scripts/check_env.py`로 확인한다.
 
@@ -279,7 +280,7 @@ DeBERTa-v3-small의 수치는 임베딩을 포함한 값이다. 세 후보는 �
 | 항목 | 초기 설정안 |
 | --- | --- |
 | 학습 방식 | encoder 전체 파인튜닝 + 이진 분류 헤드 |
-| 최대 입력 길이 | 256토큰. validation은 문자 수와 단어 수의 합이 256 미만이라 잘림이 없다. train은 256자를 넘는 행이 82개(최대 627자)이므로 1단계에서 세 토크나이저로 잘림 행 수를 확인해 기록한다. test의 잘림 비율은 최종 평가 때 집계한다. 256은 ROB-03과 외부 자료의 긴 입력까지 포함하는 공통 상한이다. |
+| 최대 입력 길이 | 256토큰. validation은 문자 수와 단어 수의 합이 256 미만이라 잘림이 없다. 원본 train은 세 토크나이저 모두 256토큰을 넘는 행이 없다(최대 BERT 110, RoBERTa 114, DeBERTa-v3 106토큰). 증강 데이터를 추가하면 다시 측정한다. test의 잘림 비율은 최종 평가 때 집계한다. 256은 ROB-03과 외부 자료의 긴 입력까지 포함하는 공통 상한이다. |
 | 패딩 | 동적 패딩(배치 안에서 가장 긴 문장 길이에 맞춤). 256으로 고정 패딩하지 않는다. 판정에는 영향이 없고 학습·추론 시간만 줄인다. 추론 시간 측정도 같은 방식으로 한다. |
 | 배치 크기 | 4 |
 | Gradient accumulation | 4회, 유효 배치 크기 16 |
@@ -446,7 +447,7 @@ validation은 선택·설계에 사용하는 개발 자료이므로 개발 결�
 | `data/cases/{train,dev,final}/` | 학습용 증강 사례(train), 개발용 평가 사례(dev), 최종 평가 사례(final)를 용도별로 분리한다. |
 | `data/external/<출처>/` | 외부 자료 원본과 `download_manifest.json` (S-Labs와 같은 방식) |
 | `configs/` | 학습·평가 설정 파일 |
-| `scripts/` | 보조 스크립트. `check_env.py`: 패키지 버전(`requirements.txt`와 대조)·GPU·BF16·토크나이저 확인 |
+| `scripts/` | 보조 스크립트. `model_specs.py`: 모델 ID·고정 revision·토크나이저 로드 옵션. `check_env.py`: 패키지 버전(`requirements.txt`와 대조)·GPU·BF16·토크나이저 확인. `check_tokenizers.py`: train·validation으로 토크나이저를 원본과 대조(CPU) |
 | `runs/<실행 ID>/` | 실행별 설정 사본, 로그, 지표, 사례별 정답·예측·인젝션 점수, 선택된 체크포인트 |
 | `freeze/` | `freeze-1.json`, `freeze-2.json` |
 
@@ -515,7 +516,9 @@ validation은 선택·설계에 사용하는 개발 자료이므로 개발 결�
 - 정규화 키 일치 사례를 유사 문장 검수에서 제외할지 여부
 - 팀 역할 분담, 주차별 일정, 설계 및 최종 평가 목록 동결일
 - 선택 실험 수행 여부와 보호 대상 LLM·작업·성공 판정 기준
-- DeBERTa-v3 토크나이저를 불러올 때 나오는 transformers 경고(`fix_mistral_regex`)가 토큰화에 영향을 주는지 2단계 전에 확인 (TRAIN-02)
+- (확인 완료) DeBERTa-v3 토크나이저의 `fix_mistral_regex` 경고는 오프라인·로컬 캐시 로드 때만 나오는 오탐이다. 학습 코드는 `scripts/model_specs.py`의 `load_tokenizer()`로 고정 revision에서 불러오고, DeBERTa-v3에는 `fix_mistral_regex=False`를 넘긴다(오프라인에서 `True`로 켜면 토큰화가 망가진다). 근거는 4.2와 `scripts/check_tokenizers.py`.
+- (2단계 전 결정) DeBERTa-v3 토크나이저의 정규화·바이트 대체 처리: transformers 5.22.2 토크나이저는 원본 SentencePiece와 train 8문장(깨진 문자(모지바케)가 섞인 인젝션)에서 다르다. 6문장은 NFKC 정규화가, 2문장은 바이트 대체(byte fallback)가 빠진 탓이다. 또 전각·수학 굵은 글자로 쓴 단어는 통째로 `[UNK]`가 되고(원본은 `ignore` 등으로 정규화), 폭 없는 공백은 그 문자만 `[UNK]`가 된다(원본은 단어 경계로 처리). ROB-01이 바로 이런 문자 치환을 다루므로 선택에 따라 DeBERTa의 ROB-01 결과가 달라진다. 선택지: ① 그대로 쓰고 보고서에 명시, ② 원본 정규화(Precompiled charsmap)를 덧붙여 원본에 가깝게 맞춤(바이트 대체 2문장 차이 남음, transformers 내부 구조에 의존), ③ `spm.model`을 직접 감싸 원본과 똑같이 맞춤(DeBERTa만 로드 경로가 달라짐).
+- (2단계 전) DeBERTa-v3-small의 고정 revision에는 PyTorch 가중치가 pickle 형식(`pytorch_model.bin`)만 있다(BERT·RoBERTa는 safetensors 있음). 학습 코드는 가중치도 `scripts/model_specs.py`의 revision으로 불러오고, 한 번 safetensors로 변환해 해시를 기록할지 정한다.
 - `requirements.txt`·`requirements-demo.txt` 머리 주석의 Recreate 명령을 새 가상환경에 실제로 설치해 확인 (현재는 두 파일 모두 dry-run 해석만 확인)
 - 시연 환경(`.venv-demo`) 설치 전 `requirements-demo.txt`의 의존 패키지 취약점을 다시 조회 (2026-11-12 기준 알려진 취약점 없음)
 
@@ -583,3 +586,14 @@ PR-AUC 미채택 사유: 임계값과 무관한 지표로 ROC-AUC를 이미 보�
 | `.gitignore`(`.claude/settings.local.json`, `.env`, `__pycache__/`, `.venv-demo/`)와 `.gitattributes`(`requirements-demo.txt`) 보강 | 저장소 설정 |
 | 1단계 진행 상태 반영, 가상환경 항목 완료 | 머리말, 한눈에 보기 |
 | 후속 확인 항목(DeBERTa 토크나이저 경고, Recreate 명령 실제 설치, 시연 환경 설치 전 취약점 재조회) 추가 | 9 |
+
+### 11.4 DeBERTa-v3 토크나이저 경고 확인 (2026-11-12, 커밋 `412229a` 이후)
+
+| 보완 내용 | 반영 위치 |
+| --- | --- |
+| 세 모델의 revision 고정과 토크나이저 로드 방식(DeBERTa-v3 `fix_mistral_regex=False`) 기록 | 4.2, 9 |
+| 토크나이저를 원본과 대조하는 `scripts/check_tokenizers.py`, 공통 설정 `scripts/model_specs.py` 추가 | 4.2, 7.1 |
+| train 잘림 측정 결과(세 토크나이저 모두 256토큰 초과 0행) 기록, 체크리스트 완료 | 4.2, 한눈에 보기 |
+| 비ASCII 문자 행이 모두 인젝션이라는 지름길 가능성 기록 | 3.2 |
+| DeBERTa-v3 정규화·바이트 대체 처리를 2단계 전 결정 항목으로 추가 | 9 |
+| DeBERTa-v3 가중치 형식(pickle)과 revision 고정 로드를 2단계 전 확인 항목으로 추가 | 9 |
