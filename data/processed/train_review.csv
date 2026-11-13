@@ -1,0 +1,5 @@
+sentence_id,text_sha256_12,group_id,check,label,decision,reason,reviewer,status,confirmed_by
+train:002855,8efd9fb9a175,T-CONFLICT-1,exact_label_conflict,0,exclude,label_undeterminable,claude,proposed,HANJUSON
+train:004624,8efd9fb9a175,T-CONFLICT-1,exact_label_conflict,1,exclude,label_undeterminable,claude,proposed,HANJUSON
+train:007825,aabbe104a62c,T-NORMKEY-1,normkey_only,1,keep,same_label_case_variant,claude,proposed,
+train:008600,742b8f25cdd0,T-NORMKEY-1,normkey_only,1,keep,same_label_case_variant,claude,proposed,

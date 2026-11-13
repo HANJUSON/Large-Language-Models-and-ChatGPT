@@ -7,3 +7,7 @@ requirements.txt text eol=lf
 
 # Keep requirements-demo.txt LF too, for consistent bytes across checkouts.
 requirements-demo.txt text eol=lf
+
+# Keep processed common lists, review records and their metadata LF so their SHA-256 at freeze-1 is reproducible.
+data/processed/**/*.csv text eol=lf
+data/processed/**/*.json text eol=lf
