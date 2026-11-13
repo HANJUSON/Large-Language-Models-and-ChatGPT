@@ -26,7 +26,8 @@
 - [ ] 시험 실행 통과 기준 확인 (4.2)
 - [x] 상충 문장과 대소문자 쌍 검수안 기록 (3.2)
 - [ ] 검수안 팀 확인 (2단계 전, 3.2)
-- [ ] 공통 목록 생성 (3.2)
+- [x] 공통 목록 스크립트 작성과 시험용 목록 행 수 확인 (3.2)
+- [ ] 검수안 확인 후 정식 공통 목록 생성 (2단계 전, 3.2)
 - [x] 세 토크나이저로 train 잘림 행 수 측정 (4.2)
 - [ ] 마감을 확인한 뒤 8절 표의 기간과 담당 채우기
 
@@ -152,7 +153,7 @@ train 검수안 (2026-11-13, Claude 작성·팀 확인 전, 기록: `data/proces
 - 정규화 키로만 일치하는 1쌍 `DISMISS all PROTOCOLS` / `dismiss all protocols`: `train:007825`와 `train:008600`(둘 다 인젝션). 레이블이 같고, 정규화 키 일치만으로는 자동 제외하지 않으며(3.1), 대소문자 섞기는 데이터셋 README가 드는 의도적 난독화 유형이므로 두 행 모두 유지한다. BERT-base-uncased에는 같은 입력이 두 번 들어가지만 이는 토크나이저 내부 동작이고, 세 모델은 같은 정제 train 목록을 쓴다. 원본 train에 대소문자 변형이 이미 있음을 보여 주므로 ROB-01 해석 시 참고한다.
 - 행 수: 11,089 − 37(동일 레이블 중복 추가 행, 위 점검표의 38행에서 상충 문장 1행을 뺀 수) − 2(상충 문장 두 행) = 정제 train 11,050행(정상 6,267·인젝션 4,783). 학습 예산 N은 정제 train 11,041~11,056행에서 2,073으로 같으므로, 유사 문장 점검으로 행이 조금 더 빠져도 바뀌지 않는다.
 
-train–test 중복이 없으므로 학습 데이터만 제외하면 증강 전 `test_clean`은 전체 test와 같아진다. validation과 겹치는 test 116개 문장은 모두 `validation_clean`에 포함되어 선택·개발 분석에 쓰이며, test 인젝션 1,051개 중 109개(10.4%)에 해당한다. 따라서 DATA-05에 따라 validation과 겹치는 test 행도 `test_clean`에서 제외한다. 증강 전 기준 `test_clean`은 1,985행(인젝션 942·정상 1,043)이며, 증강 사례와 겹치는 행이 있으면 동결 시 더 줄어든다.
+train–test 중복이 없으므로 학습 데이터만 제외하면 증강 전 `test_clean`은 전체 test와 같아진다. validation과 겹치는 test 116개 문장은 모두 `validation_clean`에 포함되어 선택·개발 분석에 쓰이며, test 인젝션 1,051개 중 109개(10.4%)에 해당한다. 따라서 DATA-05에 따라 validation과 겹치는 test 행도 `test_clean`에서 제외한다. 증강 전 기준 `test_clean`은 1,985행(인젝션 942·정상 1,043)이며, 증강 사례와 겹치는 행이 있으면 동결 시 더 줄어든다. 증강 전 목록은 `data/processed/test_clean_preaug.csv`이며, 증강 데이터 동결 때 증강 사례까지 반영해 다시 만든다. 최종 목록 이름은 `test_clean.csv`이다.
 
 - `test_clean`은 레이블 비율이 1:1이 아니므로, 원본 test와 F1을 비교할 때 Recall·FPR과 레이블별 수량을 함께 제시한다.
 - 전체 test 결과에는 116개 행이 선택 과정에 쓰인 문장임을 표시한다.
@@ -448,16 +449,17 @@ validation은 선택·설계에 사용하는 개발 자료이므로 개발 결�
 | 폴더 | 내용 |
 | --- | --- |
 | `datasets/` | 원본 데이터. 수정하지 않는다. |
-| `data/processed/` | 정제 train, `validation_clean`, `test_clean` 등 공통 목록. 문장 대신 ID와 제외 사유를 저장한다. `train_review.csv`는 train 상충 문장·정규화 키 그룹의 검수 기록이다(형식은 아래). |
+| `data/processed/` | 정제 train, `validation_clean`, `test_clean` 등 공통 목록. 문장 대신 ID와 제외 사유를 저장한다. `train_review.csv`는 train 상충 문장·정규화 키 그룹의 검수 기록이다(형식은 아래). 공통 목록 파일과 열은 `train_clean.csv`·`validation_clean.csv`(`sentence_id,label,text_sha256_12`), `train_excluded.csv`·`validation_excluded.csv`(`sentence_id,label,text_sha256_12,reason,ref`), 증강 전 `test_clean_preaug.csv`(`sentence_id`)·`test_excluded_preaug.csv`(`sentence_id,reason`), `lists_meta.json`(원본·검수 기록·스크립트 SHA-256, 행 수, 사유별 수, 시험용 여부)이다. 검수안이 확인 전이면 `trial/` 아래에 시험용 목록만 만들 수 있으며(아래 공통 목록 항목), 이 폴더는 git에서 제외한다. |
 | `data/cases/{train,dev,final}/` | 학습용 증강 사례(train), 개발용 평가 사례(dev), 최종 평가 사례(final)를 용도별로 분리한다. |
 | `data/external/<출처>/` | 외부 자료 원본과 `download_manifest.json` (S-Labs와 같은 방식) |
 | `configs/` | 학습·평가 설정 파일 |
-| `scripts/` | 보조 스크립트. `model_specs.py`: 모델 ID·고정 revision·토크나이저와 가중치 로드 함수(`load_tokenizer`·`load_model`), 토크나이저 지문·가중치 SHA-256. `check_env.py`: 패키지 버전(`requirements.txt`와 대조)·GPU·BF16·토크나이저 확인. `check_tokenizers.py`: train·validation으로 토크나이저를 원본과 대조(CPU). `check_weights.py`: DeBERTa-v3 가중치 해시·로드 확인(CPU) |
+| `scripts/` | 보조 스크립트. `model_specs.py`: 모델 ID·고정 revision·토크나이저와 가중치 로드 함수(`load_tokenizer`·`load_model`), 토크나이저 지문·가중치 SHA-256. `check_env.py`: 패키지 버전(`requirements.txt`와 대조)·GPU·BF16·토크나이저 확인. `check_tokenizers.py`: train·validation으로 토크나이저를 원본과 대조(CPU). `check_weights.py`: DeBERTa-v3 가중치 해시·로드 확인(CPU). `build_lists.py`: 원본 SHA-256을 매니페스트와 대조하고 검수 기록을 검사한 뒤 공통 목록(ID·제외 사유)을 만든다. test는 완전 중복 키로만 비교하고 원문을 출력·저장하지 않는다 |
 | `runs/<실행 ID>/` | 실행별 설정 사본, 로그, 지표, 사례별 정답·예측·인젝션 점수, 선택된 체크포인트 |
 | `freeze/` | `freeze-1.json`, `freeze-2.json` |
 
 - 문장 ID: `분할:행번호` (헤더를 뺀 데이터 레코드를 Python `csv` 모듈(UTF-8, `newline=''`)로 읽은 0부터 시작하는 번호를 6자리로, 예: `train:000123`. 여러 줄에 걸친 레코드가 있어 파일 줄 번호와 다를 수 있다(9절)). 추가 사례는 DATA-08의 원문 그룹 ID로 원본 문장 ID를 참조한다.
-- 검수 기록 `data/processed/train_review.csv`: UTF-8(BOM 없음)·LF, `sentence_id` 순으로 쓰고 문장은 저장하지 않는다. 열은 `sentence_id,text_sha256_12,group_id,check,label,decision,reason,reviewer,status,confirmed_by` 순이다. `text_sha256_12`는 정규화 전 원본 `text` 필드의 UTF-8 SHA-256을 소문자 16진수로 쓴 앞 12자로, ID와 문장을 묶는다. `label`은 0·1, `group_id`는 `T-CONFLICT-n`·`T-NORMKEY-n`, `reviewer`는 검수안 작성자(`claude` 또는 팀원 GitHub 아이디)이다. 그룹은 두 종류다. `exact_label_conflict`는 원본 `text`가 같고 레이블이 둘 이상인 모든 행, `normkey_only`는 정규화 키가 같고 원본 `text`가 둘 이상인 그룹의 모든 행이며, 그룹의 모든 행을 한 번씩 적고, 두 조건에 모두 해당하는 행은 `exact_label_conflict`로 적는다. `decision`(`keep`·`exclude`)과 `reason`의 짝은 `label_undeterminable`→`exclude`, `conflict_label_kept`→`keep`, `conflict_label_rejected`→`exclude`(이 셋은 `exact_label_conflict`), `same_label_case_variant`→`keep`(`normkey_only`)만 허용한다. `status`는 `proposed`·`confirmed`이고, `confirmed`는 `confirmed_by`에 `claude`가 아닌 서로 다른 팀원 GitHub 아이디 두 개를 `;`로 구분해 적어야 한다. 공통 목록 스크립트는 허용 밖의 값이나 짝, 중복된 `sentence_id`, 빠지거나 남는 그룹 행, train.csv와 다른 레이블·문장 해시, `keep` 행에 레이블이 둘 이상 남는 상충 그룹, 레이블이 서로 다른 `normkey_only` 그룹, 조건에 맞지 않는 `confirmed`가 있으면 중단한다. `proposed` 행이 남아 있으면 시험용 옵션(`--allow-proposed`)을 줄 때만 목록을 만들고, 그 목록은 2단계 실행과 동결 1 기록에 쓰지 않는다. 출력 파일은 LF로 쓴다.
+- 검수 기록 `data/processed/train_review.csv`: UTF-8(BOM 없음)·LF, `sentence_id` 순으로 쓰고 문장은 저장하지 않는다. 열은 `sentence_id,text_sha256_12,group_id,check,label,decision,reason,reviewer,status,confirmed_by` 순이다. `text_sha256_12`는 정규화 전 원본 `text` 필드의 UTF-8 SHA-256을 소문자 16진수로 쓴 앞 12자로, ID와 문장을 묶는다. `label`은 0·1, `group_id`는 `T-CONFLICT-n`·`T-NORMKEY-n`, `reviewer`는 검수안 작성자(`claude` 또는 팀원 GitHub 아이디)이다. 그룹은 두 종류다. `exact_label_conflict`는 원본 `text`가 같고 레이블이 둘 이상인 모든 행, `normkey_only`는 정규화 키가 같고 원본 `text`가 둘 이상인 그룹의 모든 행이며, 그룹의 모든 행을 한 번씩 적고, 두 조건에 모두 해당하는 행은 `exact_label_conflict`로 적는다. `decision`(`keep`·`exclude`)과 `reason`의 짝은 `label_undeterminable`→`exclude`, `conflict_label_kept`→`keep`, `conflict_label_rejected`→`exclude`(이 셋은 `exact_label_conflict`), `same_label_case_variant`→`keep`(`normkey_only`)만 허용한다. `status`는 `proposed`·`confirmed`이고, `confirmed`는 `confirmed_by`에 서로 다른 팀원 GitHub 아이디 두 개를 `;`로 구분해 적어야 한다(아이디는 대소문자를 구분하지 않고 비교하며, `claude`는 대소문자와 관계없이 쓸 수 없다). 상충 그룹은 모든 행이 `label_undeterminable`이거나, 남기는 레이블의 행이 모두 `conflict_label_kept`이고 다른 레이블의 행이 모두 `conflict_label_rejected`여야 한다. 같은 그룹의 행은 `status`·`confirmed_by`가 같아야 하고, `proposed` 행의 `confirmed_by`는 비우거나 아이디 하나만 적는다. 공통 목록 스크립트는 허용 밖의 값이나 짝, 중복된 `sentence_id`, 빠지거나 남는 그룹 행, train.csv와 다른 레이블·문장 해시, `keep` 행에 레이블이 둘 이상 남는 상충 그룹, 위 일관성 규칙에 맞지 않는 상충 그룹, 레이블이 서로 다른 `normkey_only` 그룹, 그룹 안에서 서로 다른 `status`·`confirmed_by`, 조건에 맞지 않는 `confirmed_by`가 있으면 중단한다. `proposed` 행이 남아 있으면 시험용 옵션(`--allow-proposed`)을 줄 때만 목록을 만들고, 그 목록은 2단계 실행과 동결 1 기록에 쓰지 않는다. 출력 파일은 LF로 쓴다.
+- 공통 목록: 제외 사유(`reason`)와 참조(`ref`)는 train의 `review_exclude`(`ref`는 검수 기록의 `group_id`)·`duplicate_same_label`(`ref`는 남긴 행의 문장 ID), validation의 `train_overlap`(`ref`는 같은 문장이 있는 원본 train 행 중 가장 작은 문장 ID), test의 `train_overlap`·`augmentation_overlap`·`validation_overlap`이다. test 행은 사유를 하나만 기록하며, 여러 사유에 해당하면 train > 증강 > validation 순으로 앞선 사유를 쓴다. 사유별로 겹치는 전체 수는 `lists_meta.json`의 점검 수치에 따로 기록한다. test 목록에는 문장 ID와 사유만 두고 레이블·문장 해시·대응하는 validation ID는 두지 않는다. train·validation 목록의 `text_sha256_12`는 검수 기록과 같은 방식으로 계산한다. 출력은 LF·문장 ID 순이고 실행 시각 같은 정보를 넣지 않으므로, 입력과 스크립트·Python 버전이 같으면 바이트까지 같은 파일이 나온다. 스크립트를 고치거나 Python 버전이 바뀌면 `lists_meta.json`이 달라지므로 정식 목록을 다시 만들어 커밋한다. 검수 기록에 `proposed` 행이 있으면 기본 실행은 중단하고, `--allow-proposed`를 줄 때만 `data/processed/trial/`에 시험용 목록을 쓴다. 2단계 학습 코드와 동결 1 기록은 git으로 관리되는 정식 `data/processed/` 파일만 쓰며(`trial/` 제외), `lists_meta.json`의 `trial`이 `false`이고 기록된 검수 기록 SHA-256이 현재 `train_review.csv`와 같으며 `scripts/build_lists.py --check`(목록을 다시 만들어 기존 파일과 바이트 단위로 대조하고 파일은 쓰지 않는다)가 통과해야 한다. 동결 1에는 `lists_meta.json`의 `test_clean_stage`가 최종(`final`)이어야 한다(증강 전 목록은 동결 1에 쓰지 않는다).
 - 실행 ID: `단계-모델-조건-s시드` (예: `s2-roberta-A-s42`, `s4-deberta-C-s123`, 시험 실행 `s1-bert-smoke-s0`)
 
 동결 기록:
@@ -515,6 +517,7 @@ validation은 선택·설계에 사용하는 개발 자료이므로 개발 결�
 - 조교 확인이 필요한 제출 형식·마감·공식 test 사용 규칙과 숨겨진 평가셋 여부 (동결 1 전까지 완료)
 - 유사 문장 점검 방법·기준(train 내부·분할 간·증강·외부 자료, 구두점만 다른 쌍 포함. 예: `train:004137`·`train:008111`)과 이 점검이 train 행을 추가로 제외할 수 있는지 (상충 레이블 검수안은 3.2, 팀 확인 전)
 - 상충 레이블에서 "정답을 명확히 정할 수 있음"의 판단 기준 (2026-11-13 검수안은 3.2의 사례 판단)
+- 검수 확인자 명단(팀원 GitHub 아이디)을 정해 `scripts/build_lists.py`가 명단 밖 아이디를 거부하게 할지 (지금은 형식·중복·`claude` 여부만 검사)
 - 개발용 사례의 유형별 실제 원문 수, 검수 담당·모호한 사례 처리 기준 (최종용 실제 수량은 동결 2에서 확정)
 - 용도별 문맥·주제·의역 프롬프트 목록과 증강에서 보류할 생성 방식
 - 외부 후보의 이용 조건·접근성·최종 채택 분할·revision, 영어 선별·레이블 대응·출처 간 중복 처리
@@ -625,3 +628,16 @@ PR-AUC 미채택 사유: 임계값과 무관한 지표로 ROC-AUC를 이미 보�
 | 정제 train 11,050행(검수안), 학습 예산 불변 | 한눈에 보기, 4.2, 8 |
 | 체크리스트 분리, 9절의 유사 문장·정규화 키 항목 갱신과 판단 기준·원본 행 합쳐짐 관찰 추가, 문장 ID를 csv 레코드 번호로 명시 | 한눈에 보기, 7.1, 9 |
 | `.gitattributes`에 `data/processed/` 아래 CSV·JSON의 LF 고정 추가 | 저장소 설정 |
+
+### 11.7 공통 목록 생성 스크립트 (2026-11-13, 커밋 `4da90a5` 이후)
+
+| 보완 내용 | 반영 위치 |
+| --- | --- |
+| 공통 목록 스크립트 `scripts/build_lists.py`와 출력 파일 형식 | 3.2, 7.1 |
+| 시험용 목록(`data/processed/trial/`)과 정식 목록의 사용 조건 | 7.1 |
+| 검수 기록의 상충 그룹 일관성, 그룹 내 `status`·`confirmed_by` 일치, `confirmed_by` 아이디 비교 규칙 | 7.1 |
+| 체크리스트 분리 | 한눈에 보기 |
+| `.gitignore`에 시험용 목록 폴더 추가 | 저장소 설정 |
+| 공통 목록 스크립트 보강(매니페스트 SHA-256 고정, 출력 위치 제한, 확인자 비교 방식, `--check` 메시지) | 7.1 |
+| 최종 test 목록 이름(`test_clean.csv`), 같은 바이트가 나오는 조건(스크립트·Python 버전)과 스크립트 수정 시 정식 목록 재생성, 동결 1의 `test_clean_stage` 조건 | 3.2, 7.1 |
+| 검수 확인자 명단 결정 항목 | 9 |

@@ -13,3 +13,6 @@ __pycache__/
 
 # Report/demo environment (README 4.2)
 .venv-demo/
+
+# Trial common lists built from an unconfirmed review (README 7.1)
+data/processed/trial/
