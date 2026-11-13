@@ -2,7 +2,7 @@
 
 > **프로젝트명: 프롬프트 인젝션 탐지 모델의 표현 변형에 대한 견고성과 정상 입력 오탐 분석 및 개선**
 
-- 문서 기준일: 2026-11-12
+- 문서 기준일: 2026-11-13
 - 개정 내용: 조교 데이터셋 밖의 공개 자료를 이용한 외부 Robustness 평가를 필수 범위에 포함하고, 데이터 사용·학습 예산·선택 기준·통계 비교·최종 평가 동결 규칙을 명시한다. 검토별 반영 내용은 [11절](#11-검토-반영-이력)을 참고한다.
 - 상태: 1단계(데이터 및 환경 준비) 진행 중. 이 문서는 구현·학습 완료 보고서가 아니다.
 - 과제 주제: 조교가 제시한 Prompt Injection Dataset을 활용한 정상 프롬프트와 인젝션 프롬프트의 이진 분류
@@ -115,7 +115,7 @@
 | --- | --- | --- |
 | 완전 중복 키 | 원본 `text` 문자열 그대로 비교 | 학습 데이터 중복 제거, `validation_clean`·중복 제외 test 생성 등 **자동 중복 제외의 기본 기준** |
 | 정규화 키 | NFKC → 앞뒤 공백 제거 및 연속 공백을 공백 1개로 축약 → casefold | 완전 중복은 아니지만 사실상 같은 문장의 후보 탐지. 개수를 따로 기록하고 DATA-06의 유사 문장 검수 후보로 넘긴다. 정규화 키 일치만으로 자동 제외하지 않는다. |
-| 모델 입력 | 원본 `text`를 변경 없이 각 모델의 공식 토크나이저에 입력 | 학습·평가·시연. 위 정규화는 모델 입력에 적용하지 않는다. BERT-base-uncased의 소문자화는 토크나이저 내부 동작으로 기록한다. |
+| 모델 입력 | 원본 `text`를 변경 없이 각 모델의 공식 토크나이저에 입력 | 학습·평가·시연. 위 정규화는 모델 입력에 적용하지 않는다. BERT-base-uncased의 소문자화는 토크나이저 내부 동작으로 기록한다. DeBERTa-v3의 원본 SentencePiece 정규화(NFKC 계열, 4.2)도 토크나이저 내부 동작으로 기록한다. |
 
 정규화 키 일치 사례를 유사 문장 검수에서 제외하기로 결정하면, 그 결정과 목록을 학습 전에 기록하고 모든 모델·조건에 동일하게 적용한다.
 
@@ -238,7 +238,7 @@ validation에는 긴 문장, 비ASCII 문자, 긴 연속 문자열이 없으므�
 | MODEL-02 | RoBERTa-base | [FacebookAI/roberta-base](https://huggingface.co/FacebookAI/roberta-base) | 1.25억 |
 | MODEL-03 | DeBERTa-v3-small | [microsoft/deberta-v3-small](https://huggingface.co/microsoft/deberta-v3-small) | 1.42억 |
 
-DeBERTa-v3-small의 수치는 임베딩을 포함한 값이다. 세 후보는 구조·사전학습 데이터·토크나이저·모델 크기가 함께 다르므로, 비교 결과는 해당 체크포인트를 토크나이저와 함께 사용한 탐지 시스템의 실용적 성능 차이로 해석한다. BERT-base-uncased의 대소문자 결과는 소문자화 전처리의 영향을 함께 설명하며, 이를 모델 구조 자체의 우수성으로 해석하지 않는다.
+DeBERTa-v3-small의 수치는 임베딩을 포함한 값이다. 세 후보는 구조·사전학습 데이터·토크나이저·모델 크기가 함께 다르므로, 비교 결과는 해당 체크포인트를 토크나이저와 함께 사용한 탐지 시스템의 실용적 성능 차이로 해석한다. BERT-base-uncased의 대소문자 결과는 소문자화 전처리의 영향을 함께 설명하며, 이를 모델 구조 자체의 우수성으로 해석하지 않는다. DeBERTa-v3는 원본 토크나이저 정규화로 전각·수학 굵은 글자 등을 일반 글자로 바꾼 뒤 입력하므로, ROB-01 문자 치환 결과의 차이도 토크나이저 정규화의 영향을 함께 설명하며, 이를 모델 구조 자체의 우수성으로 해석하지 않는다.
 
 ### 4.2 학습 환경 및 초기 설정
 
@@ -253,13 +253,15 @@ DeBERTa-v3-small의 수치는 임베딩을 포함한 값이다. 세 후보는 �
 | transformers | 5.22.2 | |
 | sentencepiece | 0.2.3 | DeBERTa-v3 토크나이저에 필요 |
 | scikit-learn | 1.9.1 | |
-| protobuf | 7.36.2 | DeBERTa-v3 토크나이저 변환용 |
+| protobuf | 7.36.2 | DeBERTa-v3 토크나이저 변환과 정규화 표 읽기용 |
 
 - 보고·시연 패키지: 보고서 그래프용 matplotlib과 시연 도구(DEMO-01·02)용 streamlit은 `requirements-demo.txt`로 분리해 별도 가상환경 `.venv-demo`에 설치한다. 이 파일은 `-r requirements.txt`로 학습·평가 패키지를 그대로 포함하고 추가 패키지만 고정하므로 `.venv`와 `requirements.txt`는 바뀌지 않는다. `.venv-demo`는 보고서 그래프나 시연 작업이 처음 필요할 때 설치하고, `requirements.txt`가 바뀌면 `requirements-demo.txt`도 다시 만든다. 시연은 `--server.address 127.0.0.1 --browser.gatherUsageStats false`로 실행해 이 컴퓨터에서만 접속하고 사용 통계를 보내지 않는다.
 - 학습 코드: PyTorch 학습 루프를 직접 작성한다(HF Trainer·accelerate 미사용). 체크포인트 선택 규칙과 사례별 예측 저장(REPRO-02)을 그대로 구현하기 위해서다.
-- 토크나이저: 세 모델은 `scripts/model_specs.py`의 고정 revision으로 불러온다(BERT `86b5e09…`, RoBERTa `e2da8e2…`, DeBERTa-v3 `a36c739…`; 전체 SHA는 파일 참고). DeBERTa-v3는 `fix_mistral_regex=False`로 불러온다. 오프라인·로컬 캐시에서 불러올 때 transformers 5.22.2가 내는 경고는 오탐이며, 오프라인에서 `True`로 켜면 띄어쓰기 처리 단계가 바뀌어 train·validation 13,190문장 중 원본 SentencePiece와 일치하는 문장이 0개가 된다(온라인에서는 `True`가 아무 효과가 없다). 채택한 방식은 13,182문장(99.94%)이 일치하고, 나머지 8문장 중 6문장은 원본의 NFKC 정규화가, 2문장(제어 문자 U+008D)은 바이트 대체(byte fallback)가 빠져 다르다(9절 결정 항목). BERT·RoBERTa는 같은 `tokenizer.json`을 `tokenizers` 라이브러리로 직접 불러온 결과와 100% 일치한다. `scripts/check_tokenizers.py`를 `HF_HUB_OFFLINE=1`로 실행해 재현한다.
+- 토크나이저: 세 모델은 `scripts/model_specs.py`의 고정 revision으로 불러온다(BERT `86b5e09…`, RoBERTa `e2da8e2…`, DeBERTa-v3 `a36c739…`; 전체 SHA는 파일 참고). DeBERTa-v3는 `fix_mistral_regex=False`로 불러온다. 오프라인·로컬 캐시에서 불러올 때 transformers 5.22.2가 내는 경고는 오탐이며, 오프라인에서 `True`로 켜면 띄어쓰기 처리 단계가 바뀌어 train·validation 13,190문장 중 원본 SentencePiece와 일치하는 문장이 0개가 된다(온라인에서는 `True`가 아무 효과가 없다). transformers 5.22.2가 만든 DeBERTa-v3 토크나이저에는 원본 SentencePiece의 NFKC 계열 정규화가 빠져 있어, `load_tokenizer()`가 고정 revision의 `spm.model`(SHA-256 확인)에서 원본 정규화 표를 읽어 정규화 단계를 바꿔 끼운다(transformers의 DeBERTa 변환기와 같은 구성, 9절 결정 항목). 그 결과 train·validation 13,190문장 중 13,188문장(99.98%)이 원본과 일치한다(바꾸기 전 13,182문장). 전각·수학 굵은 글자·합자 등은 원본처럼 일반 글자로 바뀐다(예: 전각 `Ｉｇｎｏｒｅ`가 `Ignore`와 같은 토큰이 된다). 남은 2문장(train, 제어 문자 U+008D)은 원본이 바이트 조각으로 나누는 문자(바이트 대체, byte fallback)를 `[UNK]` 하나로 처리해 다르며, 소프트 하이픈(U+00AD)도 같은 이유로 다르다. BERT·RoBERTa는 같은 `tokenizer.json`을 `tokenizers` 라이브러리로 직접 불러온 결과와 100% 일치한다. `scripts/check_tokenizers.py`를 `HF_HUB_OFFLINE=1`로 실행해 재현한다.
+- 토크나이저 고정 확인: 세 토크나이저는 처리 단계(정규화·분할·후처리·어휘)의 지문(SHA-256; Unigram 점수와 자르기·패딩 설정은 제외)을 고정해 두고 `load_tokenizer()`가 불러올 때마다 대조한다. 저장한 토크나이저를 `AutoTokenizer`로 다시 불러오면 DeBERTa-v3는 바꿔 끼우기 전의 정규화로 돌아가고(train 6문장이 달라짐), 토크나이저 파일 없이 `config.json`만 있는 폴더에서는 오류 없이 5~7개 토큰짜리 토크나이저가 만들어진다. 따라서 학습·평가·시연은 항상 `load_tokenizer()`로 토크나이저를 만들고, 체크포인트에 토크나이저를 저장하지 않으며, 실행 기록에 모델 키(`bert`·`roberta`·`deberta`)와 지문을 남긴다.
+- 가중치: 세 모델의 사전학습 가중치는 `scripts/model_specs.py`의 `load_model()`로만 불러온다. `load_model()`은 `HF_HUB_OFFLINE=1`일 때만 실행되고, 고정 revision에서 저장된 자료형과 관계없이 FP32로 불러온다(transformers 5.22.2의 기본값 `dtype="auto"`는 저장된 자료형을 그대로 쓰는데, DeBERTa-v3의 `pytorch_model.bin`은 FP16으로 저장돼 있다). DeBERTa-v3의 `pytorch_model.bin`은 변환 없이 쓰되 크기와 SHA-256을 Hub 값과 대조한 뒤에만 불러온다(9절). 처음 받을 때는 `scripts/check_weights.py --download`를 쓰고(transformers를 거치지 않아 자동 변환 요청이 생기지 않는다), `HF_HUB_OFFLINE=1`로 `scripts/check_weights.py`를 실행해 해시·누락 키·FP32·추론 결과를 확인한다. 지금은 DeBERTa-v3만 해시가 기록돼 있고, 해시가 없는 모델은 `load_model()`이 거부한다. BERT·RoBERTa 가중치와 해시는 시험 실행 전에 같은 스크립트로 추가한다.
 - 결정성: seed를 설정하고 결정적 연산 옵션을 켠다. 지원하지 않는 연산 때문에 오류가 나면 옵션을 끄고 기록한다. 같은 seed라도 GPU에서 결과가 완전히 같지 않을 수 있으므로, 같은 seed로 다시 실행했을 때의 차이를 실행 기록에 남긴다.
-- 학습 전: 아래 기준으로 시험 실행을 통과한 뒤 본실험을 시작한다. 패키지 버전과 GPU 인식·BF16 항목은 `scripts/check_env.py`로 확인한다.
+- 학습 전: 아래 기준으로 시험 실행을 통과한 뒤 본실험을 시작한다. 패키지 버전과 GPU 인식·BF16 항목은 `scripts/check_env.py`로 확인한다. DeBERTa-v3 가중치는 `scripts/check_weights.py`로 확인한다.
 
 | 시험 항목 | 통과 기준 |
 | --- | --- |
@@ -432,7 +434,7 @@ validation은 선택·설계에 사용하는 개발 자료이므로 개발 결�
 | --- | --- | --- |
 | DEMO-01 | 입력 문장에 대해 정상/인젝션 판정, 인젝션 점수, 사용 임계값, 모델·실험 조건을 표시한다. | 저장된 모델과 설정으로 동작하는 시연 |
 | DEMO-02 | 원문과 변형 문장의 판정 결과를 나란히 비교할 수 있게 한다. | 변형에 따른 결과 변화 확인 |
-| REPRO-01 | 데이터·모델 revision, 처리 규칙, 환경 버전, 총 update·평가 step, 학습·추출·통계 seed, 생성 자료 버전과 실험 동결 이력을 기록한다. | 재현에 필요한 설정 자료 |
+| REPRO-01 | 데이터·모델 revision, 모델 키·토크나이저 지문(4.2), 처리 규칙, 환경 버전, 총 update·평가 step, 학습·추출·통계 seed, 생성 자료 버전과 실험 동결 이력을 기록한다. | 재현에 필요한 설정 자료 |
 | REPRO-02 | 실행별 지표와 사례별 정답·예측·인젝션 점수·실험 조건을 저장한다. | 결과표와 오류 분석의 추적 가능성 |
 | REPRO-03 | 데이터 처리, 학습, 임계값 선택, 평가, 시연의 실행 순서와 방법을 문서화한다. | 재현 절차 |
 
@@ -447,7 +449,7 @@ validation은 선택·설계에 사용하는 개발 자료이므로 개발 결�
 | `data/cases/{train,dev,final}/` | 학습용 증강 사례(train), 개발용 평가 사례(dev), 최종 평가 사례(final)를 용도별로 분리한다. |
 | `data/external/<출처>/` | 외부 자료 원본과 `download_manifest.json` (S-Labs와 같은 방식) |
 | `configs/` | 학습·평가 설정 파일 |
-| `scripts/` | 보조 스크립트. `model_specs.py`: 모델 ID·고정 revision·토크나이저 로드 옵션. `check_env.py`: 패키지 버전(`requirements.txt`와 대조)·GPU·BF16·토크나이저 확인. `check_tokenizers.py`: train·validation으로 토크나이저를 원본과 대조(CPU) |
+| `scripts/` | 보조 스크립트. `model_specs.py`: 모델 ID·고정 revision·토크나이저와 가중치 로드 함수(`load_tokenizer`·`load_model`), 토크나이저 지문·가중치 SHA-256. `check_env.py`: 패키지 버전(`requirements.txt`와 대조)·GPU·BF16·토크나이저 확인. `check_tokenizers.py`: train·validation으로 토크나이저를 원본과 대조(CPU). `check_weights.py`: DeBERTa-v3 가중치 해시·로드 확인(CPU) |
 | `runs/<실행 ID>/` | 실행별 설정 사본, 로그, 지표, 사례별 정답·예측·인젝션 점수, 선택된 체크포인트 |
 | `freeze/` | `freeze-1.json`, `freeze-2.json` |
 
@@ -516,9 +518,9 @@ validation은 선택·설계에 사용하는 개발 자료이므로 개발 결�
 - 정규화 키 일치 사례를 유사 문장 검수에서 제외할지 여부
 - 팀 역할 분담, 주차별 일정, 설계 및 최종 평가 목록 동결일
 - 선택 실험 수행 여부와 보호 대상 LLM·작업·성공 판정 기준
-- (확인 완료) DeBERTa-v3 토크나이저의 `fix_mistral_regex` 경고는 오프라인·로컬 캐시 로드 때만 나오는 오탐이다. 학습 코드는 `scripts/model_specs.py`의 `load_tokenizer()`로 고정 revision에서 불러오고, DeBERTa-v3에는 `fix_mistral_regex=False`를 넘긴다(오프라인에서 `True`로 켜면 토큰화가 망가진다). 근거는 4.2와 `scripts/check_tokenizers.py`.
-- (2단계 전 결정) DeBERTa-v3 토크나이저의 정규화·바이트 대체 처리: transformers 5.22.2 토크나이저는 원본 SentencePiece와 train 8문장(깨진 문자(모지바케)가 섞인 인젝션)에서 다르다. 6문장은 NFKC 정규화가, 2문장은 바이트 대체(byte fallback)가 빠진 탓이다. 또 전각·수학 굵은 글자로 쓴 단어는 통째로 `[UNK]`가 되고(원본은 `ignore` 등으로 정규화), 폭 없는 공백은 그 문자만 `[UNK]`가 된다(원본은 단어 경계로 처리). ROB-01이 바로 이런 문자 치환을 다루므로 선택에 따라 DeBERTa의 ROB-01 결과가 달라진다. 선택지: ① 그대로 쓰고 보고서에 명시, ② 원본 정규화(Precompiled charsmap)를 덧붙여 원본에 가깝게 맞춤(바이트 대체 2문장 차이 남음, transformers 내부 구조에 의존), ③ `spm.model`을 직접 감싸 원본과 똑같이 맞춤(DeBERTa만 로드 경로가 달라짐).
-- (2단계 전) DeBERTa-v3-small의 고정 revision에는 PyTorch 가중치가 pickle 형식(`pytorch_model.bin`)만 있다(BERT·RoBERTa는 safetensors 있음). 학습 코드는 가중치도 `scripts/model_specs.py`의 revision으로 불러오고, 한 번 safetensors로 변환해 해시를 기록할지 정한다.
+- (확인 완료) DeBERTa-v3 토크나이저의 `fix_mistral_regex` 경고는 오프라인·로컬 캐시 로드 때만 나오는 오탐이다. 학습 코드는 `scripts/model_specs.py`의 `load_tokenizer()`로 고정 revision에서 불러오고, DeBERTa-v3에는 `fix_mistral_regex=False`를 넘기고(오프라인에서 `True`로 켜면 토큰화가 망가진다) 정규화 단계를 원본 SentencePiece 정규화로 바꿔 끼운다. 근거는 4.2와 `scripts/check_tokenizers.py`.
+- (결정) DeBERTa-v3 토크나이저의 정규화: 정규화 단계를 원본 SentencePiece 정규화로 바꿔 끼워 원본에 가깝게 맞춘다(2026-11-13). train·validation 13,190문장 중 13,188문장이 원본과 일치하고, 바이트 대체가 빠진 2문장 차이는 보고서에 적는다. 이 방식은 transformers 내부 구조에 기대므로 토크나이저 지문과 `scripts/check_tokenizers.py`로 확인한다. 그대로 쓰는 방식은 ROB-01 문자 치환 결과에 라이브러리 버전의 영향이 섞이고, `spm.model`을 직접 감싸는 방식은 DeBERTa-v3만 로드 경로가 달라져 택하지 않았다.
+- (결정) DeBERTa-v3-small의 고정 revision에는 PyTorch 가중치가 pickle 형식(`pytorch_model.bin`)만 있다(BERT·RoBERTa는 safetensors 있음). safetensors로 변환하지 않고 `scripts/model_specs.py`의 revision에서 바로 불러온다. transformers 5.22.2는 `.bin`을 `weights_only=True`(torch 2.6 이상)로 읽어 임의 코드 실행 위험을 줄이고, 파일은 커밋 해시로 고정돼 있다. 온라인에서 `.bin`을 불러오면 transformers가 외부 safetensors 변환 요청을 보내므로, 처음 받을 때는 transformers를 거치지 않는 `scripts/check_weights.py --download`(`DISABLE_SAFETENSORS_CONVERSION=1` 설정)를 쓰고, 학습·평가는 `HF_HUB_OFFLINE=1`로 실행한다. 받은 파일의 SHA-256은 Hub 값과 대조한다(`scripts/check_weights.py`).
 - `requirements.txt`·`requirements-demo.txt` 머리 주석의 Recreate 명령을 새 가상환경에 실제로 설치해 확인 (현재는 두 파일 모두 dry-run 해석만 확인)
 - 시연 환경(`.venv-demo`) 설치 전 `requirements-demo.txt`의 의존 패키지 취약점을 다시 조회 (2026-11-12 기준 알려진 취약점 없음)
 
@@ -597,3 +599,12 @@ PR-AUC 미채택 사유: 임계값과 무관한 지표로 ROC-AUC를 이미 보�
 | 비ASCII 문자 행이 모두 인젝션이라는 지름길 가능성 기록 | 3.2 |
 | DeBERTa-v3 정규화·바이트 대체 처리를 2단계 전 결정 항목으로 추가 | 9 |
 | DeBERTa-v3 가중치 형식(pickle)과 revision 고정 로드를 2단계 전 확인 항목으로 추가 | 9 |
+
+### 11.5 DeBERTa-v3 정규화와 가중치 로드 방식 결정 (2026-11-13, 커밋 `ce752f9` 이후)
+
+| 보완 내용 | 반영 위치 |
+| --- | --- |
+| DeBERTa-v3 토크나이저의 정규화 단계를 원본 SentencePiece 정규화로 바꿔 끼우도록 결정, 원본 일치 13,182 → 13,188/13,190문장 | 3.1, 4.1, 4.2, 9 |
+| 토크나이저 지문 대조와 재로드 금지 규칙, `scripts/check_tokenizers.py` 대조군(transformers 기본 토크나이저·저장 후 재로드) 추가 | 4.2, 7, 7.1 |
+| DeBERTa-v3 가중치는 변환 없이 고정 revision에서 로드하도록 결정 | 9 |
+| `load_model()`(오프라인·FP32·크기와 SHA-256 확인)과 `scripts/check_weights.py` 추가 | 4.2, 7.1 |
