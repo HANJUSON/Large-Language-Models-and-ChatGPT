@@ -1,0 +1,5 @@
+sentence_id,label,text_sha256_12,reason,ref
+validation:000248,0,4b66d3614803,train_overlap,train:006576
+validation:000390,1,d2592f4e170c,train_overlap,train:005295
+validation:001083,0,cab180fb6713,train_overlap,train:009877
+validation:001865,0,8785c82f2d5f,train_overlap,train:000480

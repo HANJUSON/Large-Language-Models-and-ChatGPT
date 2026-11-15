@@ -1,0 +1,51 @@
+{
+  "eval_steps": [
+    100
+  ],
+  "evals": [
+    {
+      "improved": true,
+      "step": 100,
+      "validation": {
+        "f1": 0.9693132001948368,
+        "f1_exact": "1990/2053",
+        "fn": 56,
+        "fp": 7,
+        "fpr": 0.006666666666666667,
+        "fpr_exact": "1/150",
+        "n": 2101,
+        "n_neg": 1050,
+        "n_pos": 1051,
+        "precision": 0.9930139720558883,
+        "precision_exact": "995/1002",
+        "recall": 0.9467174119885823,
+        "recall_exact": "995/1051",
+        "roc_auc": 0.995026052285805,
+        "tn": 1043,
+        "tp": 995
+      },
+      "validation_clean": {
+        "f1": 0.9692832764505119,
+        "f1_exact": "284/293",
+        "fn": 56,
+        "fp": 7,
+        "fpr": 0.0066857688634192934,
+        "fpr_exact": "7/1047",
+        "n": 2097,
+        "n_neg": 1047,
+        "n_pos": 1050,
+        "precision": 0.993006993006993,
+        "precision_exact": "142/143",
+        "recall": 0.9466666666666667,
+        "recall_exact": "71/75",
+        "roc_auc": 0.9950134170191476,
+        "tn": 1040,
+        "tp": 994
+      }
+    }
+  ],
+  "run_id": "s1-bert-smoke-s0",
+  "selected_step": 100,
+  "selection_rule": "validation_clean F1 max, then lower FPR, then earlier step (exact fractions)",
+  "threshold": 0.5
+}

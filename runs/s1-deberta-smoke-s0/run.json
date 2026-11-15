@@ -1,0 +1,274 @@
+{
+  "attempt": 6,
+  "budget": {
+    "N": 2073,
+    "epochs": 3,
+    "eval_steps": [
+      100
+    ],
+    "grad_accum": 4,
+    "micro_batch": 4,
+    "update_size": 16,
+    "updates_run": 100
+  },
+  "checkpoint": {
+    "deleted": true,
+    "kept": false,
+    "path": null,
+    "reload_check": {
+      "max_abs_margin_diff": 0.0,
+      "passed": true,
+      "prediction_flips": 0,
+      "seconds": 3.7092797000077553,
+      "state_dict_equal": true
+    },
+    "sha256": "8e4013a650f27440164a4ff56bb01a9fdf436295856a8c62265e4237dcd1888a",
+    "size": 567598688,
+    "step": 100
+  },
+  "code": {
+    "files_sha256_lf": {
+      "scripts/build_lists.py": "0986fc648f0b47b4293a22cf788734938820de10e12633ebd8e1c9d29087d028",
+      "scripts/data_lists.py": "9cf7f9e2ac8fba44858e0e26ad7f25104bf4937954fe686c43f9185b562b0368",
+      "scripts/eval_lib.py": "d809caf4e7ef106ecef142f6e642a3fcd8cce0a979f8b92a166817724e95fb04",
+      "scripts/model_specs.py": "cb240a2a0d9b9101fd55bd1652a26c64ff446beb5836dcbe56483f156e0d6d1a",
+      "scripts/train.py": "7c798340c387e2fd67ee46c053a1838d9364126ba56894c7a8d15eb7f8c29520"
+    },
+    "git_commit": "76324a85c3ab3ede3b034fb862b43bfe5ae6b9bc",
+    "git_dirty": [
+      {
+        "path": "data/processed/train_review.csv",
+        "status": " M"
+      },
+      {
+        "path": "scripts/build_lists.py",
+        "status": " M"
+      },
+      {
+        "path": "scripts/model_specs.py",
+        "status": " M"
+      },
+      {
+        "path": "configs/train.json",
+        "status": "??"
+      },
+      {
+        "path": "data/processed/lists_meta.json",
+        "status": "??"
+      },
+      {
+        "path": "data/processed/test_clean_preaug.csv",
+        "status": "??"
+      },
+      {
+        "path": "data/processed/test_excluded_preaug.csv",
+        "status": "??"
+      },
+      {
+        "path": "data/processed/train_clean.csv",
+        "status": "??"
+      },
+      {
+        "path": "data/processed/train_excluded.csv",
+        "status": "??"
+      },
+      {
+        "path": "data/processed/validation_clean.csv",
+        "status": "??"
+      },
+      {
+        "path": "data/processed/validation_excluded.csv",
+        "status": "??"
+      },
+      {
+        "path": "scripts/data_lists.py",
+        "status": "??"
+      },
+      {
+        "path": "scripts/eval_lib.py",
+        "status": "??"
+      },
+      {
+        "path": "scripts/train.py",
+        "status": "??"
+      }
+    ],
+    "git_dirty_other_count": 6
+  },
+  "condition": "smoke",
+  "config": {
+    "copy": "runs/s1-deberta-smoke-s0/config.json",
+    "path": "configs/train.json",
+    "sha256": "9ca0d0372205edc90e01a9b4ad91b820ef37edd0597d96e364b7575adb72de4f"
+  },
+  "data": {
+    "train_rows": 11050,
+    "truncation": {
+      "train": {
+        "max_length": 256,
+        "max_tokens": 106,
+        "median_tokens": 11.0,
+        "rows": 11050,
+        "rows_over_max_length": 0
+      },
+      "validation": {
+        "max_length": 256,
+        "max_tokens": 40,
+        "median_tokens": 9,
+        "rows": 2101,
+        "rows_over_max_length": 0
+      }
+    },
+    "validation_clean_rows": 2097,
+    "validation_rows": 2101
+  },
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "float32_matmul_precision": "highest",
+    "fp32_precision": {
+      "cuda_matmul": "ieee",
+      "cudnn_conv": "ieee",
+      "cudnn_rnn": "ieee",
+      "global": "ieee"
+    },
+    "nondeterministic_warnings": [],
+    "use_deterministic_algorithms": true,
+    "warn_only": false
+  },
+  "env": {
+    "cuda": "13.0",
+    "cudnn": 92400,
+    "gpu": {
+      "capability": [
+        12,
+        0
+      ],
+      "driver": "610.88",
+      "name": "NVIDIA GeForce RTX 5060",
+      "total_memory_bytes": 8546484224
+    },
+    "huggingface_hub": "2.4.0",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.3",
+    "requirements_sha256": "19408fb3dc10eceacfc939e864b74988ecce77d375b9902778e3f814d2888b57",
+    "safetensors": "0.8.0",
+    "scikit_learn": "1.9.1",
+    "tokenizers": "0.23.3",
+    "torch": "2.14.1+cu130",
+    "transformers": "5.22.2"
+  },
+  "failure": null,
+  "finished_utc": "2026-11-15T07:19:52Z",
+  "lists": {
+    "build_lists_check": "passed",
+    "build_lists_sha256_lf": "0986fc648f0b47b4293a22cf788734938820de10e12633ebd8e1c9d29087d028",
+    "dataset_revision": "002a9dd18514abd021869823d6b0429b38606d99",
+    "dir": "data/processed",
+    "files_sha256": {
+      "test_clean_preaug.csv": "7915f168ee6c6848f0eba6d13824f6ace5fbe80b5a4e8b1730df7ca998ab4aa4",
+      "test_excluded_preaug.csv": "1259e8b25dffa44b8b35dfc2f9187267bef28d5c19df3fa0343f57c75b391b2a",
+      "train_clean.csv": "1dbb9244b99eca35ae65608f994dc1aa8f1901e950e19af979cd59ee586b6ca3",
+      "train_excluded.csv": "141659b27a306789510f254b77685a8c6f5e449490792f60d6025cf58d55293b",
+      "validation_clean.csv": "d0a669d85f5307cfc461fbb88192c83ff5ee84ba519f22ba7bbe76ee1513c626",
+      "validation_excluded.csv": "bb17ceb728ac292e39ac2dd0f237610ee9119a77d35dd31930f1e6ff6a8bb072"
+    },
+    "git_tracked_checked": false,
+    "lists_meta_sha256": "7d4dee90483969ab94b78e23ffe4bc524aa072d472eb65a25e1cc7c80dcfb28a",
+    "mode": "official",
+    "review_sha256": "193e3bcd438661c4662a9e487b22f89287dcac0df25697e3bf0e1bcd96b754cd",
+    "train_clean_rows": 11050
+  },
+  "model": {
+    "attn_implementation": "eager",
+    "key": "deberta",
+    "parameters": 141896450,
+    "precision": "bf16",
+    "repo": "microsoft/deberta-v3-small",
+    "revision": "a36c739020e01763fe789b4b85e2df55d6180012",
+    "tokenizer_fingerprint": "4adacb9141d658578ad4de72802c8cb37d4f9618ee7652dc6f6e7a85ac037b5b",
+    "weights": {
+      "file": "pytorch_model.bin",
+      "sha256": "d4b0ebcc7799a2c2dde1a39199cb0ed709f2c6b63a48b8c05133b77955f271a9",
+      "size": 286059269
+    }
+  },
+  "model_key": "deberta",
+  "optimizer": {
+    "decay_elements": 141832704,
+    "decay_tensors": 40,
+    "foreach": null,
+    "fused": null,
+    "no_decay_elements": 63746,
+    "no_decay_tensors": 66
+  },
+  "rerun": {
+    "checkpoint_sha256_equal": true,
+    "comparable": true,
+    "first_differing_update": null,
+    "max_abs_loss_diff": 0.0,
+    "max_abs_margin_diff": 0.0,
+    "prediction_flips": 0,
+    "predictions_compared": 2101,
+    "previous_attempt": 5,
+    "previous_status": "completed",
+    "selected_step_equal": true,
+    "updates_compared": 100
+  },
+  "resources": {
+    "eval_s": [
+      1.8058177000493743
+    ],
+    "load_s": 0.8768149000243284,
+    "memory_window": "torch.cuda.max_memory_allocated / max_memory_reserved after reset_peak_memory_stats right after CUDA init; covers tokenizer, model load, all updates and evals; read before the reload check",
+    "peak_memory_allocated_bytes": 2915772928,
+    "peak_memory_reserved_bytes": 3078619136,
+    "reload_s": 3.7092797000077553,
+    "save_s": [
+      0.8266043000039645
+    ],
+    "time_window": "per update: wall time of one optimizer update (all micro-batches, clip, step, schedule) between cuda.synchronize calls; evals, saves and logging excluded",
+    "update_seconds_median": 0.2099586500262376,
+    "update_seconds_total": 21.595002700050827
+  },
+  "run_id": "s1-deberta-smoke-s0",
+  "schema": 1,
+  "seed": 0,
+  "selection": {
+    "saved_steps": [
+      100
+    ],
+    "selected_step": 100
+  },
+  "smoke": {
+    "criteria": {
+      "finite": true,
+      "loss_decreased": true,
+      "loss_first20_mean": 0.6790802106261253,
+      "loss_last20_mean": 0.1889775888499571,
+      "memory_limit_bytes": 7000000000,
+      "memory_ok": true,
+      "peak_memory_allocated_bytes": 2915772928,
+      "reload_ok": true
+    },
+    "passed": true,
+    "timing": {
+      "eval_s": 1.8058177000493743,
+      "formula": "T = N*t + 4*t_eval + t_load + 3*t_save + t_reload (estimate; excludes data preparation and preflight)",
+      "load_s": 0.8768149000243284,
+      "reload_s": 3.7092797000077553,
+      "run_estimate_s": 445.9393958974979,
+      "save_s": 0.8266043000039645,
+      "timed_updates": [
+        6,
+        100
+      ],
+      "update_median_s": 0.20822489995043725
+    }
+  },
+  "stage": "s1",
+  "started_utc": "2026-11-15T07:19:15Z",
+  "status": "completed",
+  "wall_s": 36.938209799991455
+}

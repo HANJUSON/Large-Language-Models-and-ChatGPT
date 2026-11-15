@@ -1,0 +1,24 @@
+run s1-roberta-smoke-s0 attempt 1: lists trial (data/processed/trial), N 2073, updates 100, eval at [100]
+data: train 11050 rows, validation 2101 rows (2097 in_clean); tokens max train 114 validation 44, over 256: 0 / 0
+model FacebookAI/roberta-base@e2da8e2 loaded in 1.2s (124647170 parameters)
+update 5/100 epoch 1 loss 0.6539 grad_norm 1.818 lr 1.996e-05 0.216s
+update 10/100 epoch 1 loss 0.6856 grad_norm 2.597 lr 1.991e-05 0.177s
+update 15/100 epoch 1 loss 0.6757 grad_norm 4.530 lr 1.986e-05 0.159s
+update 20/100 epoch 1 loss 0.4765 grad_norm 8.378 lr 1.982e-05 0.170s
+update 25/100 epoch 1 loss 0.1940 grad_norm 5.609 lr 1.977e-05 0.171s
+update 30/100 epoch 1 loss 0.2548 grad_norm 17.686 lr 1.972e-05 0.203s
+update 35/100 epoch 1 loss 0.5600 grad_norm 41.024 lr 1.967e-05 0.190s
+update 40/100 epoch 1 loss 0.0929 grad_norm 6.806 lr 1.962e-05 0.196s
+update 45/100 epoch 1 loss 0.0353 grad_norm 2.361 lr 1.958e-05 0.189s
+update 50/100 epoch 1 loss 0.2205 grad_norm 29.733 lr 1.953e-05 0.197s
+update 55/100 epoch 1 loss 0.0659 grad_norm 15.824 lr 1.948e-05 0.218s
+update 60/100 epoch 1 loss 0.0279 grad_norm 1.272 lr 1.943e-05 0.197s
+update 65/100 epoch 1 loss 0.0162 grad_norm 1.562 lr 1.938e-05 0.175s
+update 70/100 epoch 1 loss 0.1429 grad_norm 47.337 lr 1.933e-05 0.184s
+update 75/100 epoch 1 loss 0.2189 grad_norm 46.809 lr 1.929e-05 0.188s
+update 80/100 epoch 1 loss 0.4265 grad_norm 28.723 lr 1.924e-05 0.177s
+update 85/100 epoch 1 loss 0.0141 grad_norm 7.256 lr 1.919e-05 0.186s
+update 90/100 epoch 1 loss 0.0183 grad_norm 5.140 lr 1.914e-05 0.175s
+update 95/100 epoch 1 loss 0.3968 grad_norm 40.289 lr 1.909e-05 0.201s
+update 100/100 epoch 1 loss 0.2337 grad_norm 49.675 lr 1.904e-05 0.169s
+eval step 100: validation_clean F1 0.9597249508840865 FPR 0.008595988538681949 ROC-AUC 0.9966089052622005; validation F1 0.9597644749754661; 2.2s; improved, saving checkpoint

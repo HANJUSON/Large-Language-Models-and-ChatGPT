@@ -1,0 +1,51 @@
+{
+  "eval_steps": [
+    100
+  ],
+  "evals": [
+    {
+      "improved": true,
+      "step": 100,
+      "validation": {
+        "f1": 0.9597644749754661,
+        "f1_exact": "978/1019",
+        "fn": 73,
+        "fp": 9,
+        "fpr": 0.008571428571428572,
+        "fpr_exact": "3/350",
+        "n": 2101,
+        "n_neg": 1050,
+        "n_pos": 1051,
+        "precision": 0.9908814589665653,
+        "precision_exact": "326/329",
+        "recall": 0.9305423406279734,
+        "recall_exact": "978/1051",
+        "roc_auc": 0.9966163744279825,
+        "tn": 1041,
+        "tp": 978
+      },
+      "validation_clean": {
+        "f1": 0.9597249508840865,
+        "f1_exact": "977/1018",
+        "fn": 73,
+        "fp": 9,
+        "fpr": 0.008595988538681949,
+        "fpr_exact": "3/349",
+        "n": 2097,
+        "n_neg": 1047,
+        "n_pos": 1050,
+        "precision": 0.9908722109533469,
+        "precision_exact": "977/986",
+        "recall": 0.9304761904761905,
+        "recall_exact": "977/1050",
+        "roc_auc": 0.9966089052622005,
+        "tn": 1038,
+        "tp": 977
+      }
+    }
+  ],
+  "run_id": "s1-roberta-smoke-s0",
+  "selected_step": 100,
+  "selection_rule": "validation_clean F1 max, then lower FPR, then earlier step (exact fractions)",
+  "threshold": 0.5
+}

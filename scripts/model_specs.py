@@ -31,6 +31,21 @@ Rules:
     value equals check_tokenizer(load_tokenizer(key), key).
   - Seed the RNG before load_model: the classification head is randomly
     initialised.
+  - Fine-tuned checkpoints (README 7.1 runs/): save only with
+    save_checkpoint(model, key, folder, run_id, step): FP32 state_dict as
+    safetensors, streamed one tensor at a time to .tmp, then os.replace,
+    metadata model_key, repo, revision, run_id, step (sorted in the header, so
+    equal tensors and metadata give equal bytes; the bytes equal
+    safetensors.torch.save with the header's __metadata__ keys sorted); returns
+    the file SHA-256, size and a tensor_digest per tensor. The folder holds
+    only model.safetensors (no config, no tokenizer). Load only with
+    load_finetuned(key, path, sha256):
+    HF_HUB_OFFLINE=1, size and SHA-256 checked before the bytes are parsed,
+    metadata key/repo/revision checked, the model built with from_config from
+    the pinned config (num_labels=2, FP32, eager) under fork_rng, identical
+    key set, all FP32, load_state_dict strict. Never from_pretrained on a run
+    or checkpoint folder; the tokenizer comes from load_tokenizer(key) and its
+    fingerprint must equal the run record.
   - The pinned fingerprints hold for the exact library versions in
     requirements.txt; a version bump requires re-verification
     (scripts/check_tokenizers.py). The file hashes do not depend on versions.
@@ -41,6 +56,7 @@ imported lazily inside functions so that importing this module is cheap.
 import hashlib
 import json
 import os
+import sys
 
 MODELS = {
     "bert": ("google-bert/bert-base-uncased", "86b5e0934494bd15c9632b12f734a8a67f723594"),
@@ -66,9 +82,11 @@ TOKENIZER_SHA256 = {
 
 # key -> (file name at the pinned revision, sha256, size in bytes); values are
 # the Hub LFS metadata of that file (HfApi().model_info(repo, revision=rev,
-# files_metadata=True)). DeBERTa only for now; BERT/RoBERTa are added when
-# their weights are first downloaded, and load_model refuses them until then.
+# files_metadata=True)), read 2026-11-13. BERT and RoBERTa ship safetensors at
+# their pinned revisions; DeBERTa-v3-small only a pickle .bin (README 9).
 WEIGHTS = {
+    "bert": ("model.safetensors", "68d45e234eb4a928074dfd868cead0219ab85354cc53d20e772753c6bb9169d3", 440449768),
+    "roberta": ("model.safetensors", "5bde1d28afb363d0103324efeb5afc8b2b397fe5e04beabb9b1ef355255ade81", 498818054),
     "deberta": ("pytorch_model.bin", "d4b0ebcc7799a2c2dde1a39199cb0ed709f2c6b63a48b8c05133b77955f271a9", 286059269),
 }
 
@@ -210,3 +228,146 @@ def load_model(key, num_labels=2, **overrides):
     return AutoModelForSequenceClassification.from_pretrained(
         repo, revision=rev, num_labels=num_labels, dtype=torch.float32,
         use_safetensors=fname.endswith(".safetensors"), **overrides)
+
+
+CHECKPOINT_FILE = "model.safetensors"
+
+
+def _cpu_bytes(t):
+    """(CPU tensor, its raw native-order bytes as a zero-copy uint8 numpy view)."""
+    import torch
+
+    c = t.detach().to("cpu").contiguous()
+    return c, c.reshape(-1).view(torch.uint8).numpy()
+
+
+def _digest(c, raw):
+    return [str(c.dtype), list(c.shape), hashlib.sha256(raw).hexdigest()]
+
+
+def tensor_digest(t):
+    """[dtype, shape, SHA-256 of the raw bytes] of one tensor; equal digests mean bitwise-equal tensors."""
+    return _digest(*_cpu_bytes(t))
+
+
+def _plain_json_string(s):
+    """True when json.dumps(s) is s in quotes: then Python and safetensors (serde_json) encode it alike."""
+    return json.dumps(s, ensure_ascii=True) == f'"{s}"'
+
+
+def save_checkpoint(model, key, folder, run_id, step):
+    """Save model as FP32 safetensors in folder/model.safetensors; see the module rules.
+
+    The file is streamed one tensor at a time (one CPU tensor in host RAM at a
+    time, hashed while written) in the layout safetensors.torch.save gives with
+    the __metadata__ keys sorted: 8-byte little-endian header length, compact
+    JSON header {"__metadata__": sorted metadata, tensors by name: dtype, shape,
+    data_offsets} padded with spaces to a multiple of 8, then the tensor bytes
+    in name order (safetensors orders by dtype, then name; all are F32 here).
+    Returns {"sha256", "size", "tensors"}; tensors maps each name to
+    tensor_digest() of the bytes written (the caller's reload check compares it).
+    """
+    import torch
+
+    if sys.byteorder != "little":
+        raise RuntimeError("save_checkpoint: safetensors stores little-endian bytes; this host is big-endian")
+    repo, rev = MODELS[key]
+    os.makedirs(folder, exist_ok=True)
+    final = os.path.join(folder, CHECKPOINT_FILE)
+    tmp = final + ".tmp"
+    if os.path.exists(tmp):
+        os.remove(tmp)
+    other = sorted(set(os.listdir(folder)) - {CHECKPOINT_FILE})
+    if other:
+        raise RuntimeError(f"save_checkpoint: the checkpoint folder holds other files: {other}")
+    sd = model.state_dict()
+    for name, t in sd.items():
+        if t.dtype != torch.float32:
+            raise RuntimeError(f"save_checkpoint: {name} is {t.dtype}, not float32")
+    meta = {"model_key": key, "repo": repo, "revision": rev, "run_id": str(run_id), "step": str(step)}
+    if not all(_plain_json_string(s) for s in list(sd) + list(meta.values())):
+        raise RuntimeError("save_checkpoint: tensor names and metadata must be plain ASCII (no JSON escapes)")
+    names, entries, offset = sorted(sd), {}, 0
+    for name in names:
+        n = sd[name].numel() * 4
+        entries[name] = {"dtype": "F32", "shape": list(sd[name].shape), "data_offsets": [offset, offset + n]}
+        offset += n
+    header = json.dumps({"__metadata__": dict(sorted(meta.items())), **entries}, separators=(",", ":"),
+                        ensure_ascii=True).encode("ascii")
+    header += b" " * (-len(header) % 8)
+    h, digests, size = hashlib.sha256(), {}, 0
+    try:
+        with open(tmp, "xb") as f:
+            for chunk in (len(header).to_bytes(8, "little"), header):
+                f.write(chunk)
+                h.update(chunk)
+                size += len(chunk)
+            for name in names:
+                c, raw = _cpu_bytes(sd[name])
+                f.write(raw)
+                h.update(raw)
+                size += raw.nbytes
+                digests[name] = _digest(c, raw)
+                del c, raw
+        os.replace(tmp, final)
+    finally:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+    return {"sha256": h.hexdigest(), "size": size, "tensors": digests}
+
+
+def _header(data):
+    n = int.from_bytes(data[:8], "little")
+    if len(data) < 8 + n:
+        raise RuntimeError("checkpoint: truncated safetensors header")
+    return n, json.loads(data[8:8 + n].decode("utf-8"))
+
+
+def checkpoint_metadata(data):
+    """The __metadata__ dict of safetensors bytes (header parsed without loading tensors)."""
+    return _header(data)[1].get("__metadata__") or {}
+
+
+def load_finetuned(key, path, sha256, *, size=None, attn_implementation="eager"):
+    """Load a save_checkpoint file of model key; see the module rules. Returns the model (CPU, eval mode)."""
+    if attn_implementation not in ATTN_IMPLEMENTATIONS:
+        raise RuntimeError(f"load_finetuned: attn_implementation must be one of {sorted(ATTN_IMPLEMENTATIONS)}")
+    from huggingface_hub import constants
+
+    if not constants.HF_HUB_OFFLINE:
+        raise RuntimeError("load_finetuned requires HF_HUB_OFFLINE=1 (set before Python starts)")
+    repo, rev = MODELS[key]
+    got_size = os.path.getsize(path)
+    if size is not None and got_size != size:
+        raise RuntimeError(f"checkpoint: size {got_size} != recorded {size}")
+    with open(path, "rb") as f:
+        data = f.read()
+    got_sha = hashlib.sha256(data).hexdigest()
+    if got_sha != sha256:
+        raise RuntimeError(f"checkpoint: sha256 {got_sha[:12]} != recorded {sha256[:12]}")
+    meta = checkpoint_metadata(data)
+    for field, want in (("model_key", key), ("repo", repo), ("revision", rev)):
+        if meta.get(field) != want:
+            raise RuntimeError(f"checkpoint: metadata {field} {meta.get(field)!r} != {want!r}")
+
+    import torch
+    from safetensors.torch import load
+    from transformers import AutoConfig, AutoModelForSequenceClassification
+
+    state = load(data)
+    del data  # freed before the model is built: host RAM peaks at two copies, not three
+    config = AutoConfig.from_pretrained(repo, revision=rev, num_labels=2)
+    with torch.random.fork_rng(devices=[]):
+        model = AutoModelForSequenceClassification.from_config(
+            config, dtype=torch.float32, attn_implementation=attn_implementation)
+    want_keys, got_keys = set(model.state_dict()), set(state)
+    if want_keys != got_keys:
+        missing, extra = sorted(want_keys - got_keys), sorted(got_keys - want_keys)
+        raise RuntimeError(f"checkpoint: key set differs from the model: missing {len(missing)} {missing[:3]}, "
+                           f"unexpected {len(extra)} {extra[:3]}")
+    bad = sorted(k for k, t in state.items() if t.dtype != torch.float32)
+    if bad:
+        raise RuntimeError(f"checkpoint: non-float32 tensors {bad[:3]}")
+    model.load_state_dict(state, strict=True)
+    model.eval()
+    return model

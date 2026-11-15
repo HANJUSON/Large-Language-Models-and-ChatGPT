@@ -11,3 +11,13 @@ requirements-demo.txt text eol=lf
 # Keep processed common lists, review records and their metadata LF so their SHA-256 at freeze-1 is reproducible.
 data/processed/**/*.csv text eol=lf
 data/processed/**/*.json text eol=lf
+
+# Store each run's selected checkpoint with Git LFS (README 7.1: only files under runs/*/checkpoint/).
+runs/*/checkpoint/** filter=lfs diff=lfs merge=lfs -text
+
+# Keep run records LF on every checkout so their bytes and SHA-256 are reproducible.
+runs/**/*.csv text eol=lf
+runs/**/*.json text eol=lf
+
+# Keep training/evaluation configs LF so the config SHA-256 recorded in each run is reproducible.
+configs/** text eol=lf

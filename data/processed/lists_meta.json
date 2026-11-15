@@ -1,0 +1,323 @@
+{
+  "audit": {
+    "test": {
+      "augmentation_overlap_rows": 0,
+      "cleaned_train_overlap_rows": 0,
+      "internal_exact_duplicate_rows": 0,
+      "note": "exact key only; README normalised-key figures for test are not re-checked",
+      "original_train_overlap_rows": 0,
+      "validation_overlap_labels": {
+        "0": 7,
+        "1": 109
+      },
+      "validation_overlap_labels_agree": true,
+      "validation_overlap_rows": 116
+    },
+    "train": {
+      "conflict_texts": 1,
+      "exact_duplicate_extra_rows": 38,
+      "normkey_duplicate_extra_rows": 39,
+      "review_groups": {
+        "exact_label_conflict": 1,
+        "normkey_only": 1
+      },
+      "whitespace_edge_rows": 1
+    },
+    "validation": {
+      "cleaned_train_overlap_rows": 4,
+      "internal_exact_duplicate_rows": 0,
+      "internal_normkey_duplicate_rows": 0,
+      "original_train_overlap_rows": 4,
+      "whitespace_edge_rows": 0
+    }
+  },
+  "augmentation": null,
+  "dataset": {
+    "files": {
+      "test": {
+        "labels": {
+          "0": 1050,
+          "1": 1051
+        },
+        "path": "datasets/s-labs-prompt-injection/data/test.csv",
+        "rows": 2101,
+        "sha256": "4c7a9f0fff2bf7d3f6d3e7b84863a8f5d6c48c70c3ac7fe874917074c8f27853"
+      },
+      "train": {
+        "labels": {
+          "0": 6303,
+          "1": 4786
+        },
+        "path": "datasets/s-labs-prompt-injection/data/train.csv",
+        "rows": 11089,
+        "sha256": "bab012fec95d4214599b18777fd6efc5cc5e9545354df581880aeca5c1d487d7"
+      },
+      "validation": {
+        "labels": {
+          "0": 1050,
+          "1": 1051
+        },
+        "path": "datasets/s-labs-prompt-injection/data/validation.csv",
+        "rows": 2101,
+        "sha256": "c7d14d24a14dd30a37ebe0de928b8ccdcdf6639c3c2e830b59561e2dd5fb7b55"
+      }
+    },
+    "manifest": {
+      "path": "datasets/s-labs-prompt-injection/download_manifest.json",
+      "sha256": "c9c2791b10c2be6e57b65edfb8fd04323b07f49e47dc6fd7d1e83d2ad2ec7d99"
+    },
+    "name": "S-Labs/prompt-injection-dataset",
+    "revision": "002a9dd18514abd021869823d6b0429b38606d99"
+  },
+  "outputs": {
+    "similar_pairs.csv": {
+      "rows": 963,
+      "sha256": "b2551b1cee222c286e26ed033d69538ba10d033f553e1146a09895791bc1e571"
+    },
+    "test_clean_preaug.csv": {
+      "rows": 1985,
+      "sha256": "7915f168ee6c6848f0eba6d13824f6ace5fbe80b5a4e8b1730df7ca998ab4aa4"
+    },
+    "test_excluded_preaug.csv": {
+      "rows": 116,
+      "sha256": "1259e8b25dffa44b8b35dfc2f9187267bef28d5c19df3fa0343f57c75b391b2a"
+    },
+    "train_clean.csv": {
+      "rows": 11050,
+      "sha256": "1dbb9244b99eca35ae65608f994dc1aa8f1901e950e19af979cd59ee586b6ca3"
+    },
+    "train_excluded.csv": {
+      "rows": 39,
+      "sha256": "141659b27a306789510f254b77685a8c6f5e449490792f60d6025cf58d55293b"
+    },
+    "validation_clean.csv": {
+      "rows": 2097,
+      "sha256": "d0a669d85f5307cfc461fbb88192c83ff5ee84ba519f22ba7bbe76ee1513c626"
+    },
+    "validation_excluded.csv": {
+      "rows": 4,
+      "sha256": "bb17ceb728ac292e39ac2dd0f237610ee9119a77d35dd31930f1e6ff6a8bb072"
+    }
+  },
+  "review": {
+    "decisions": {
+      "exclude": 2,
+      "keep": 2
+    },
+    "groups": {
+      "exact_label_conflict": 1,
+      "normkey_only": 1
+    },
+    "path": "data/processed/train_review.csv",
+    "reasons": {
+      "label_undeterminable": 2,
+      "same_label_case_variant": 2
+    },
+    "rows": 4,
+    "sha256": "193e3bcd438661c4662a9e487b22f89287dcac0df25697e3bf0e1bcd96b754cd",
+    "status": {
+      "confirmed": 4,
+      "proposed": 0
+    }
+  },
+  "rules": {
+    "exact_key": "raw text field, unchanged (README 3.1)",
+    "normalised_key": "NFKC, strip and collapse whitespace, casefold (README 3.1); used for train review groups, the train/validation audit and the similar-sentence check; on test only as a SHA-256 digest inside load_test",
+    "punct_key": "normalised key with every Unicode P* (punctuation) and S* (symbol) character replaced by a space, whitespace collapsed; an empty punct key is no key (README 3.2)",
+    "sentence_id": "split:NNNNNN = 0-based index of the data records read with Python csv (UTF-8, newline=''), header excluded (README 7.1)",
+    "similar_levels": "pairs whose exact keys differ, each at its first level: B normalised_key (normalised keys equal), B punct_key (punct keys equal, normalised keys differ), C one_word_edit (punct-key word sequences differ by one word inserted, deleted or substituted, the shorter has >= 5 words); decided from SHA-256 digests only (README 3.2)",
+    "similar_scope": "train_clean internal: a B group (one punct key, >= 2 rows) with >= 2 labels stops the build (B08), otherwise all rows are kept; validation_clean internal and vs every original train row; test_clean_preaug internal (B only) and vs every original train row and the whole original validation; cross-split pairs are counted and listed, never excluded; similar_pairs.csv lists every B and C pair except test C pairs (counted only)",
+    "test_audit": "the lists and the audit compare test by exact key only (SHA-256 digests); the similar block compares test_clean_preaug by digests of the normalised key, the punct key and its one-word deletions (no test text is kept)",
+    "test_clean_preaug": "test minus rows whose exact key is in the cleaned train, the augmentation cases (none before the augmentation freeze) or the whole original validation (README 3.2 DATA-05); one primary reason per row by precedence train_overlap > augmentation_overlap > validation_overlap",
+    "text_sha256_12": "first 12 lowercase hex characters of SHA-256 of the raw text field in UTF-8",
+    "train_clean": "drop review rows with decision exclude, then keep the lowest sentence ID of every exact-key group (README 3.2)",
+    "validation_clean": "original validation minus rows whose exact key is in the original train (README 3.1)"
+  },
+  "schema": 1,
+  "script": {
+    "path": "scripts/build_lists.py",
+    "sha256_lf": "0986fc648f0b47b4293a22cf788734938820de10e12633ebd8e1c9d29087d028"
+  },
+  "similar": {
+    "test_clean_preaug": {
+      "normalised_key": {
+        "groups": 0,
+        "label_disagree_groups": 0,
+        "rows": 0
+      },
+      "punct_key": {
+        "groups": 0,
+        "label_disagree_groups": 0,
+        "rows": 0
+      }
+    },
+    "test_clean_preaug_vs_original_train": {
+      "normalised_key": {
+        "label_disagree_pairs": 0,
+        "pairs": 0,
+        "rows": 0
+      },
+      "one_word_edit": {
+        "label_disagree_pairs": 0,
+        "pairs": 7,
+        "rows": 7
+      },
+      "punct_key": {
+        "label_disagree_pairs": 0,
+        "pairs": 1,
+        "rows": 1
+      }
+    },
+    "test_clean_preaug_vs_validation": {
+      "normalised_key": {
+        "label_disagree_pairs": 0,
+        "pairs": 0,
+        "rows": 0
+      },
+      "one_word_edit": {
+        "label_disagree_pairs": 0,
+        "pairs": 271,
+        "rows": 212
+      },
+      "punct_key": {
+        "label_disagree_pairs": 0,
+        "pairs": 0,
+        "rows": 0
+      }
+    },
+    "train_clean": {
+      "normalised_key": {
+        "groups": 1,
+        "label_disagree_groups": 0,
+        "rows": 2
+      },
+      "one_word_edit": {
+        "label_disagree_pairs": 1,
+        "pairs": 851
+      },
+      "punct_key": {
+        "groups": 18,
+        "label_disagree_groups": 0,
+        "rows": 36
+      }
+    },
+    "validation_clean": {
+      "normalised_key": {
+        "groups": 0,
+        "label_disagree_groups": 0,
+        "rows": 0
+      },
+      "one_word_edit": {
+        "label_disagree_pairs": 0,
+        "pairs": 78
+      },
+      "punct_key": {
+        "groups": 0,
+        "label_disagree_groups": 0,
+        "rows": 0
+      }
+    },
+    "validation_clean_vs_original_train": {
+      "normalised_key": {
+        "label_disagree_pairs": 0,
+        "pairs": 0,
+        "rows": 0
+      },
+      "one_word_edit": {
+        "label_disagree_pairs": 0,
+        "pairs": 12,
+        "rows": 12
+      },
+      "punct_key": {
+        "label_disagree_pairs": 0,
+        "pairs": 2,
+        "rows": 2
+      }
+    }
+  },
+  "splits": {
+    "test": {
+      "clean": {
+        "labels": {
+          "0": 1043,
+          "1": 942
+        },
+        "rows": 1985
+      },
+      "excluded": {
+        "by_reason": {
+          "validation_overlap": 116
+        },
+        "labels": {
+          "0": 7,
+          "1": 109
+        },
+        "rows": 116
+      },
+      "source": {
+        "labels": {
+          "0": 1050,
+          "1": 1051
+        },
+        "rows": 2101
+      }
+    },
+    "train": {
+      "clean": {
+        "labels": {
+          "0": 6267,
+          "1": 4783
+        },
+        "rows": 11050
+      },
+      "excluded": {
+        "by_reason": {
+          "duplicate_same_label": 37,
+          "review_exclude": 2
+        },
+        "labels": {
+          "0": 36,
+          "1": 3
+        },
+        "rows": 39
+      },
+      "source": {
+        "labels": {
+          "0": 6303,
+          "1": 4786
+        },
+        "rows": 11089
+      }
+    },
+    "validation": {
+      "clean": {
+        "labels": {
+          "0": 1047,
+          "1": 1050
+        },
+        "rows": 2097
+      },
+      "excluded": {
+        "by_reason": {
+          "train_overlap": 4
+        },
+        "labels": {
+          "0": 3,
+          "1": 1
+        },
+        "rows": 4
+      },
+      "source": {
+        "labels": {
+          "0": 1050,
+          "1": 1051
+        },
+        "rows": 2101
+      }
+    }
+  },
+  "test_clean_stage": "pre-augmentation",
+  "trial": false,
+  "unicode_version": "16.0.0",
+  "usable_for": "official"
+}

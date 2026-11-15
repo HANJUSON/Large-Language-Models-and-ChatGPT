@@ -16,3 +16,11 @@ __pycache__/
 
 # Trial common lists built from an unconfirmed review (README 7.1)
 data/processed/trial/
+
+# Partial checkpoint writes (model_specs.save_checkpoint writes .tmp, then renames)
+runs/*/checkpoint/*.tmp
+
+# train.py: run lock, stage-2 checkpoint staging folder, partial JSON writes (.tmp, then os.replace)
+runs/*.lock
+runs/*/checkpoint.staging/
+runs/**/*.json.tmp

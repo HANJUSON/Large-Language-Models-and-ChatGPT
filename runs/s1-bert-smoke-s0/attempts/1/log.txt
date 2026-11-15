@@ -1,0 +1,29 @@
+run s1-bert-smoke-s0 attempt 1: lists trial (data/processed/trial), N 2073, updates 100, eval at [100]
+data: train 11050 rows, validation 2101 rows (2097 in_clean); tokens max train 110 validation 40, over 256: 0 / 0
+model google-bert/bert-base-uncased@86b5e09 loaded in 1.1s (109483778 parameters)
+update 5/100 epoch 1 loss 0.5593 grad_norm 3.722 lr 1.996e-05 0.195s
+update 10/100 epoch 1 loss 0.5033 grad_norm 7.728 lr 1.991e-05 0.182s
+update 15/100 epoch 1 loss 0.4792 grad_norm 8.614 lr 1.986e-05 0.226s
+update 20/100 epoch 1 loss 0.5175 grad_norm 6.844 lr 1.982e-05 0.184s
+update 25/100 epoch 1 loss 0.1772 grad_norm 4.493 lr 1.977e-05 0.161s
+update 30/100 epoch 1 loss 0.3440 grad_norm 5.894 lr 1.972e-05 0.195s
+update 35/100 epoch 1 loss 0.4027 grad_norm 3.842 lr 1.967e-05 0.177s
+update 40/100 epoch 1 loss 0.3380 grad_norm 9.549 lr 1.962e-05 0.172s
+update 45/100 epoch 1 loss 0.0822 grad_norm 2.591 lr 1.958e-05 0.205s
+update 50/100 epoch 1 loss 0.2886 grad_norm 13.448 lr 1.953e-05 0.181s
+update 55/100 epoch 1 loss 0.0501 grad_norm 1.515 lr 1.948e-05 0.179s
+update 60/100 epoch 1 loss 0.0442 grad_norm 1.328 lr 1.943e-05 0.169s
+update 65/100 epoch 1 loss 0.0521 grad_norm 4.207 lr 1.938e-05 0.184s
+update 70/100 epoch 1 loss 0.0480 grad_norm 2.766 lr 1.933e-05 0.183s
+update 75/100 epoch 1 loss 0.0341 grad_norm 2.003 lr 1.929e-05 0.165s
+update 80/100 epoch 1 loss 0.0463 grad_norm 9.931 lr 1.924e-05 0.188s
+update 85/100 epoch 1 loss 0.1130 grad_norm 20.477 lr 1.919e-05 0.205s
+update 90/100 epoch 1 loss 0.2743 grad_norm 24.873 lr 1.914e-05 0.174s
+update 95/100 epoch 1 loss 0.3166 grad_norm 15.830 lr 1.909e-05 0.203s
+update 100/100 epoch 1 loss 0.1207 grad_norm 16.050 lr 1.904e-05 0.182s
+eval step 100: validation_clean F1 0.9692832764505119 FPR 0.0066857688634192934 ROC-AUC 0.9950134170191476; validation F1 0.9693132001948368; 2.2s; improved, saving checkpoint
+reload check: state_dict equal True, prediction flips 0, max |margin diff| 0, 3.7s
+peak memory allocated 2264846848 B, reserved 2552233984 B
+smoke: loss mean updates 1-20 0.4949, 81-100 0.1737 (decreased True); finite True; peak allocated 2.265 GB <= 7.0 GB True; reload ok True
+smoke timing: median 0.1811 s/update over updates 6-100; eval 2.2s, load 1.1s, save 0.7s, reload 3.7s; one run T = 0.11 h (T = N*t + 4*t_eval + t_load + 3*t_save + t_reload (upper bound))
+SMOKE PASSED

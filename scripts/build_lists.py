@@ -11,8 +11,11 @@ Rules (README line numbers as of the commit that adds this script):
     Python csv module (UTF-8, newline=''), header excluded (7.1 L460). train
     has multi-line records (train:000994, train:009878), so IDs are not lines.
   - Exact key = the raw `text` field, unchanged. Normalised key = NFKC ->
-    strip and collapse whitespace -> casefold (3.1 L119-120); used only for
-    the train review groups and the train/validation audit.
+    strip and collapse whitespace -> casefold (3.1 L119-120); used for the
+    train review groups, the train/validation audit and the similar-sentence
+    check. Punct key = normalised key with every Unicode P* (punctuation) and
+    S* (symbol) character replaced by a space, whitespace collapsed; an empty
+    punct key is no key (the row takes no part in the similar-sentence check).
   - train_clean: drop review rows with decision `exclude`, then keep the
     lowest sentence ID of every exact-key group (3.2 L174; counts L154).
   - validation_clean: original validation minus rows whose exact key is in
@@ -24,14 +27,36 @@ Rules (README line numbers as of the commit that adds this script):
     augmentation_overlap > validation_overlap; non-exclusive overlap counts
     are in lists_meta.json "audit".
   - test use (3.2 L176-184): automated duplicate IDs and counts only.
-  - Review record contract (7.1 L461): stop codes R01-R23 below. confirmed_by
+  - Similar-sentence check (README 3.2, DATA-06). Levels of a pair of rows
+    whose exact keys differ, each pair at its first level: A exact key
+    (automatic exclusion, above); B `normalised_key` (normalised keys equal)
+    or `punct_key` (punct keys equal, normalised keys differ); C
+    `one_word_edit` (punct-key word sequences differ by exactly one word
+    inserted, deleted or substituted; the shorter has >= 5 words), a
+    template-closeness statistic only. Decided from SHA-256 digests only
+    (sim_keys): a substitution shares the digest of the words without word i
+    at the same i and word count; an insertion has the shorter's punct-key
+    digest among the longer's one-word-deletion digests.
+    Scopes: train_clean internal (B group = the >= 2 rows sharing one punct
+    key; one label -> all rows kept; >= 2 labels -> B08, the only way the
+    check could remove train rows); validation_clean internal and vs every
+    original train row; test_clean_preaug internal (B only) and vs every
+    original train row and the whole original validation. Cross-split B and
+    C rows are counted and listed for reporting, never excluded (the lists
+    keep the exact-key definition). similar_pairs.csv lists every B and C
+    pair except test C pairs (counted only). Counts are in lists_meta.json
+    "similar" and pinned in EXPECTED.
+  - Review record contract (7.1 L461): stop codes R01-R23 below. A confirmed
+    row needs at least one member ID in confirmed_by (one member's sign-off is
+    enough, 2026-11-13); a proposed row at most one. confirmed_by
     IDs compare case-insensitively; empty tokens are R09 and are not counted
     by R20/R23; R23 compares each row's sorted ID set, so the order is free.
   - Expected counts are constants (EXPECTED) citing README; a legitimate
     decision change edits README 3.2 and EXPECTED together (B02).
   - Contract gap: a normalised-key variant of a conflict text forms a 1-row
     normkey_only group whose label is not compared with the label kept in the
-    conflict group (cannot occur at the pinned revision).
+    conflict group by the review checks (cannot occur at the pinned revision);
+    when both rows stay in train_clean with differing labels, B08 stops.
 
 Outputs (UTF-8 without BOM, LF, header, trailing LF, sorted by sentence_id):
   train_clean.csv           sentence_id,label,text_sha256_12
@@ -42,8 +67,13 @@ Outputs (UTF-8 without BOM, LF, header, trailing LF, sorted by sentence_id):
                             (train_overlap -> lowest original train ID)
   test_clean_preaug.csv     sentence_id
   test_excluded_preaug.csv  sentence_id,reason
+  similar_pairs.csv         level,sentence_id,other_id (level normalised_key,
+                            punct_key or one_word_edit; sentence_id is the
+                            train_clean / validation_clean / test_clean_preaug
+                            row, the lower ID for internal pairs; other_id the
+                            row it is similar to; sorted by sentence_id, other_id)
   lists_meta.json           sorted keys, indent 2, ASCII; sources, review, rules,
-                            counts by reason, audit, output SHA-256; no
+                            counts by reason, audit, similar, output SHA-256; no
                             timestamp, git commit or absolute path (paths are
                             repo-relative POSIX, or null outside the repo).
 text_sha256_12 = first 12 lowercase hex chars of SHA-256(raw text, UTF-8).
@@ -110,12 +140,16 @@ lists_meta.json deleted; a folder without lists_meta.json is incomplete, rerun):
       differing files (a differing lists_meta.json names up to 10 differing
       keys); an event refused by the audit hook
   B07 unexpected exception: type and line in this script only, message suppressed
+  B08 train_clean B group (normalised or punct key) with >= 2 labels: human
+      review needed (README 3.2); train_review.csv has no check type for it yet
 
 Test-safety guarantees: test.csv is read once, by load_test() only, as bytes
-whose size and SHA-256 are checked before parsing; texts are reduced to SHA-256
-digests in memory (no normalised key on test) and are never printed, logged or
-written; exceptions inside load_test are reported by type and record number
-only. Test lists carry IDs and reasons only; stdout is ASCII, counts and IDs.
+whose size and SHA-256 are checked before parsing; inside load_test each text
+is reduced to SHA-256 digests (exact key, normalised key, punct key, its
+one-word deletions with positions, plus the word count) and the texts are
+dropped; they are never printed, logged or written; exceptions inside load_test
+are reported by type and record number only. Test lists and similar_pairs.csv
+carry test IDs (B levels) and reasons only; stdout is ASCII, counts and IDs.
 main() installs an audit hook (once) that, while main runs, refuses (Python-level
 opens and the listed events only):
   - an open of a path whose basename is test.csv (case-insensitive, also after
@@ -128,8 +162,9 @@ opens and the listed events only):
     Path.copy) from a test.csv path or into datasets/.
 Limits: a development-hygiene guard, not a security boundary; native code,
 other audit events (e.g. os.utime), other processes and hard links made earlier
-under another name are not covered. README's normalised-key figures for test
-(3.2 L144, L147) are not re-checked; test is compared by exact key only.
+under another name are not covered. README's whole-split normalised-key figures
+for test (3.2 L144, L147) are not re-checked as such; the lists compare test by
+exact key only, the similar block compares test_clean_preaug by digests.
 
 Downstream use (stage-2 training, freeze-1 and later code):
   - read the official lists in data/processed/ only (never trial/); require
@@ -146,9 +181,9 @@ Downstream use (stage-2 training, freeze-1 and later code):
 
 Run from Git Bash at the repo root:
     PYTHONUTF8=1 .venv/Scripts/python.exe scripts/build_lists.py --allow-proposed
-        (now: the review is proposed -> trial lists in data/processed/trial/)
+        (while the review has proposed rows -> trial lists in data/processed/trial/)
     PYTHONUTF8=1 .venv/Scripts/python.exe scripts/build_lists.py
-        (after both members confirm the review -> official lists)
+        (after a member confirms every review row -> official lists)
     PYTHONUTF8=1 .venv/Scripts/python.exe scripts/build_lists.py --check
 Options: --review PATH, --manifest PATH, --out-dir PATH (defaults resolve from
 the repo root, not the cwd).
@@ -158,7 +193,11 @@ the CLI has none yet. At the augmentation freeze the final post-augmentation
 lists are test_clean.csv / test_excluded.csv with lists_meta.json
 "test_clean_stage": "final" (README 3.2 L156); this script writes only the
 pre-augmentation test_clean_preaug.csv / test_excluded_preaug.csv
-("test_clean_stage": "pre-augmentation").
+("test_clean_stage": "pre-augmentation"). The similar-sentence rules for later
+inputs (README 3.2) are applied when those inputs exist, not here: drop an
+augmentation case whose exact, normalised or punct key equals a validation or
+test row; drop an external row whose key equals an S-Labs split row or an
+augmentation case; count C in both.
 
 Exit code 0 on success, 1 on any failure.
 """
@@ -203,10 +242,34 @@ EXPECTED = {
                              "augmentation_overlap": 0, "validation_overlap": 116},  # 3.2 L144, L156
     "test_overlap": {"original_train": 0, "cleaned_train": 0,                  # 3.2 L143
                      "augmentation": 0, "validation": 116},                    # 3.2 L144
+    # Similar-sentence check (README 3.2 similar-sentence block, DATA-06) = lists_meta.json "similar".
+    "similar.train_clean": {"normalised_key": {"groups": 1, "rows": 2, "label_disagree_groups": 0},
+                            "punct_key": {"groups": 18, "rows": 36, "label_disagree_groups": 0},
+                            "one_word_edit": {"pairs": 851, "label_disagree_pairs": 1}},
+    "similar.validation_clean": {"normalised_key": {"groups": 0, "rows": 0, "label_disagree_groups": 0},
+                                 "punct_key": {"groups": 0, "rows": 0, "label_disagree_groups": 0},
+                                 "one_word_edit": {"pairs": 78, "label_disagree_pairs": 0}},
+    "similar.validation_clean_vs_original_train": {
+        "normalised_key": {"rows": 0, "pairs": 0, "label_disagree_pairs": 0},
+        "punct_key": {"rows": 2, "pairs": 2, "label_disagree_pairs": 0},
+        "one_word_edit": {"rows": 12, "pairs": 12, "label_disagree_pairs": 0}},
+    "similar.test_clean_preaug": {"normalised_key": {"groups": 0, "rows": 0, "label_disagree_groups": 0},
+                                  "punct_key": {"groups": 0, "rows": 0, "label_disagree_groups": 0}},
+    "similar.test_clean_preaug_vs_original_train": {
+        "normalised_key": {"rows": 0, "pairs": 0, "label_disagree_pairs": 0},
+        "punct_key": {"rows": 1, "pairs": 1, "label_disagree_pairs": 0},
+        "one_word_edit": {"rows": 7, "pairs": 7, "label_disagree_pairs": 0}},
+    "similar.test_clean_preaug_vs_validation": {
+        "normalised_key": {"rows": 0, "pairs": 0, "label_disagree_pairs": 0},
+        "punct_key": {"rows": 0, "pairs": 0, "label_disagree_pairs": 0},
+        "one_word_edit": {"rows": 212, "pairs": 271, "label_disagree_pairs": 0}},
 }
 
 OUTPUTS = ("train_clean", "train_excluded", "validation_clean", "validation_excluded",
            "test_clean_preaug", "test_excluded_preaug")
+SIMILAR = "similar_pairs"  # README 3.2 similar-sentence check; not a clean/excluded list
+SIM_LEVELS = ("normalised_key", "punct_key", "one_word_edit")  # B, B, C
+MIN_EDIT_WORDS = 5  # one_word_edit: the shorter word sequence has at least this many words
 HEADERS = {
     "train_clean": "sentence_id,label,text_sha256_12",
     "train_excluded": "sentence_id,label,text_sha256_12,reason,ref",
@@ -214,6 +277,7 @@ HEADERS = {
     "validation_excluded": "sentence_id,label,text_sha256_12,reason,ref",
     "test_clean_preaug": "sentence_id",
     "test_excluded_preaug": "sentence_id,reason",
+    SIMILAR: "level,sentence_id,other_id",
 }
 LINE_GRAMMAR = {k: re.compile(v) for k, v in {
     "train_clean": r"train:[0-9]{6},[01],[0-9a-f]{12}",
@@ -223,6 +287,9 @@ LINE_GRAMMAR = {k: re.compile(v) for k, v in {
     "validation_excluded": r"validation:[0-9]{6},[01],[0-9a-f]{12},train_overlap,train:[0-9]{6}",
     "test_clean_preaug": r"test:[0-9]{6}",
     "test_excluded_preaug": r"test:[0-9]{6},(?:train_overlap|augmentation_overlap|validation_overlap)",
+    SIMILAR: r"(?:normalised_key|punct_key|one_word_edit),"
+             r"(?:train:[0-9]{6},train|validation:[0-9]{6},(?:train|validation)):[0-9]{6}"
+             r"|(?:normalised_key|punct_key),test:[0-9]{6},(?:train|validation|test):[0-9]{6}",
 }.items()}
 TEST_REASONS = ("train_overlap", "augmentation_overlap", "validation_overlap")  # precedence order
 OVERLAP_KEYS = ("original_train", "cleaned_train", "augmentation", "validation")  # non-exclusive test overlap
@@ -252,7 +319,19 @@ RULES = {
                    "(UTF-8, newline=''), header excluded (README 7.1)",
     "exact_key": "raw text field, unchanged (README 3.1)",
     "normalised_key": "NFKC, strip and collapse whitespace, casefold (README 3.1); used for train "
-                      "review groups and the train/validation audit only, never on test",
+                      "review groups, the train/validation audit and the similar-sentence check; on test "
+                      "only as a SHA-256 digest inside load_test",
+    "punct_key": "normalised key with every Unicode P* (punctuation) and S* (symbol) character replaced by "
+                 "a space, whitespace collapsed; an empty punct key is no key (README 3.2)",
+    "similar_levels": "pairs whose exact keys differ, each at its first level: B normalised_key (normalised "
+                      "keys equal), B punct_key (punct keys equal, normalised keys differ), C one_word_edit "
+                      "(punct-key word sequences differ by one word inserted, deleted or substituted, the "
+                      f"shorter has >= {MIN_EDIT_WORDS} words); decided from SHA-256 digests only (README 3.2)",
+    "similar_scope": "train_clean internal: a B group (one punct key, >= 2 rows) with >= 2 labels stops the "
+                     "build (B08), otherwise all rows are kept; validation_clean internal and vs every original "
+                     "train row; test_clean_preaug internal (B only) and vs every original train row and the "
+                     "whole original validation; cross-split pairs are counted and listed, never excluded; "
+                     "similar_pairs.csv lists every B and C pair except test C pairs (counted only)",
     "text_sha256_12": "first 12 lowercase hex characters of SHA-256 of the raw text field in UTF-8",
     "train_clean": "drop review rows with decision exclude, then keep the lowest sentence ID of "
                    "every exact-key group (README 3.2)",
@@ -262,8 +341,9 @@ RULES = {
                          "cases (none before the augmentation freeze) or the whole original "
                          "validation (README 3.2 DATA-05); one primary reason per row by precedence "
                          "train_overlap > augmentation_overlap > validation_overlap",
-    "test_audit": "test is compared by exact key only (SHA-256 digests); README normalised-key "
-                  "figures for test are not re-checked",
+    "test_audit": "the lists and the audit compare test by exact key only (SHA-256 digests); the similar "
+                  "block compares test_clean_preaug by digests of the normalised key, the punct key and its "
+                  "one-word deletions (no test text is kept)",
 }
 
 
@@ -438,6 +518,24 @@ def nk(text):
     return " ".join(unicodedata.normalize("NFKC", text).split()).casefold()
 
 
+def pk(text):
+    """Punct key: normalised key, every Unicode P*/S* character -> space, whitespace collapsed (README 3.2)."""
+    return " ".join("".join(" " if unicodedata.category(c)[0] in "PS" else c for c in nk(text)).split())
+
+
+def sim_keys(text):
+    """Similar-sentence keys of one text, SHA-256 digests only (README 3.2).
+
+    Returns (normalised-key digest, punct-key digest or None when the punct key is empty, word count of
+    the punct key, ((i, digest of the punct-key words without word i), ...)). The deletion neighbourhood
+    is kept for texts of at least MIN_EDIT_WORDS words only (shorter ones cannot form a one_word_edit pair).
+    """
+    words = pk(text).split()
+    n = len(words)
+    dels = tuple((i, digest(" ".join(words[:i] + words[i + 1:]))) for i in range(n)) if n >= MIN_EDIT_WORDS else ()
+    return digest(nk(text)), (digest(" ".join(words)) if words else None), n, dels
+
+
 # ---------------------------------------------------------------- paths
 
 def rel(path):
@@ -572,11 +670,12 @@ def parse_split(data, split, expected=None):
 
 
 def load_test(path, sha256, size, expected=None):
-    """The only reader of test.csv. Returns ([(sid, label, digest)], errors).
+    """The only reader of test.csv. Returns ([(sid, label, digest, sim_keys)], errors).
 
     One read (the audit hook allows exactly one open while this runs), SHA-256 check
-    before parsing, texts reduced to SHA-256 digests; any exception is reported by
-    type only, its message suppressed.
+    before parsing, each text reduced to its exact-key digest and its similar-sentence
+    digests (sim_keys) here, so no text leaves this function; any exception is reported
+    by type only, its message suppressed.
     """
     _GUARD["test_reads"] = 1
     try:
@@ -585,7 +684,7 @@ def load_test(path, sha256, size, expected=None):
         if data is None:
             return [], errors
         parsed, perrors = parse_split(data, "test", expected)
-        return [(sid, label, digest(txt)) for sid, label, txt in parsed], errors + perrors
+        return [(sid, label, digest(txt), sim_keys(txt)) for sid, label, txt in parsed], errors + perrors
     except Exception as exc:
         return [], [f"D04 test.csv: {exc_name(exc)} while loading (message suppressed)"]
     finally:
@@ -710,8 +809,8 @@ def validate_review(data, train):
             ids = [t for t in tokens if t]  # empty tokens are R09
             lowered = [t.lower() for t in ids]
             why = []
-            if r["status"] == "confirmed" and len(ids) != 2:
-                why.append("confirmed needs exactly 2 member IDs")
+            if r["status"] == "confirmed" and not ids:
+                why.append("confirmed needs at least 1 member ID")
             if r["status"] == "proposed" and len(ids) > 1:
                 why.append("proposed allows at most 1 member ID")
             if len(set(lowered)) != len(lowered):
@@ -826,8 +925,8 @@ def build_test(test_digests, *, cleaned_train_digests, validation_digests, origi
                augmentation_digests=frozenset()):
     """test_clean (DATA-05): drop rows whose exact key is in cleaned train, augmentation or validation.
 
-    test_digests: [(sid, label, digest)] as returned by load_test (only the first and
-    last fields are used). One primary reason by precedence train_overlap >
+    test_digests: [(sid, label, digest, ...)] as returned by load_test (only the first and
+    third fields are used). One primary reason by precedence train_overlap >
     augmentation_overlap > validation_overlap. Returns (clean [(sid,)],
     excluded [(sid, reason)], overlap) where overlap holds non-exclusive row counts
     against original_train, cleaned_train, augmentation and validation.
@@ -838,7 +937,7 @@ def build_test(test_digests, *, cleaned_train_digests, validation_digests, origi
     clean, excluded = [], []
     overlap = Counter()
     for row in test_digests:
-        sid, dg = row[0], row[-1]
+        sid, dg = row[0], row[2]
         for key, pool in pools:
             overlap[key] += dg in pool
         reason = next((name for name, pool in sources if dg in pool), None)
@@ -879,11 +978,11 @@ def check_expected(counts, expected=EXPECTED):
 
 
 def check_invariants(train, validation, test, review_rows, lists):
-    """B03 invariants on the built lists (train/validation rows (sid, label, text), test rows (sid, label, digest))."""
+    """B03 invariants on the built lists (train/validation rows (sid, label, text), test rows (sid, label, digest, ...))."""
     errors = []
     tr = {sid: (label, text) for sid, label, text in train}
     va = {sid: (label, text) for sid, label, text in validation}
-    te = {sid: (label, dg) for sid, label, dg in test}
+    te = {sid: (label, dg) for sid, label, dg, *_ in test}
 
     def partition(split, src, clean, excl):
         c_ids, x_ids = [r[0] for r in lists[clean]], [r[0] for r in lists[excl]]
@@ -949,7 +1048,7 @@ def compute_audit(train, validation, test, partition_checks, cleaned_train_diges
     v_texts = [text for _, _, text in validation]
     train_set = set(t_texts)
     val_by_dg = {digest(text): label for _, label, text in validation}
-    over = [(label, val_by_dg[dg]) for _, label, dg in test if dg in val_by_dg]
+    over = [(label, val_by_dg[dg]) for _, label, dg, *_ in test if dg in val_by_dg]
     return {
         "train": {
             "exact_duplicate_extra_rows": len(t_texts) - len(train_set),
@@ -966,7 +1065,7 @@ def compute_audit(train, validation, test, partition_checks, cleaned_train_diges
             "cleaned_train_overlap_rows": sum(digest(t) in cleaned_train_digests for t in v_texts),
         },
         "test": {
-            "internal_exact_duplicate_rows": len(test) - len({dg for _, _, dg in test}),
+            "internal_exact_duplicate_rows": len(test) - len({r[2] for r in test}),
             "original_train_overlap_rows": overlap["original_train"],
             "cleaned_train_overlap_rows": overlap["cleaned_train"],
             "augmentation_overlap_rows": overlap["augmentation"],
@@ -976,6 +1075,103 @@ def compute_audit(train, validation, test, partition_checks, cleaned_train_diges
             "note": "exact key only; README normalised-key figures for test are not re-checked",
         },
     }
+
+
+# ---------------------------------------------------------------- similar sentences (README 3.2)
+
+def similar_pairs(subject, reference, edit=True):
+    """{(sid, other_sid): level} for subject x reference rows whose exact keys differ.
+
+    Rows are (sid, label, exact digest, sim_keys). Levels as in RULES["similar_levels"];
+    one_word_edit only with edit. A row never pairs with itself; for an internal scope pass
+    the same rows twice and keep sid < other_sid.
+    """
+    by_pk, by_sub, by_del, by_full = {}, {}, {}, {}
+    for sid, _, exact, (nkd, p, n, dels) in reference:
+        if p is None:
+            continue
+        by_pk.setdefault(p, []).append((sid, exact, nkd))
+        if edit and n >= MIN_EDIT_WORDS:
+            by_full.setdefault((n, p), []).append(sid)
+            for i, h in dels:
+                by_sub.setdefault((i, n, h), []).append((sid, p))
+                by_del.setdefault((n, h), []).append(sid)
+    pairs = {}
+    for sid, _, exact, (nkd, p, n, dels) in subject:
+        if p is None:
+            continue
+        for other, o_exact, o_nkd in by_pk.get(p, ()):
+            if o_exact != exact:
+                pairs[(sid, other)] = "normalised_key" if o_nkd == nkd else "punct_key"
+        if not edit or n < MIN_EDIT_WORDS:
+            continue
+        near = set(by_del.get((n + 1, p), ()))  # the other has one word more
+        for i, h in dels:
+            near.update(o for o, o_p in by_sub.get((i, n, h), ()) if o_p != p)  # word i substituted
+            near.update(by_full.get((n - 1, h), ()))  # the other has one word less
+        for other in near:
+            pairs[(sid, other)] = "one_word_edit"
+    return pairs
+
+
+def similar_check(train, validation, test, lists):
+    """Similar-sentence check (README 3.2). Returns (similar_pairs.csv rows, stats, errors).
+
+    train/validation rows (sid, label, text); test rows as returned by load_test (digests only).
+    stats[scope][level] holds ints: internal scopes groups / rows / label_disagree_groups for the B
+    levels (a punct_key group is one punct key over >= 2 normalised keys) and pairs /
+    label_disagree_pairs for one_word_edit; cross scopes rows (subject rows with >= 1 pair) / pairs /
+    label_disagree_pairs per level. errors: B08 for a train_clean B group with >= 2 labels.
+    """
+    items = {split: [(sid, label, digest(text), sim_keys(text)) for sid, label, text in rows]
+             for split, rows in (("train", train), ("validation", validation))}
+    items["test"] = list(test)
+    label = {r[0]: r[1] for rows in items.values() for r in rows}
+
+    def clean(split, stem):
+        ids = {r[0] for r in lists[stem]}
+        return [r for r in items[split] if r[0] in ids]
+
+    train_c, val_c, test_c = (clean("train", "train_clean"), clean("validation", "validation_clean"),
+                              clean("test", "test_clean_preaug"))
+    rows_out, stats, errors = [], {}, []
+    for scope, subject, reference, edit, listed in (
+            ("train_clean", train_c, None, True, SIM_LEVELS),
+            ("validation_clean", val_c, None, True, SIM_LEVELS),
+            ("validation_clean_vs_original_train", val_c, items["train"], True, SIM_LEVELS),
+            ("test_clean_preaug", test_c, None, False, SIM_LEVELS[:2]),
+            ("test_clean_preaug_vs_original_train", test_c, items["train"], True, SIM_LEVELS[:2]),
+            ("test_clean_preaug_vs_validation", test_c, items["validation"], True, SIM_LEVELS[:2])):
+        pairs = similar_pairs(subject, subject if reference is None else reference, edit)
+        if reference is None:
+            pairs = {k: v for k, v in pairs.items() if k[0] < k[1]}
+        rows_out += [(level, a, b) for (a, b), level in pairs.items() if level in listed]
+        by_level = {level: [k for k, v in pairs.items() if v == level] for level in SIM_LEVELS[:3 if edit else 2]}
+        if reference is not None:
+            stats[scope] = {level: {"rows": len({a for a, _ in ks}), "pairs": len(ks),
+                                    "label_disagree_pairs": sum(label[a] != label[b] for a, b in ks)}
+                            for level, ks in by_level.items()}
+            continue
+        by_nk, by_pk = {}, {}
+        for sid, _, _, (nkd, p, _, _) in subject:
+            if p is not None:
+                by_nk.setdefault(nkd, []).append(sid)
+                by_pk.setdefault(p, []).append((sid, nkd))
+        groups = {"normalised_key": [g for g in by_nk.values() if len(g) > 1],
+                  "punct_key": [[s for s, _ in g] for g in by_pk.values() if len({n for _, n in g}) > 1]}
+        mixed = {level: [g for g in gs if len({label[s] for s in g}) > 1] for level, gs in groups.items()}
+        stats[scope] = {level: {"groups": len(gs), "rows": sum(map(len, gs)),
+                                "label_disagree_groups": len(mixed[level])} for level, gs in groups.items()}
+        if edit:
+            ks = by_level["one_word_edit"]
+            stats[scope]["one_word_edit"] = {"pairs": len(ks),
+                                             "label_disagree_pairs": sum(label[a] != label[b] for a, b in ks)}
+        bad = {s for gs in mixed.values() for g in gs for s in g}
+        if scope == "train_clean" and bad:
+            errors.append(f"B08 train_clean: B group(s) (normalised or punct key) with >= 2 labels in rows "
+                          f"{fmt_ids(bad)}: human review needed (README 3.2); train_review.csv has no check "
+                          f"type for punct-key groups yet")
+    return sorted(rows_out, key=lambda r: (r[1], r[2])), stats, errors
 
 
 # ---------------------------------------------------------------- render + grammar
@@ -1008,9 +1204,13 @@ def check_grammar(name, data):
     bad = [str(i) for i, ln in enumerate(lines[1:], start=2) if not LINE_GRAMMAR[stem].fullmatch(ln)]
     if bad:
         errors.append(f"B04 {name}: {len(bad)} line(s) violate the grammar (first at line {bad[0]})")
-    sids = [ln.split(",")[0] for ln in lines[1:]]
+    if stem == SIMILAR:
+        sids = [tuple(ln.split(",")[1:3]) for ln in lines[1:]]
+    else:
+        sids = [ln.split(",")[0] for ln in lines[1:]]
     if any(not b > a for a, b in zip(sids, sids[1:])):
-        errors.append(f"B04 {name}: rows not strictly ascending by sentence_id")
+        errors.append(f"B04 {name}: rows not strictly ascending by sentence_id"
+                      + (", other_id" if stem == SIMILAR else ""))
     return errors
 
 
@@ -1023,7 +1223,7 @@ def write_outputs(target, files):
     tmps, current = [], "creating the target folder"
     try:
         target.mkdir(parents=True, exist_ok=True)
-        for name in [f"{stem}.csv" for stem in OUTPUTS] + [META]:
+        for name in [f"{stem}.csv" for stem in OUTPUTS + (SIMILAR,)] + [META]:
             current = f"removing a stale {name}.tmp"
             (target / (name + ".tmp")).unlink(missing_ok=True)
         current = f"deleting {META}"
@@ -1216,7 +1416,7 @@ def _run(args):
     if trial and not args.allow_proposed and not args.check:
         proposed = [r["sentence_id"] for r in review_rows if r["status"] == "proposed"]
         errors.append(f"R22 review has proposed rows {fmt_ids(proposed)}: confirm the review first (status "
-                      f"confirmed and two member IDs in confirmed_by on every row) and rerun for the official "
+                      f"confirmed and member ID(s) in confirmed_by on every row) and rerun for the official "
                       f"lists, or rerun with --allow-proposed for a trial list in <out-dir>/trial/ that must "
                       f"not be used for stage 2 or freeze-1")
     if errors:
@@ -1258,8 +1458,11 @@ def _build(src, review_rows, info, man, manifest_path, review_path, review_bytes
              "validation_clean": validation_clean, "validation_excluded": validation_excluded,
              "test_clean_preaug": test_clean, "test_excluded_preaug": test_excluded}
     errors = check_invariants(train, validation, test, review_rows, lists)
-    test_labels = {sid: label for sid, label, _ in test}
+    similar_rows, similar, errs = similar_check(train, validation, test, lists)
+    errors += errs
+    test_labels = {sid: label for sid, label, *_ in test}
     counts = count_lists(lists, test_labels, overlap)
+    counts.update({f"similar.{scope}": levels for scope, levels in similar.items()})
     errors += check_expected(counts)
     expected_check, partition = find_groups(train)
     audit = compute_audit(train, validation, test, [expected_check[next(iter(g))] for g in partition],
@@ -1272,8 +1475,12 @@ def _build(src, review_rows, info, man, manifest_path, review_path, review_bytes
     say(f"test overlap rows (non-exclusive): {fmt_counts(overlap, OVERLAP_KEYS)}; "
         f"validation overlap labels ({fmt_counts(audit['test']['validation_overlap_labels'], LABELS)}), "
         f"agree with validation: {audit['test']['validation_overlap_labels_agree']}")
+    for scope, levels in similar.items():
+        say(f"similar {scope}: " + "; ".join(f"{level} " + ", ".join(f"{k} {v}" for k, v in d.items())
+                                            for level, d in levels.items()))
 
     files = {f"{stem}.csv": render_csv(stem, lists[stem]) for stem in OUTPUTS}
+    files[f"{SIMILAR}.csv"] = render_csv(SIMILAR, similar_rows)
     src_counts = {s: Counter(r[1] for r in src[s]) for s in SPLITS}
 
     def label_counts(ids, split):
@@ -1316,6 +1523,7 @@ def _build(src, review_rows, info, man, manifest_path, review_path, review_bytes
         "rules": RULES,
         "splits": splits_meta,
         "audit": audit,
+        "similar": similar,
         "outputs": {name: {"rows": data.count(b"\n") - 1, "sha256": sha256_hex(data)} for name, data in files.items()},
     }
     files[META] = render_meta(meta)

@@ -1,0 +1,51 @@
+{
+  "eval_steps": [
+    100
+  ],
+  "evals": [
+    {
+      "improved": true,
+      "step": 100,
+      "validation": {
+        "f1": 0.9714285714285714,
+        "f1_exact": "34/35",
+        "fn": 48,
+        "fp": 11,
+        "fpr": 0.010476190476190476,
+        "fpr_exact": "11/1050",
+        "n": 2101,
+        "n_neg": 1050,
+        "n_pos": 1051,
+        "precision": 0.9891518737672583,
+        "precision_exact": "1003/1014",
+        "recall": 0.9543292102759277,
+        "recall_exact": "1003/1051",
+        "roc_auc": 0.9967541117303249,
+        "tn": 1039,
+        "tp": 1003
+      },
+      "validation_clean": {
+        "f1": 0.9714008725157538,
+        "f1_exact": "2004/2063",
+        "fn": 48,
+        "fp": 11,
+        "fpr": 0.010506208213944603,
+        "fpr_exact": "11/1047",
+        "n": 2097,
+        "n_neg": 1047,
+        "n_pos": 1050,
+        "precision": 0.9891411648568608,
+        "precision_exact": "1002/1013",
+        "recall": 0.9542857142857143,
+        "recall_exact": "167/175",
+        "roc_auc": 0.9967471687815527,
+        "tn": 1036,
+        "tp": 1002
+      }
+    }
+  ],
+  "run_id": "s1-deberta-smoke-s0",
+  "selected_step": 100,
+  "selection_rule": "validation_clean F1 max, then lower FPR, then earlier step (exact fractions)",
+  "threshold": 0.5
+}
