@@ -1,0 +1,133 @@
+{
+  "eval_steps": [
+    691,
+    1382,
+    2073
+  ],
+  "evals": [
+    {
+      "improved": true,
+      "step": 691,
+      "validation": {
+        "f1": 0.9687194525904204,
+        "f1_exact": "991/1023",
+        "fn": 60,
+        "fp": 4,
+        "fpr": 0.0038095238095238095,
+        "fpr_exact": "2/525",
+        "n": 2101,
+        "n_neg": 1050,
+        "n_pos": 1051,
+        "precision": 0.9959798994974874,
+        "precision_exact": "991/995",
+        "recall": 0.9429115128449096,
+        "recall_exact": "991/1051",
+        "roc_auc": 0.9988364822617914,
+        "tn": 1046,
+        "tp": 991
+      },
+      "validation_clean": {
+        "f1": 0.9686888454011742,
+        "f1_exact": "495/511",
+        "fn": 60,
+        "fp": 4,
+        "fpr": 0.0038204393505253103,
+        "fpr_exact": "4/1047",
+        "n": 2097,
+        "n_neg": 1047,
+        "n_pos": 1050,
+        "precision": 0.9959758551307847,
+        "precision_exact": "495/497",
+        "recall": 0.9428571428571428,
+        "recall_exact": "33/35",
+        "roc_auc": 0.9988320371128394,
+        "tn": 1043,
+        "tp": 990
+      }
+    },
+    {
+      "improved": true,
+      "step": 1382,
+      "validation": {
+        "f1": 0.9730250481695568,
+        "f1_exact": "505/519",
+        "fn": 41,
+        "fp": 15,
+        "fpr": 0.014285714285714285,
+        "fpr_exact": "1/70",
+        "n": 2101,
+        "n_neg": 1050,
+        "n_pos": 1051,
+        "precision": 0.9853658536585366,
+        "precision_exact": "202/205",
+        "recall": 0.9609895337773549,
+        "recall_exact": "1010/1051",
+        "roc_auc": 0.998234787730506,
+        "tn": 1035,
+        "tp": 1010
+      },
+      "validation_clean": {
+        "f1": 0.9729990356798457,
+        "f1_exact": "1009/1037",
+        "fn": 41,
+        "fp": 15,
+        "fpr": 0.014326647564469915,
+        "fpr_exact": "5/349",
+        "n": 2097,
+        "n_neg": 1047,
+        "n_pos": 1050,
+        "precision": 0.9853515625,
+        "precision_exact": "1009/1024",
+        "recall": 0.960952380952381,
+        "recall_exact": "1009/1050",
+        "roc_auc": 0.9982316823577568,
+        "tn": 1032,
+        "tp": 1009
+      }
+    },
+    {
+      "improved": false,
+      "step": 2073,
+      "validation": {
+        "f1": 0.9657869012707723,
+        "f1_exact": "988/1023",
+        "fn": 63,
+        "fp": 7,
+        "fpr": 0.006666666666666667,
+        "fpr_exact": "1/150",
+        "n": 2101,
+        "n_neg": 1050,
+        "n_pos": 1051,
+        "precision": 0.992964824120603,
+        "precision_exact": "988/995",
+        "recall": 0.9400570884871551,
+        "recall_exact": "988/1051",
+        "roc_auc": 0.9980898010964614,
+        "tn": 1043,
+        "tp": 988
+      },
+      "validation_clean": {
+        "f1": 0.9657534246575342,
+        "f1_exact": "141/146",
+        "fn": 63,
+        "fp": 7,
+        "fpr": 0.0066857688634192934,
+        "fpr_exact": "7/1047",
+        "n": 2097,
+        "n_neg": 1047,
+        "n_pos": 1050,
+        "precision": 0.9929577464788732,
+        "precision_exact": "141/142",
+        "recall": 0.94,
+        "recall_exact": "47/50",
+        "roc_auc": 0.9980843225542366,
+        "tn": 1040,
+        "tp": 987
+      }
+    }
+  ],
+  "run_id": "s2-bert-A-s2026",
+  "selected_step": 1382,
+  "selection_rule": "validation_clean F1 max, then lower FPR, then earlier step (exact fractions)",
+  "threshold": 0.5
+}

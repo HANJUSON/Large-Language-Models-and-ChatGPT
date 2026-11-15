@@ -21,3 +21,6 @@ runs/**/*.json text eol=lf
 
 # Keep training/evaluation configs LF so the config SHA-256 recorded in each run is reproducible.
 configs/** text eol=lf
+
+# Keep stage results LF so their bytes are the same on every checkout (scripts/summarize_s2.py output).
+results/** text eol=lf

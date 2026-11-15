@@ -1,0 +1,29 @@
+run s2-roberta-A-s123 attempt 1: lists official (data/processed, git tracked check True), N 2073, updates 2073, eval at [691, 1382, 2073]
+data: train 11050 rows, validation 2101 rows (2097 in_clean); tokens max train 114 validation 44, over 256: 0 / 0
+model FacebookAI/roberta-base@e2da8e2 loaded in 1.2s (124647170 parameters)
+update 103/2073 epoch 1 loss 0.3175 grad_norm 83.125 lr 1.902e-05 0.270s
+update 206/2073 epoch 1 loss 0.0036 grad_norm 0.494 lr 1.802e-05 0.243s
+update 309/2073 epoch 1 loss 0.7898 grad_norm 4.083 lr 1.703e-05 0.232s
+update 412/2073 epoch 1 loss 0.4086 grad_norm 6.641 lr 1.603e-05 0.237s
+update 515/2073 epoch 1 loss 0.1688 grad_norm 50.765 lr 1.504e-05 0.245s
+update 618/2073 epoch 1 loss 0.3717 grad_norm 6.934 lr 1.405e-05 0.236s
+eval step 691: validation_clean F1 0.9908960229995208 FPR 0.0028653295128939827 ROC-AUC 0.9995133487970165; validation F1 0.9909047391096218; 1.5s; improved, saving checkpoint
+update 721/2073 epoch 2 loss 0.2561 grad_norm 27.916 lr 1.305e-05 0.293s
+update 824/2073 epoch 2 loss 0.0006 grad_norm 0.033 lr 1.206e-05 0.239s
+update 927/2073 epoch 2 loss 0.0019 grad_norm 0.273 lr 1.107e-05 0.211s
+update 1030/2073 epoch 2 loss 0.3672 grad_norm 11.469 lr 1.007e-05 0.269s
+update 1133/2073 epoch 2 loss 0.0009 grad_norm 0.044 lr 9.079e-06 0.215s
+update 1236/2073 epoch 2 loss 0.0009 grad_norm 0.026 lr 8.085e-06 0.163s
+update 1339/2073 epoch 2 loss 0.0012 grad_norm 0.050 lr 7.091e-06 0.153s
+eval step 1382: validation_clean F1 0.9832775919732442 FPR 0.013371537726838587 ROC-AUC 0.9989584754627735; validation F1 0.9832935560859188; 1.3s
+update 1442/2073 epoch 3 loss 0.0005 grad_norm 0.012 lr 6.097e-06 0.151s
+update 1545/2073 epoch 3 loss 0.0003 grad_norm 0.008 lr 5.104e-06 0.169s
+update 1648/2073 epoch 3 loss 0.0002 grad_norm 0.005 lr 4.110e-06 0.151s
+update 1751/2073 epoch 3 loss 0.0004 grad_norm 0.011 lr 3.116e-06 0.153s
+update 1854/2073 epoch 3 loss 0.0004 grad_norm 0.032 lr 2.123e-06 0.144s
+update 1957/2073 epoch 3 loss 0.0003 grad_norm 0.009 lr 1.129e-06 0.146s
+update 2060/2073 epoch 3 loss 0.2949 grad_norm 12.708 lr 1.351e-07 0.146s
+update 2073/2073 epoch 3 loss 0.0004 grad_norm 0.024 lr 9.648e-09 0.129s
+eval step 2073: validation_clean F1 0.9837164750957854 FPR 0.010506208213944603 ROC-AUC 0.9989839450584437; validation F1 0.9837320574162679; 1.3s
+reload check: state_dict equal True, prediction flips 0, max |margin diff| 0, 3.0s
+peak memory allocated 2573313024 B, reserved 2881486848 B

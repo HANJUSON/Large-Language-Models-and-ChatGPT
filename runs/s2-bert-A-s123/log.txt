@@ -1,0 +1,29 @@
+run s2-bert-A-s123 attempt 1: lists official (data/processed, git tracked check True), N 2073, updates 2073, eval at [691, 1382, 2073]
+data: train 11050 rows, validation 2101 rows (2097 in_clean); tokens max train 110 validation 40, over 256: 0 / 0
+model google-bert/bert-base-uncased@86b5e09 loaded in 1.0s (109483778 parameters)
+update 103/2073 epoch 1 loss 0.1732 grad_norm 19.955 lr 1.902e-05 0.184s
+update 206/2073 epoch 1 loss 0.0126 grad_norm 4.737 lr 1.802e-05 0.186s
+update 309/2073 epoch 1 loss 0.7476 grad_norm 5.977 lr 1.703e-05 0.162s
+update 412/2073 epoch 1 loss 0.0029 grad_norm 0.171 lr 1.603e-05 0.211s
+update 515/2073 epoch 1 loss 0.0074 grad_norm 0.925 lr 1.504e-05 0.198s
+update 618/2073 epoch 1 loss 0.4433 grad_norm 2.089 lr 1.405e-05 0.154s
+eval step 691: validation_clean F1 0.9717073170731707 FPR 0.0038204393505253103 ROC-AUC 0.9968772456451539; validation F1 0.9717348927875243; 1.3s; improved, saving checkpoint
+update 721/2073 epoch 2 loss 0.0017 grad_norm 0.064 lr 1.305e-05 0.202s
+update 824/2073 epoch 2 loss 0.0063 grad_norm 4.723 lr 1.206e-05 0.186s
+update 927/2073 epoch 2 loss 0.0021 grad_norm 0.192 lr 1.107e-05 0.207s
+update 1030/2073 epoch 2 loss 0.0321 grad_norm 3.740 lr 1.007e-05 0.188s
+update 1133/2073 epoch 2 loss 0.0021 grad_norm 0.169 lr 9.079e-06 0.158s
+update 1236/2073 epoch 2 loss 0.0008 grad_norm 0.031 lr 8.085e-06 0.199s
+update 1339/2073 epoch 2 loss 0.5009 grad_norm 3.651 lr 7.091e-06 0.146s
+eval step 1382: validation_clean F1 0.9808612440191388 FPR 0.014326647564469915 ROC-AUC 0.9957465775230818; validation F1 0.9808795411089866; 1.3s; improved, saving checkpoint
+update 1442/2073 epoch 3 loss 0.0011 grad_norm 0.241 lr 6.097e-06 0.141s
+update 1545/2073 epoch 3 loss 0.0006 grad_norm 0.024 lr 5.104e-06 0.141s
+update 1648/2073 epoch 3 loss 0.0002 grad_norm 0.007 lr 4.110e-06 0.145s
+update 1751/2073 epoch 3 loss 0.0003 grad_norm 0.011 lr 3.116e-06 0.157s
+update 1854/2073 epoch 3 loss 0.0004 grad_norm 0.092 lr 2.123e-06 0.171s
+update 1957/2073 epoch 3 loss 0.0003 grad_norm 0.013 lr 1.129e-06 0.197s
+update 2060/2073 epoch 3 loss 0.3767 grad_norm 4.323 lr 1.351e-07 0.142s
+update 2073/2073 epoch 3 loss 0.0005 grad_norm 0.025 lr 9.648e-09 0.135s
+eval step 2073: validation_clean F1 0.9744824265767934 FPR 0.014326647564469915 ROC-AUC 0.9958047937417565; validation F1 0.9745069745069745; 1.3s
+reload check: state_dict equal True, prediction flips 0, max |margin diff| 0, 3.3s
+peak memory allocated 2286579200 B, reserved 2577399808 B

@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "readme": "README 4.2 (training settings), 6.1 (metrics), 7.1 (runs/ layout); read by scripts/train.py, no CLI overrides",
+  "max_length": 256,
+  "padding": "dynamic",
+  "inputs": ["input_ids", "attention_mask"],
+  "micro_batch": 4,
+  "grad_accum": 4,
+  "precision": "bf16",
+  "eval": {"batch": 64, "precision": "fp32"},
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 2e-05,
+    "betas": [0.9, 0.999],
+    "eps": 1e-08,
+    "weight_decay": 0.01,
+    "weight_decay_min_ndim": 2
+  },
+  "grad_clip_norm": 1.0,
+  "schedule": "linear decay to 0 over N updates, no warmup: LambdaLR max(0, (N - d) / N)",
+  "epochs": 3,
+  "expected_updates": 2073,
+  "threshold": 0.5,
+  "attn_implementation": "eager",
+  "determinism": {
+    "use_deterministic_algorithms": true,
+    "warn_only": false,
+    "cublas_workspace_config": ":4096:8",
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false,
+    "tf32": false
+  },
+  "seeds": [42, 123, 2026],
+  "smoke": {
+    "seed": 0,
+    "updates": 100,
+    "eval_at": [100],
+    "memory_limit_bytes": 7000000000,
+    "timing_skip": 5
+  }
+}

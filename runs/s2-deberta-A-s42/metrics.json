@@ -1,0 +1,133 @@
+{
+  "eval_steps": [
+    691,
+    1382,
+    2073
+  ],
+  "evals": [
+    {
+      "improved": true,
+      "step": 691,
+      "validation": {
+        "f1": 0.9782082324455206,
+        "f1_exact": "404/413",
+        "fn": 41,
+        "fp": 4,
+        "fpr": 0.0038095238095238095,
+        "fpr_exact": "2/525",
+        "n": 2101,
+        "n_neg": 1050,
+        "n_pos": 1051,
+        "precision": 0.9960552268244576,
+        "precision_exact": "505/507",
+        "recall": 0.9609895337773549,
+        "recall_exact": "1010/1051",
+        "roc_auc": 0.9987712382764713,
+        "tn": 1046,
+        "tp": 1010
+      },
+      "validation_clean": {
+        "f1": 0.9781871061560834,
+        "f1_exact": "2018/2063",
+        "fn": 41,
+        "fp": 4,
+        "fpr": 0.0038204393505253103,
+        "fpr_exact": "4/1047",
+        "n": 2097,
+        "n_neg": 1047,
+        "n_pos": 1050,
+        "precision": 0.9960513326752222,
+        "precision_exact": "1009/1013",
+        "recall": 0.960952380952381,
+        "recall_exact": "1009/1050",
+        "roc_auc": 0.9987665438668304,
+        "tn": 1043,
+        "tp": 1009
+      }
+    },
+    {
+      "improved": true,
+      "step": 1382,
+      "validation": {
+        "f1": 0.9790874524714829,
+        "f1_exact": "515/526",
+        "fn": 21,
+        "fp": 23,
+        "fpr": 0.021904761904761906,
+        "fpr_exact": "23/1050",
+        "n": 2101,
+        "n_neg": 1050,
+        "n_pos": 1051,
+        "precision": 0.9781576448243114,
+        "precision_exact": "1030/1053",
+        "recall": 0.9800190294957184,
+        "recall_exact": "1030/1051",
+        "roc_auc": 0.9982148520683249,
+        "tn": 1027,
+        "tp": 1030
+      },
+      "validation_clean": {
+        "f1": 0.9790675547098002,
+        "f1_exact": "1029/1051",
+        "fn": 21,
+        "fp": 23,
+        "fpr": 0.021967526265520534,
+        "fpr_exact": "23/1047",
+        "n": 2097,
+        "n_neg": 1047,
+        "n_pos": 1050,
+        "precision": 0.9781368821292775,
+        "precision_exact": "1029/1052",
+        "recall": 0.98,
+        "recall_exact": "49/50",
+        "roc_auc": 0.9982080320189204,
+        "tn": 1024,
+        "tp": 1029
+      }
+    },
+    {
+      "improved": true,
+      "step": 2073,
+      "validation": {
+        "f1": 0.9794159885112494,
+        "f1_exact": "2046/2089",
+        "fn": 28,
+        "fp": 15,
+        "fpr": 0.014285714285714285,
+        "fpr_exact": "1/70",
+        "n": 2101,
+        "n_neg": 1050,
+        "n_pos": 1051,
+        "precision": 0.9855491329479769,
+        "precision_exact": "341/346",
+        "recall": 0.9733587059942912,
+        "recall_exact": "1023/1051",
+        "roc_auc": 0.9984223641883014,
+        "tn": 1035,
+        "tp": 1023
+      },
+      "validation_clean": {
+        "f1": 0.9793962625778629,
+        "f1_exact": "2044/2087",
+        "fn": 28,
+        "fp": 15,
+        "fpr": 0.014326647564469915,
+        "fpr_exact": "5/349",
+        "n": 2097,
+        "n_neg": 1047,
+        "n_pos": 1050,
+        "precision": 0.9855351976856316,
+        "precision_exact": "1022/1037",
+        "recall": 0.9733333333333334,
+        "recall_exact": "73/75",
+        "roc_auc": 0.9984163369263656,
+        "tn": 1032,
+        "tp": 1022
+      }
+    }
+  ],
+  "run_id": "s2-deberta-A-s42",
+  "selected_step": 2073,
+  "selection_rule": "validation_clean F1 max, then lower FPR, then earlier step (exact fractions)",
+  "threshold": 0.5
+}

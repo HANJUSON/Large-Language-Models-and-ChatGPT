@@ -1,0 +1,181 @@
+{
+  "attempt": 1,
+  "budget": {
+    "N": 2073,
+    "epochs": 3,
+    "eval_steps": [
+      691,
+      1382,
+      2073
+    ],
+    "grad_accum": 4,
+    "micro_batch": 4,
+    "update_size": 16,
+    "updates_run": 2073
+  },
+  "checkpoint": {
+    "kept": true,
+    "path": "runs/s2-roberta-A-s2026/checkpoint/model.safetensors",
+    "reload_check": {
+      "max_abs_margin_diff": 0.0,
+      "passed": true,
+      "prediction_flips": 0,
+      "seconds": 3.036122899968177,
+      "state_dict_equal": true
+    },
+    "sha256": "6126a9a1f76710eb2ae9507f38836ce55858d941fdc0373d03ea0d0f044336ef",
+    "size": 498612960,
+    "step": 691
+  },
+  "code": {
+    "files_sha256_lf": {
+      "scripts/build_lists.py": "0986fc648f0b47b4293a22cf788734938820de10e12633ebd8e1c9d29087d028",
+      "scripts/data_lists.py": "9cf7f9e2ac8fba44858e0e26ad7f25104bf4937954fe686c43f9185b562b0368",
+      "scripts/eval_lib.py": "d809caf4e7ef106ecef142f6e642a3fcd8cce0a979f8b92a166817724e95fb04",
+      "scripts/model_specs.py": "cb240a2a0d9b9101fd55bd1652a26c64ff446beb5836dcbe56483f156e0d6d1a",
+      "scripts/train.py": "7c798340c387e2fd67ee46c053a1838d9364126ba56894c7a8d15eb7f8c29520"
+    },
+    "git_commit": "623e4f162dc9dd52198ae11d27a4488f084b8b34",
+    "git_dirty": [],
+    "git_dirty_other_count": 2
+  },
+  "condition": "A",
+  "config": {
+    "copy": "runs/s2-roberta-A-s2026/config.json",
+    "path": "configs/train.json",
+    "sha256": "9ca0d0372205edc90e01a9b4ad91b820ef37edd0597d96e364b7575adb72de4f"
+  },
+  "data": {
+    "train_rows": 11050,
+    "truncation": {
+      "train": {
+        "max_length": 256,
+        "max_tokens": 114,
+        "median_tokens": 12.0,
+        "rows": 11050,
+        "rows_over_max_length": 0
+      },
+      "validation": {
+        "max_length": 256,
+        "max_tokens": 44,
+        "median_tokens": 10,
+        "rows": 2101,
+        "rows_over_max_length": 0
+      }
+    },
+    "validation_clean_rows": 2097,
+    "validation_rows": 2101
+  },
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "float32_matmul_precision": "highest",
+    "fp32_precision": {
+      "cuda_matmul": "ieee",
+      "cudnn_conv": "ieee",
+      "cudnn_rnn": "ieee",
+      "global": "ieee"
+    },
+    "nondeterministic_warnings": [],
+    "use_deterministic_algorithms": true,
+    "warn_only": false
+  },
+  "env": {
+    "cuda": "13.0",
+    "cudnn": 92400,
+    "gpu": {
+      "capability": [
+        12,
+        0
+      ],
+      "driver": "610.88",
+      "name": "NVIDIA GeForce RTX 5060",
+      "total_memory_bytes": 8546484224
+    },
+    "huggingface_hub": "2.4.0",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.3",
+    "requirements_sha256": "19408fb3dc10eceacfc939e864b74988ecce77d375b9902778e3f814d2888b57",
+    "safetensors": "0.8.0",
+    "scikit_learn": "1.9.1",
+    "tokenizers": "0.23.3",
+    "torch": "2.14.1+cu130",
+    "transformers": "5.22.2"
+  },
+  "failure": null,
+  "finished_utc": "2026-11-15T14:46:11Z",
+  "lists": {
+    "build_lists_check": "passed",
+    "build_lists_sha256_lf": "0986fc648f0b47b4293a22cf788734938820de10e12633ebd8e1c9d29087d028",
+    "dataset_revision": "002a9dd18514abd021869823d6b0429b38606d99",
+    "dir": "data/processed",
+    "files_sha256": {
+      "test_clean_preaug.csv": "7915f168ee6c6848f0eba6d13824f6ace5fbe80b5a4e8b1730df7ca998ab4aa4",
+      "test_excluded_preaug.csv": "1259e8b25dffa44b8b35dfc2f9187267bef28d5c19df3fa0343f57c75b391b2a",
+      "train_clean.csv": "1dbb9244b99eca35ae65608f994dc1aa8f1901e950e19af979cd59ee586b6ca3",
+      "train_excluded.csv": "141659b27a306789510f254b77685a8c6f5e449490792f60d6025cf58d55293b",
+      "validation_clean.csv": "d0a669d85f5307cfc461fbb88192c83ff5ee84ba519f22ba7bbe76ee1513c626",
+      "validation_excluded.csv": "bb17ceb728ac292e39ac2dd0f237610ee9119a77d35dd31930f1e6ff6a8bb072"
+    },
+    "git_tracked_checked": true,
+    "lists_meta_sha256": "7d4dee90483969ab94b78e23ffe4bc524aa072d472eb65a25e1cc7c80dcfb28a",
+    "mode": "official",
+    "review_sha256": "193e3bcd438661c4662a9e487b22f89287dcac0df25697e3bf0e1bcd96b754cd",
+    "train_clean_rows": 11050
+  },
+  "model": {
+    "attn_implementation": "eager",
+    "key": "roberta",
+    "parameters": 124647170,
+    "precision": "bf16",
+    "repo": "FacebookAI/roberta-base",
+    "revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "tokenizer_fingerprint": "0f49de6c1aae4b1b86b2badcb8000545cbb34cf6399caebbe84d76ccb636cb0e",
+    "weights": {
+      "file": "model.safetensors",
+      "sha256": "5bde1d28afb363d0103324efeb5afc8b2b397fe5e04beabb9b1ef355255ade81",
+      "size": 498818054
+    }
+  },
+  "model_key": "roberta",
+  "optimizer": {
+    "decay_elements": 124525056,
+    "decay_tensors": 77,
+    "foreach": null,
+    "fused": null,
+    "no_decay_elements": 122114,
+    "no_decay_tensors": 124
+  },
+  "resources": {
+    "eval_s": [
+      1.3693453000159934,
+      1.2907236000173725,
+      1.2868041999754496
+    ],
+    "load_s": 1.1232161999796517,
+    "memory_window": "torch.cuda.max_memory_allocated / max_memory_reserved after reset_peak_memory_stats right after CUDA init; covers tokenizer, model load, all updates and evals; read before the reload check",
+    "peak_memory_allocated_bytes": 2572739584,
+    "peak_memory_reserved_bytes": 2881486848,
+    "reload_s": 3.036122899968177,
+    "save_s": [
+      0.7048024000250734
+    ],
+    "time_window": "per update: wall time of one optimizer update (all micro-batches, clip, step, schedule) between cuda.synchronize calls; evals, saves and logging excluded",
+    "update_seconds_median": 0.16826050000963733,
+    "update_seconds_total": 361.36906690028263
+  },
+  "run_id": "s2-roberta-A-s2026",
+  "schema": 1,
+  "seed": 2026,
+  "selection": {
+    "saved_steps": [
+      691
+    ],
+    "selected_step": 691
+  },
+  "stage": "s2",
+  "started_utc": "2026-11-15T14:39:53Z",
+  "status": "completed",
+  "wall_s": 377.9524137999979
+}
