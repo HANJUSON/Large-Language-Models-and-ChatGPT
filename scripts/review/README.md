@@ -12,3 +12,11 @@
 | `exp02_merge_review.py <저장소>` | 검수 세션 출력을 검사하고 `data/error_review/review.csv`를 쓴다 |
 
 묶음 파일과 검수 세션 출력은 문장을 담고 있어 git에서 제외한다(`view/`).
+
+## 4단계 증강 사례 검수 (2026-11-17)
+
+| 파일 | 쓰임 |
+| --- | --- |
+| `aug_make_batches.py <저장소> a1-` | `data/cases/train/cases.csv`·`review.csv`에서 검수 대기인 배정 사례를 유형별 묶음 파일(`data/cases/train/view/llm_review/in/a1-NN.md`, `.ids`)로 쓴다. train 원문은 `data_lists`로 읽는다 |
+| `aug_launch_review.ps1 -Round a1` | 증강 사례 검수 세션 실행(지시서 `data/cases/train/prompts/aug_review_v1.md`, 허용·금지 도구 포함). 새 창은 3단계와 같은 `wt.exe` 명령으로 열었다 |
+| `aug_merge_review.py <저장소> a1 [--write]` | 검수 세션 출력(`out/a1-NN.json`)의 형식을 검사하고 `data/cases/train/review.csv`에 옮긴다. 그 뒤 `scripts/build_train_aug.py`를 실행한다 |

@@ -8,6 +8,7 @@ Run from Git Bash at the repo root:
 """
 import contextlib
 import copy
+import csv
 import hashlib
 import io
 import json
@@ -137,6 +138,28 @@ class TestBudgetAndPlan(unittest.TestCase):
         self.assertEqual([len(b) for b in plan[2][1]], [4, 4])
         plan = train.epoch_plan(11050, 691, 0, 16, 2)  # OOM fallback 2 x 8
         self.assertEqual([len(b) for b in plan[-1][1]], [2, 2, 2, 2, 2])
+
+    def test_condition_c_plan_keeps_n(self):
+        """11,050 train_clean + 1,700 augmentation rows: N and the eval steps still come from 11,050 (IMP-02)."""
+        clean, aug = 11050, 1700
+        n = train.budget(clean, 3)
+        self.assertEqual(n, 2073)
+        self.assertEqual(train.budget(clean + aug, 3), 2391)  # 3 * ceil(12750 / 16): what N must NOT become
+        self.assertEqual(train.eval_steps(n), [691, 1382, 2073])
+        plan = train.epoch_plan(clean + aug, n, 42)
+        self.assertEqual(len(plan), 2073)
+        # 12750 = 796 * 16 + 14 -> 797 updates per epoch; 2073 - 2 * 797 = 479 updates of epoch 3
+        self.assertEqual([sum(ep == e for ep, _ in plan) for e in (1, 2, 3, 4)], [797, 797, 479, 0])
+        for e in (1, 2):
+            ups = [mb for ep, mb in plan if ep == e]
+            self.assertEqual([sum(len(b) for b in u) for u in ups], [16] * 796 + [14])
+            idx = [i for u in ups for b in u for i in b]
+            self.assertEqual(sorted(idx), list(range(clean + aug)))  # clean and augmentation rows, once each
+        last = [i for ep, mb in plan if ep == 3 for b in mb for i in b]
+        self.assertEqual((len(last), len(set(last))), (479 * 16, 479 * 16))  # epoch 3 stops at N: 7,664 rows
+        self.assertTrue(any(i >= clean for i in last) and any(i < clean for i in last))
+        # the first 11,050 indices are the train_clean rows of condition A, but the permutation differs from A's
+        self.assertNotEqual(train.epoch_plan(clean, n, 42)[0], plan[0])
 
 
 class TestOptimizerAndSchedule(unittest.TestCase):
@@ -451,6 +474,29 @@ class TestTinyLoop(unittest.TestCase):
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
+    def test_appended_rows_keep_n_and_eval_steps(self):
+        """Condition C shape: 50 rows + 30 appended rows, N still 3 * ceil(50 / 16) = 12 (README IMP-02)."""
+        tr_ids, tr_y, _ = synthetic(50, 1)
+        au_ids, au_y, _ = synthetic(30, 3)
+        va_ids, va_y, va_clean = synthetic(30, 2, clean_skip=(3, 8))
+        data = {"train_ids": tr_ids + au_ids, "train_labels": tr_y + au_y, "val_ids": va_ids, "val_labels": va_y,
+                "val_in_clean": va_clean}
+        cfg = copy.deepcopy(CFG)
+        cfg["optimizer"]["lr"] = 5e-4
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            res = self.run_fit(tmp / "c", data, cfg)
+            self.assertEqual(len(res["log"]), 12)  # not 3 * ceil(80 / 16) = 15
+            self.assertEqual([r["epoch"] for r in res["log"]], [1] * 5 + [2] * 5 + [3] * 2)  # 80 / 16 = 5 per epoch
+            self.assertEqual([r["examples"] for r in res["log"]], [16] * 12)
+            self.assertEqual([e["step"] for e in res["evals"]], [4, 8, 12])  # the same eval steps as 50 rows
+            for u in (1, 5, 12):  # the schedule decays over N = 12 updates: lr * (N - u + 1) / N
+                self.assertTrue(math.isclose(res["log"][u - 1]["lr"], 5e-4 * (12 - u + 1) / 12, rel_tol=1e-12), u)
+            used = {i for _, mbs in train.epoch_plan(80, 12, 7)[:5] for b in mbs for i in b}
+            self.assertEqual(used, set(range(80)))  # epoch 1 covers the appended rows 50..79 too
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
 
 class TestCheckpointGuards(unittest.TestCase):
     def setUp(self):
@@ -750,6 +796,23 @@ class TestRerunDiff(unittest.TestCase):
         (self.prev / "run.json").write_text("{", encoding="ascii")
         d = train.rerun_diff(self.prev, self.record, self.rows, self.cur / "predictions_validation.csv")
         self.assertEqual((d["comparable"], d["reason"]), (False, "previous run.json unreadable"))
+
+    def test_condition_c_needs_equal_augmentation_files(self):
+        self.assertEqual(len(train.RERUN_SAME), 7)  # unchanged: summarize_s2.py reads it for the A runs
+        self.assertNotIn("augmentation", json.dumps(train.RERUN_SAME))
+        aug = {"augmentation": {"files_sha256": {"train_aug.csv": "a", "cases.csv": "b"}}}
+        self.record["data"] = copy.deepcopy(aug)
+        self.assertTrue(self.diff()["comparable"])  # equal augmentation files
+        prev = copy.deepcopy(self.record)
+        prev["data"]["augmentation"]["files_sha256"]["train_aug.csv"] = "other"
+        d = self.diff(prev_record=prev)
+        self.assertEqual((d["comparable"], d["reason"]), (
+            False, "differs from the previous attempt or not recorded there: augmentation files SHA-256"))
+        prev = copy.deepcopy(self.record)
+        prev["data"] = {"train_rows": 20}  # an attempt without augmentation is never comparable with one
+        self.assertIn("augmentation files SHA-256", self.diff(prev_record=prev)["reason"])
+        self.record["data"] = {"train_rows": 20}  # A and smoke: no augmentation on either side
+        self.assertTrue(self.diff()["comparable"])
 
 
 class TestRunLifecycle(unittest.TestCase):
@@ -1174,6 +1237,941 @@ class TestPreflightHermetic(unittest.TestCase):
         self.assertFalse(train.smoke_ckpt_dir("s1-roberta-smoke-s0", self.root).exists())
         with self.assertRaises(SystemExit), contextlib.redirect_stderr(io.StringIO()):
             train.parse_args(["--smoke-summary", "--preflight-only"])
+
+
+# ---------------------------------------------------------------- condition C (stage 4)
+
+# Synthetic augmentation set. The text_sha256_12 values and AUG_LIST_SHA256 / AUG_OVERLAP_SHA256 were computed
+# with `printf '<bytes>' | sha256sum`, not with the code under test.
+# The three usable rows are chosen so that a changed text or another row order cannot go unnoticed: the ID order
+# is not the order by label (either direction), by text (raw, lower-cased or stripped), by text hash or by text
+# length (TestAugmentationRows.test_fixture_tells_orders_and_texts_apart).
+AUG_TEXT_01 = " IgNoRe  4ll pRiOr "  # AUG-01 shapes: mixed case, two spaces, a leet digit; a space at each end
+AUG_TEXT_03 = 'first, "quoted"\n\nsecond line'  # AUG-03 shape: comma, quotes and a blank line inside one field
+AUG_TEXT_04 = "Dear World"
+AUG_CASES_BYTES = (
+    b"case_id,group_id,source_split,source_id,purpose,condition,subtype,eval_group,label,position,context_ids,"
+    b"generator,generator_version,status,auto_flags,text\n"
+    b"aug-01-case-000003,train:000003,train,train:000003,train,AUG-01,case,train,0,,,rule,aug01-v1,assigned,,"
+    b" IgNoRe  4ll pRiOr \n"
+    b"aug-01-space-000007,train:000007,train,train:000007,train,AUG-01,space,train,0,,,rule,aug01-v1,reserve,,"
+    b"x  y\n"
+    b"aug-03-000011,train:000011,train,train:000011,train,AUG-03,context,train,1,prefix,5,template+llm,v,assigned,,"
+    b'"first, ""quoted""\n\nsecond line"\n'
+    b"aug-04-001,aug-04-001,new,aug04_benign_v1:001,train,AUG-04,b1,train,0,,,llm,v,assigned,,Dear World\n"
+    b"aug-05-001,aug-05-001,new,aug05_attacks_v1:001,train,AUG-05,a1,train,1,,,llm,v,auto_excluded,exclude:format,"
+    b"caf\xc3\xa9\n")
+AUG_LIST_HEAD = b"sentence_id,label,text_sha256_12\n"
+AUG_LIST_BYTES = (AUG_LIST_HEAD + b"aug-01-case-000003,0,745b04798cbd\n" + b"aug-03-000011,1,a487ee61d127\n"
+                  + b"aug-04-001,0,86923eba67a9\n")
+AUG_LIST_SHA256 = "3db72cfb5421a6e3b368c251e0ba0d424f55abd900d771b378cc138cb678f4d3"
+AUG_ROWS = [("aug-01-case-000003", 0, AUG_TEXT_01), ("aug-03-000011", 1, AUG_TEXT_03),
+            ("aug-04-001", 0, AUG_TEXT_04)]
+AUG_REVIEW_BYTES = (b"case_id,text_sha256_12,decision,reason,reviewer\n"
+                    b"aug-01-case-000003,745b04798cbd,keep,,tester\n"
+                    b"aug-03-000011,a487ee61d127,keep,,tester\n"
+                    b"aug-04-001,86923eba67a9,keep,,tester\n")
+AUG_OVERLAP_BYTES = b'{"schema": 1}\n'
+AUG_OVERLAP_SHA256 = "15864c015e873e139dad34ab4d217e1209db9b041d8fabd7c9e8e415e2dc477a"
+AUG_DIR = "data/cases/train"
+AUG_RELS = [f"{AUG_DIR}/{n}" for n in ("cases.csv", "review.csv", "train_aug.csv", "cases_meta.json",
+                                       "test_overlap.json")] + ["scripts/build_train_aug.py"]
+# build_train_aug.py stand-ins for temp repos. The first exits 0 only for exactly `--check` run from the repo root.
+STANDIN_BUILD_TRAIN_AUG = (
+    b"import os, sys\n"
+    b"root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\n"
+    b"sys.exit(0 if sys.argv[1:] == ['--check'] and os.path.samefile(os.getcwd(), root) else 3)\n")
+FAILING_BUILD_TRAIN_AUG = (b"import sys\n"
+                           b"print('FAIL K01 --check: cases.csv differs from the rebuilt bytes')\n"
+                           b"print('refused: 1 error(s); nothing written')\n"
+                           b"sys.exit(1)\n")
+CHECK_FAILED = ("P13 scripts/build_train_aug.py --check exit 1: FAIL K01 --check: cases.csv differs from the "
+                "rebuilt bytes")
+# Fails with nine FAIL lines: one with a byte that is not ASCII, then eight of 5,009 characters each.
+NOISY_BUILD_TRAIN_AUG = (b"import sys\n"
+                         b"sys.stdout.buffer.write(b'FAIL K00 \\xff byte\\n')\n"
+                         b"for n in range(1, 9):\n"
+                         b"    sys.stdout.buffer.write(b'FAIL K0%d ' % n + b'x' * 5000 + b'\\n')\n"
+                         b"sys.exit(2)\n")
+
+
+def make_aug_files(root, *, files=None, edit=None, script=STANDIN_BUILD_TRAIN_AUG):
+    """Synthetic augmentation set under root: data/cases/train/ and scripts/build_train_aug.py (script=None: no
+    script). files replaces file bytes by name, edit(meta) changes the cases_meta.json dict before it is written.
+    Returns {name: bytes} of the five data files."""
+    out = {"cases.csv": AUG_CASES_BYTES, "review.csv": AUG_REVIEW_BYTES, "train_aug.csv": AUG_LIST_BYTES,
+           "test_overlap.json": AUG_OVERLAP_BYTES, **(files or {})}
+    meta = {"schema": 1, "ready_for_training": True, "review": {"pending": 0, "keep": 3, "exclude": 0},
+            "test_overlap": {"status": "applied"},
+            "script": {"path": "scripts/build_train_aug.py",
+                       "sha256_lf": sha((script or b"").replace(b"\r\n", b"\n"))},
+            "outputs": {n: {"rows": out[n].count(b"\n") - 1, "sha256": sha(out[n])}
+                        for n in ("cases.csv", "review.csv", "train_aug.csv")}}
+    if edit is not None:
+        edit(meta)
+    out.setdefault("cases_meta.json", (json.dumps(meta, indent=2, sort_keys=True) + "\n").encode("ascii"))
+    (root / AUG_DIR).mkdir(parents=True, exist_ok=True)
+    for n, b in out.items():
+        (root / AUG_DIR / n).write_bytes(b)
+    if script is not None:
+        (root / "scripts").mkdir(exist_ok=True)
+        (root / "scripts" / "build_train_aug.py").write_bytes(script)
+    return out
+
+
+class TestConditionIdentity(unittest.TestCase):
+    def test_run_identity(self):
+        ns = types.SimpleNamespace
+        self.assertEqual((train.CONDITIONS, train.STAGE_OF), (("A", "C"), {"A": "s2", "C": "s4"}))
+        self.assertEqual(train.run_identity(ns(model="roberta", smoke=False, seed=123, condition="C"), CFG),
+                         ("s4", "C", 123, "s4-roberta-C-s123"))
+        self.assertEqual(train.run_identity(ns(model="roberta", smoke=False, seed=123, condition="A"), CFG),
+                         ("s2", "A", 123, "s2-roberta-A-s123"))
+        self.assertEqual(train.run_identity(ns(model="bert", smoke=False, seed=42), CFG),
+                         ("s2", "A", 42, "s2-bert-A-s42"))  # no condition attribute: A, as before stage 4
+        for smoke in (ns(model="bert", smoke=True, seed=None), ns(model="bert", smoke=True, seed=None, condition="A")):
+            self.assertEqual(train.run_identity(smoke, CFG), ("s1", "smoke", 0, "s1-bert-smoke-s0"))
+        for bad in (ns(model="bert", smoke=True, seed=None, condition="C"),  # never a smoke run of C
+                    ns(model="bert", smoke=False, seed=42, condition="B"),
+                    ns(model="bert", smoke=False, seed=42, condition="D"),
+                    ns(model="bert", smoke=False, seed=42, condition="c"),
+                    ns(model="bert", smoke=False, seed=42, condition="smoke"),
+                    ns(model="bert", smoke=False, seed=42, condition=None)):
+            with self.assertRaises(ValueError):
+                train.run_identity(bad, CFG)
+
+    def test_cli(self):
+        a = train.parse_args(["--model", "roberta", "--seed", "42"])
+        self.assertEqual((a.condition, a.smoke, a.seed), ("A", False, 42))
+        a = train.parse_args(["--model", "roberta", "--seed", "42", "--condition", "C"])
+        self.assertEqual((a.condition, a.smoke, a.seed, a.lists), ("C", False, 42, "official"))
+        self.assertEqual(train.run_identity(a, CFG)[3], "s4-roberta-C-s42")
+        self.assertEqual(train.parse_args(["--model", "bert", "--smoke"]).condition, "A")
+        self.assertEqual(train.parse_args(["--model", "bert", "--smoke", "--condition", "A"]).condition, "A")
+        self.assertTrue(train.parse_args(["--smoke-summary"]).smoke_summary)
+        for argv, message in ((["--model", "bert", "--smoke", "--condition", "C"],
+                               "--condition C is not allowed with --smoke"),
+                              (["--model", "bert", "--seed", "42", "--condition", "B"], "invalid choice: 'B'"),
+                              (["--model", "bert", "--seed", "42", "--condition", "D"], "invalid choice: 'D'"),
+                              (["--smoke-summary", "--condition", "C"], "--smoke-summary takes no other option")):
+            err = io.StringIO()
+            with self.assertRaises(SystemExit) as cm, contextlib.redirect_stderr(err):
+                train.parse_args(argv)
+            self.assertEqual(cm.exception.code, 2, argv)
+            self.assertIn(message, err.getvalue())
+
+    def test_preflight_refuses_condition_before_anything_else(self):
+        ns = types.SimpleNamespace
+        nowhere = Path(tempfile.gettempdir()) / "no-such-repo-for-train-tests"
+        errors, ctx = train.preflight(ns(model="bert", smoke=True, seed=None, lists="trial", rerun=False,
+                                         condition="C"), CFG, nowhere)
+        self.assertEqual((errors, ctx), (["P03 --condition C is not allowed with --smoke (a smoke run is stage 1 "
+                                          "on the common lists only)"], None))
+        errors, ctx = train.preflight(ns(model="bert", smoke=False, seed=42, lists="official", rerun=False,
+                                         condition="B"), CFG, nowhere)
+        self.assertEqual((errors, ctx), (["P03 condition 'B' is not one of A, C (README 5.3: B and D reuse the A "
+                                          "and C checkpoints)"], None))
+
+
+class TestAugmentationRows(unittest.TestCase):
+    """join_augmentation / load_augmentation on synthetic bytes."""
+
+    def refused(self, cases=AUG_CASES_BYTES, listed=AUG_LIST_BYTES):
+        with self.assertRaises(data_lists.ListError) as cm:
+            train.join_augmentation(cases, listed)
+        return cm.exception.errors
+
+    def test_rows_in_list_order(self):
+        rows = train.join_augmentation(AUG_CASES_BYTES, AUG_LIST_BYTES)
+        # labels as int; every text exactly as written: letter case, inner and edge spaces of the AUG-01 text,
+        # the blank line and the quotes of the AUG-03 text
+        self.assertEqual(rows, AUG_ROWS)
+        self.assertEqual(rows, [("aug-01-case-000003", 0, " IgNoRe  4ll pRiOr "),
+                                ("aug-03-000011", 1, 'first, "quoted"\n\nsecond line'),
+                                ("aug-04-001", 0, "Dear World")])
+        self.assertEqual(train.label_counts(rows), {"0": 2, "1": 1})
+        self.assertEqual(train.label_counts([]), {"0": 0, "1": 0})
+        one = AUG_LIST_HEAD + b"aug-03-000011,1,a487ee61d127\n"  # only listed cases are used
+        self.assertEqual(train.join_augmentation(AUG_CASES_BYTES, one), [AUG_ROWS[1]])
+        # cases.csv is read by column name: another column order and an extra column give the same rows
+        recs = list(csv.reader(io.StringIO(AUG_CASES_BYTES.decode("utf-8"), newline="")))
+        self.assertEqual([len(r) for r in recs], [16] * 6)
+        moved = io.StringIO(newline="")
+        w = csv.writer(moved, lineterminator="\n")
+        for i, r in enumerate(recs):
+            w.writerow([r[15], "note" if i == 0 else "extra"] + r[:15])
+        self.assertEqual(train.join_augmentation(moved.getvalue().encode("utf-8"), AUG_LIST_BYTES), AUG_ROWS)
+
+    def test_fixture_tells_orders_and_texts_apart(self):
+        """The fixture itself: a join that sorted the rows or changed a text could not return AUG_ROWS."""
+        ids = [r[0] for r in AUG_ROWS]
+        self.assertEqual(ids, sorted(ids))  # train_aug.csv order is the ID order
+        self.assertEqual(ids, [ln.split(b",")[0].decode("ascii") for ln in AUG_LIST_BYTES.split(b"\n")[1:-1]])
+        for name, key in (("label", lambda r: r[1]), ("text", lambda r: r[2]),
+                          ("lower-cased text", lambda r: r[2].lower()), ("upper-cased text", lambda r: r[2].upper()),
+                          ("stripped text", lambda r: r[2].strip()), ("text length", lambda r: len(r[2])),
+                          ("text hash", lambda r: sha(r[2].encode("utf-8")))):
+            for reverse in (False, True):  # sorted() is stable: neither direction leaves the rows in ID order
+                self.assertNotEqual([r[0] for r in sorted(AUG_ROWS, key=key, reverse=reverse)], ids, (name, reverse))
+        for name, change in (("lower", str.lower), ("upper", str.upper), ("strip", str.strip),
+                             ("lstrip", str.lstrip), ("rstrip", str.rstrip),
+                             ("two spaces to one", lambda t: t.replace("  ", " ")),
+                             ("white space collapsed", lambda t: " ".join(t.split())),
+                             ("LF to CRLF", lambda t: t.replace("\n", "\r\n")),
+                             ("leet digit undone", lambda t: t.replace("4", "a"))):
+            changed = [r[0] for r in AUG_ROWS if change(r[2]) != r[2]]
+            self.assertTrue(changed, name)
+        self.assertEqual([r[0] for r in AUG_ROWS if r[2].lower() != r[2]], [ids[0], ids[2]])
+        self.assertEqual([r[0] for r in AUG_ROWS if r[2].strip() != r[2]], [ids[0]])
+
+    def test_list_refusals(self):
+        r1, r3, r4 = (ln + b"\n" for ln in AUG_LIST_BYTES.split(b"\n")[1:4])
+        j00 = ["J00 train_aug.csv: header or final LF differs"]
+        j06 = ["J06 train_aug.csv: the header is not sentence_id,label,text_sha256_12 or a row does not have 3 "
+               "fields"]
+        for listed, want in (
+                (AUG_LIST_BYTES[:-1], j00),
+                (AUG_LIST_BYTES.replace(b"sentence_id", b"case_id"), j00),
+                (b"", j00),
+                (AUG_LIST_BYTES.replace(b"_12\n", b"_12,reason\n"), j06),
+                (AUG_LIST_BYTES.replace(b"\n", b"\r\n"), j06),  # CRLF checkout
+                (AUG_LIST_HEAD + r1[:-1] + b",x\n", j06),
+                (AUG_LIST_HEAD + b"aug-01-case-000003,0\n", j06),
+                (AUG_LIST_HEAD + r1 + b"\n" + r3, j06),  # blank line
+                (AUG_LIST_HEAD + b"aug-01-case-00000\xc3\xa9,0,745b04798cbd\n", ["J06 train_aug.csv: not ASCII"]),
+                (AUG_LIST_HEAD, ["J08 train_aug.csv: no rows (condition C needs augmentation rows)"]),
+                (AUG_LIST_HEAD + r3 + r1, ["J01 train_aug.csv: IDs not strictly ascending at aug-01-case-000003"]),
+                (AUG_LIST_HEAD + r4 + r4, ["J01 train_aug.csv: IDs not strictly ascending at aug-04-001"]),
+                (AUG_LIST_HEAD + b"aug-04-002,0,86923eba67a9\n",
+                 ["J02 train_aug.csv: aug-04-002 is not a row of the split"]),
+                (AUG_LIST_HEAD + b"aug-04-001,1,86923eba67a9\n",
+                 ["J03 train_aug.csv: aug-04-001 label differs from the raw split"]),
+                (AUG_LIST_HEAD + b"aug-03-000011,0,a487ee61d127\n",
+                 ["J03 train_aug.csv: aug-03-000011 label differs from the raw split"]),
+                (AUG_LIST_HEAD + b"aug-04-001,0,86923eba67aa\n",
+                 ["J04 train_aug.csv: aug-04-001 text_sha256_12 differs from the raw text"]),
+                # the hash of the lower-cased or of the stripped AUG-01 text is not the hash of the text
+                (AUG_LIST_HEAD + f"aug-01-case-000003,0,{sha(b' ignore  4ll prior ')[:12]}\n".encode("ascii"),
+                 ["J04 train_aug.csv: aug-01-case-000003 text_sha256_12 differs from the raw text"]),
+                (AUG_LIST_HEAD + f"aug-01-case-000003,0,{sha(b'IgNoRe  4ll pRiOr')[:12]}\n".encode("ascii"),
+                 ["J04 train_aug.csv: aug-01-case-000003 text_sha256_12 differs from the raw text"]),
+                # a reserve case and an automatically excluded case (hashes of their texts) are not usable
+                (AUG_LIST_HEAD + f"aug-01-space-000007,0,{sha(b'x  y')[:12]}\n".encode("ascii"),
+                 ["J07 train_aug.csv: status is not assigned in cases.csv: 1 row(s) (aug-01-space-000007)"]),
+                (AUG_LIST_HEAD + f"aug-05-001,1,{sha(b'caf' + bytes([0xc3, 0xa9]))[:12]}\n".encode("ascii"),
+                 ["J07 train_aug.csv: status is not assigned in cases.csv: 1 row(s) (aug-05-001)"])):
+            self.assertEqual(self.refused(listed=listed), want, listed)
+
+    def test_case_refusals(self):
+        head = "J06 cases.csv: the header repeats a column or lacks one of case_id, purpose, subtype, label, status, text"
+        last = AUG_CASES_BYTES.split(b"\n")[-2] + b"\n"
+        for cases, want in (
+                (AUG_CASES_BYTES.replace(b"caf\xc3\xa9", b"caf\xe9"),
+                 ["J06 cases.csv: UnicodeDecodeError (not UTF-8 csv)"]),
+                (AUG_CASES_BYTES.replace(b",assigned,, IgNoRe  4ll pRiOr \n", b',assigned,,"IgNoRe"x\n'),
+                 ["J06 cases.csv: csv.Error (not UTF-8 csv)"]),
+                (b"", [head]),
+                (AUG_CASES_BYTES.replace(b",status,", b",state,", 1), [head]),
+                (AUG_CASES_BYTES.replace(b",auto_flags,", b",position,", 1), [head]),
+                (b"\xef\xbb\xbf" + AUG_CASES_BYTES, [head]),  # BOM: the first column is no longer case_id
+                (AUG_CASES_BYTES + b"aug-05-002,x\n", ["J06 cases.csv data record 6: 2 fields, the header has 16"]),
+                (AUG_CASES_BYTES + last, ["J06 cases.csv data record 6: duplicate case_id"]),
+                (AUG_CASES_BYTES.replace(b",b1,train,0,", b",b1,train,2,"),
+                 ["J06 cases.csv data record 4: label is not 0 or 1"]),
+                (AUG_CASES_BYTES + b"x\n" * 12,
+                 [f"J06 cases.csv data record {n}: 1 fields, the header has 16" for n in range(6, 16)]
+                 + ["J06 cases.csv: 2 more malformed record(s)"]),
+                # a usable row must be an assigned train case of a trained subtype with a text
+                (AUG_CASES_BYTES.replace(b",llm,v,assigned,,Dear", b",llm,v,review_excluded,,Dear"),
+                 ["J07 train_aug.csv: status is not assigned in cases.csv: 1 row(s) (aug-04-001)"]),
+                (AUG_CASES_BYTES.replace(b":001,train,AUG-04,", b":001,dev,AUG-04,"),
+                 ["J07 train_aug.csv: purpose is not train in cases.csv: 1 row(s) (aug-04-001)"]),
+                (AUG_CASES_BYTES.replace(b",AUG-01,case,train,0,", b",AUG-01,homoglyph,train,0,"),
+                 ["J07 train_aug.csv: held-out subtype homoglyph in cases.csv: 1 row(s) (aug-01-case-000003)"]),
+                # the text is hashed as written: a CRLF inside the field is another text
+                (AUG_CASES_BYTES.replace(b'""\n\nsecond', b'""\r\n\r\nsecond'),
+                 ["J04 train_aug.csv: aug-03-000011 text_sha256_12 differs from the raw text"]),
+                (AUG_CASES_BYTES.replace(b",Dear World\n", b",Dear  World\n"),
+                 ["J04 train_aug.csv: aug-04-001 text_sha256_12 differs from the raw text"]),
+                # ... and so is another letter case, one space instead of two, or a missing edge space
+                (AUG_CASES_BYTES.replace(b",Dear World\n", b",dear world\n"),
+                 ["J04 train_aug.csv: aug-04-001 text_sha256_12 differs from the raw text"]),
+                (AUG_CASES_BYTES.replace(b",, IgNoRe  4ll pRiOr \n", b",, IgNoRe 4ll pRiOr \n"),
+                 ["J04 train_aug.csv: aug-01-case-000003 text_sha256_12 differs from the raw text"]),
+                (AUG_CASES_BYTES.replace(b",, IgNoRe  4ll pRiOr \n", b",,IgNoRe  4ll pRiOr \n"),
+                 ["J04 train_aug.csv: aug-01-case-000003 text_sha256_12 differs from the raw text"]),
+                (AUG_CASES_BYTES.replace(b",, IgNoRe  4ll pRiOr \n", b",, IgNoRe  4ll pRiOr\n"),
+                 ["J04 train_aug.csv: aug-01-case-000003 text_sha256_12 differs from the raw text"])):
+            self.assertNotEqual(cases, AUG_CASES_BYTES)  # the replacement found its bytes
+            self.assertEqual(self.refused(cases=cases), want, cases[-60:])
+        # an empty text is refused even when its hash (sha256 of nothing) is listed
+        empty = AUG_LIST_BYTES.replace(b"86923eba67a9", b"e3b0c44298fc")
+        self.assertNotEqual(empty, AUG_LIST_BYTES)
+        self.assertEqual(self.refused(AUG_CASES_BYTES.replace(b",Dear World\n", b",\n"), empty),
+                         ["J07 train_aug.csv: empty text in cases.csv: 1 row(s) (aug-04-001)"])
+        # several violations: every rule reports, at most five IDs each
+        head_line = AUG_CASES_BYTES.split(b"\n")[0] + b"\n"
+        rows = "".join(f"aug-04-{n:03d},aug-04-{n:03d},new,s,dev,AUG-04,b1,train,0,,,llm,v,reserve,,abc\n"
+                       for n in range(1, 7))
+        listed = AUG_LIST_HEAD + "".join(f"aug-04-{n:03d},0,ba7816bf8f01\n" for n in range(1, 7)).encode("ascii")
+        ids = "aug-04-001, aug-04-002, aug-04-003, aug-04-004, aug-04-005, ..."
+        self.assertEqual(self.refused(head_line + rows.encode("ascii"), listed),
+                         [f"J07 train_aug.csv: status is not assigned in cases.csv: 6 row(s) ({ids})",
+                          f"J07 train_aug.csv: purpose is not train in cases.csv: 6 row(s) ({ids})"])
+
+    def test_refusals_stay_short(self):
+        """A refusal is bounded: ten per-row errors, then one count per code; no line over 300 characters."""
+        def unknown(n):
+            return b"".join(f"aug-00-{i:06d},0,000000000000\n".encode("ascii") for i in range(1, n + 1))
+
+        j02 = [f"J02 train_aug.csv: aug-00-{i:06d} is not a row of the split" for i in range(1, 11)]
+        self.assertEqual(self.refused(listed=AUG_LIST_HEAD + unknown(10)), j02)  # ten errors: all listed
+        self.assertEqual(self.refused(listed=AUG_LIST_HEAD + unknown(11)),
+                         j02 + ["J02 train_aug.csv: 1 more error(s) of this kind"])
+        self.assertEqual(self.refused(listed=AUG_LIST_HEAD + unknown(10000)),
+                         j02 + ["J02 train_aug.csv: 9990 more error(s) of this kind"])
+        # other codes after the tenth error are counted per code; the J07 lines (one per rule) are kept
+        mixed = (AUG_LIST_HEAD + unknown(11) + b"aug-01-case-000003,1,745b04798cbd\n"
+                 + f"aug-01-space-000007,0,{sha(b'x  y')[:12]}\n".encode("ascii")
+                 + b"aug-03-000011,1,000000000000\n" + b"aug-04-001,0,86923eba67a9\n" + b"aug-04-002,0,86923eba67a9\n")
+        self.assertEqual(self.refused(listed=mixed), j02 + [
+            "J02 train_aug.csv: 2 more error(s) of this kind",
+            "J03 train_aug.csv: 1 more error(s) of this kind",
+            "J04 train_aug.csv: 1 more error(s) of this kind",
+            "J07 train_aug.csv: status is not assigned in cases.csv: 1 row(s) (aug-01-space-000007)"])
+        # an ID of any length cannot make a long line: cut at 300 characters, marked with "..."
+        long_id = "aug-09-" + "9" * 400
+        row = f"{long_id},0,000000000000\n".encode("ascii")
+        j02_cut = ("J02 train_aug.csv: " + long_id)[:297] + "..."
+        self.assertEqual(self.refused(listed=AUG_LIST_HEAD + row), [j02_cut])
+        self.assertEqual(self.refused(listed=AUG_LIST_HEAD + row + row), [
+            j02_cut, ("J01 train_aug.csv: IDs not strictly ascending at " + long_id)[:297] + "...", j02_cut])
+        self.assertEqual(len(j02_cut), 300)
+        cases = AUG_CASES_BYTES.replace(b"aug-05-001,aug-05-001,", long_id.encode("ascii") + b",aug-05-001,")
+        listed = AUG_LIST_HEAD + f"{long_id},1,{sha(b'caf' + bytes([0xc3, 0xa9]))[:12]}\n".encode("ascii")
+        self.assertEqual(self.refused(cases, listed), [
+            ("J07 train_aug.csv: status is not assigned in cases.csv: 1 row(s) (" + long_id)[:297] + "..."])
+        # 300 characters exactly are not cut
+        fits = "aug-09-" + "9" * (300 - len("J02 train_aug.csv:  is not a row of the split") - len("aug-09-"))
+        self.assertEqual(self.refused(listed=AUG_LIST_HEAD + f"{fits},0,000000000000\n".encode("ascii")),
+                         [f"J02 train_aug.csv: {fits} is not a row of the split"])
+        self.assertEqual(len(f"J02 train_aug.csv: {fits} is not a row of the split"), 300)
+
+    def test_load_from_folder(self):
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            files = make_aug_files(tmp, script=None)
+            d = tmp / AUG_DIR
+            pins = {n: sha(b) for n, b in files.items()}
+            self.assertEqual(sorted(pins), sorted(train.AUG_FILES))
+            self.assertEqual((pins["train_aug.csv"], pins["test_overlap.json"]), (AUG_LIST_SHA256, AUG_OVERLAP_SHA256))
+            random.seed(5)
+            torch.manual_seed(5)
+            before = (random.getstate(), torch.get_rng_state().clone())
+            self.assertEqual(train.load_augmentation(d, pins), AUG_ROWS)
+            self.assertEqual(random.getstate(), before[0])  # no draw from the global generators
+            self.assertTrue(torch.equal(torch.get_rng_state(), before[1]))
+            for n in sorted(files):  # every file is pinned, also the ones that are not parsed
+                with self.assertRaises(data_lists.ListError) as cm:
+                    train.load_augmentation(d, {**pins, n: "0" * 64})
+                self.assertEqual(cm.exception.errors, [f"J09 data/cases/train: changed after the preflight: {n}"])
+            with self.assertRaises(data_lists.ListError) as cm:
+                train.load_augmentation(d, {n: h for n, h in pins.items() if n != "review.csv"})
+            self.assertEqual(cm.exception.errors, ["J09 data/cases/train: changed after the preflight: review.csv"])
+            # edited after the preflight: refused by the pin before the (now malformed) file is parsed
+            (d / "cases.csv").write_bytes(files["cases.csv"] + b"x\n")
+            (d / "train_aug.csv").write_bytes(files["train_aug.csv"] + b"aug-05-001,1,000000000000\n")
+            with self.assertRaises(data_lists.ListError) as cm:
+                train.load_augmentation(d, pins)
+            self.assertEqual(cm.exception.errors,
+                             ["J09 data/cases/train: changed after the preflight: cases.csv, train_aug.csv"])
+            (d / "test_overlap.json").unlink()
+            with self.assertRaises(data_lists.ListError) as cm:
+                train.load_augmentation(d, pins)
+            self.assertEqual(cm.exception.errors, ["J06 data/cases/train: cannot read (FileNotFoundError)"])
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+
+class TestAugmentationPreflight(unittest.TestCase):
+    """P13 and the stage-4 git checks on a temporary git repo (synthetic augmentation set, stand-in builders)."""
+
+    setUp, tearDown = TestPreflightHermetic.setUp, TestPreflightHermetic.tearDown
+    git, ready, tree = TestPreflightHermetic.git, TestPreflightHermetic.ready, TestPreflightHermetic.tree
+    META = f"{AUG_DIR}/cases_meta.json"
+
+    def commit(self):
+        self.git("add", "-A")
+        self.git("-c", "user.name=test", "-c", "user.email=test@example.invalid", "commit", "-q", "--allow-empty",
+                 "-m", "x")
+
+    def p13(self, commit=True, **kw):
+        """Write the augmentation set, commit it, return train.verify_augmentation(root)."""
+        make_aug_files(self.root, **kw)
+        if commit:
+            self.commit()
+        return train.verify_augmentation(self.root)
+
+    def test_verified_block(self):
+        files = make_aug_files(self.root)
+        self.commit()
+        before = self.tree()
+        errors, info = train.verify_augmentation(self.root)
+        self.assertEqual(errors, [])
+        self.assertEqual(info, {
+            "dir": "data/cases/train",
+            "files_sha256": {"cases.csv": sha(AUG_CASES_BYTES), "review.csv": sha(AUG_REVIEW_BYTES),
+                             "train_aug.csv": AUG_LIST_SHA256, "cases_meta.json": sha(files["cases_meta.json"]),
+                             "test_overlap.json": AUG_OVERLAP_SHA256},
+            "label_counts": {"0": 2, "1": 1},
+            "build_train_aug_sha256_lf": sha(STANDIN_BUILD_TRAIN_AUG)})
+        self.assertEqual(self.tree(), before)  # reads only
+        # the stand-in really tells `--check` from the repo root apart from anything else
+        script = str(self.root / "scripts" / "build_train_aug.py")
+        self.assertEqual(subprocess.run([sys.executable, script], cwd=str(self.root)).returncode, 3)
+        self.assertEqual(subprocess.run([sys.executable, script, "--check"], cwd=str(self.root / "scripts")).returncode,
+                         3)
+
+    def test_missing_files(self):
+        make_aug_files(self.root)
+        self.commit()
+        for rel in AUG_RELS:
+            data = (self.root / rel).read_bytes()
+            (self.root / rel).unlink()
+            errors, info = train.verify_augmentation(self.root)
+            self.assertEqual((len(errors), info), (1, None), rel)
+            self.assertTrue(errors[0].startswith(f"P13 augmentation: missing: {rel} (scripts/build_train_aug.py "
+                                                 "writes train_aug.csv only when"), errors)
+            (self.root / rel).write_bytes(data)
+        self.assertEqual(train.verify_augmentation(self.root)[0], [])
+        for rel in (AUG_RELS[4], AUG_RELS[5]):  # a folder in the place of a file is a missing file
+            data = (self.root / rel).read_bytes()
+            (self.root / rel).unlink()
+            (self.root / rel).mkdir()
+            errors, info = train.verify_augmentation(self.root)
+            self.assertEqual((len(errors), info), (1, None), rel)
+            self.assertTrue(errors[0].startswith(f"P13 augmentation: missing: {rel} ("), errors)
+            (self.root / rel).rmdir()
+            (self.root / rel).write_bytes(data)
+        self.assertEqual(train.verify_augmentation(self.root)[0], [])
+        shutil.rmtree(self.root / "data" / "cases")
+        errors, _ = train.verify_augmentation(self.root)
+        self.assertTrue(errors[0].startswith("P13 augmentation: missing: " + ", ".join(AUG_RELS[:5]) + " ("), errors)
+
+    def test_git_tracked_and_unmodified(self):
+        errors, info = self.p13(commit=False, script=FAILING_BUILD_TRAIN_AUG)  # nothing committed yet
+        self.assertEqual((errors, info),
+                         (["P13 augmentation: not tracked by git: " + ", ".join(sorted(AUG_RELS))], None))
+        self.assertEqual(self.p13()[0], [])
+        with open(self.root / AUG_DIR / "test_overlap.json", "ab") as f:
+            f.write(b"\n")
+        want = [f"P13 augmentation: modified in the working tree or index: {AUG_DIR}/test_overlap.json"]
+        self.assertEqual(train.verify_augmentation(self.root), (want, None))
+        self.git("add", "-A")  # staged but not committed: still refused
+        self.assertEqual(train.verify_augmentation(self.root), (want, None))
+        self.commit()
+        self.assertEqual(train.verify_augmentation(self.root)[0], [])
+        for n in ("cases.csv", "review.csv", "train_aug.csv"):  # a pinned file: the git check and the pin report
+            data = (self.root / AUG_DIR / n).read_bytes()
+            (self.root / AUG_DIR / n).write_bytes(data + b"x\n")
+            self.assertEqual(train.verify_augmentation(self.root), ([
+                f"P13 augmentation: modified in the working tree or index: {AUG_DIR}/{n}",
+                f"P13 {AUG_DIR}/{n}: sha256 {sha(data + bytes([0x78, 0x0a]))[:12]} != cases_meta {sha(data)[:12]}"],
+                None))
+            (self.root / AUG_DIR / n).write_bytes(data)
+        self.assertEqual(train.verify_augmentation(self.root)[0], [])
+        with open(self.root / "scripts" / "build_train_aug.py", "ab") as f:
+            f.write(b"# edit\n")
+        errors, _ = train.verify_augmentation(self.root)
+        self.assertEqual(errors[0], "P13 augmentation: modified in the working tree or index: "
+                                    "scripts/build_train_aug.py")
+        self.assertEqual(len(errors), 2)
+        self.assertTrue(errors[1].startswith("P13 scripts/build_train_aug.py: sha256_lf "), errors)
+        with mock.patch.object(data_lists, "git_status", return_value=None):
+            self.assertIn("P13 augmentation: git status failed", train.verify_augmentation(self.root)[0])
+
+    def test_meta_state(self):
+        make_aug_files(self.root)
+        self.commit()
+        dirty = f"P13 augmentation: modified in the working tree or index: {self.META}, scripts/build_train_aug.py"
+        for edit, want in (
+                (lambda m: m.update(ready_for_training=False),
+                 [f"P13 {self.META}: ready_for_training is false, condition C needs true"]),
+                (lambda m: m.update(ready_for_training="true"),
+                 [f'P13 {self.META}: ready_for_training is "true", condition C needs true']),
+                (lambda m: m.update(ready_for_training=1),
+                 [f"P13 {self.META}: ready_for_training is 1, condition C needs true"]),
+                (lambda m: m["review"].update(pending=2),
+                 [f"P13 {self.META}: review.pending is 2, condition C needs 0 (decide every case in "
+                  "data/cases/train/review.csv, then rebuild)"]),
+                (lambda m: m["review"].update(pending=False),
+                 [f"P13 {self.META}: review.pending is false, condition C needs 0 (decide every case in "
+                  "data/cases/train/review.csv, then rebuild)"]),
+                (lambda m: m["test_overlap"].update(status="pending"),
+                 [f'P13 {self.META}: test_overlap.status is "pending", condition C needs "applied" (run '
+                  "scripts/check_cases_vs_test.py, then scripts/build_train_aug.py)"]),
+                (lambda m: (m.update(ready_for_training=False), m["review"].update(pending=1),
+                            m["test_overlap"].update(status="pending")),
+                 [f"P13 {self.META}: ready_for_training is false, condition C needs true",
+                  f"P13 {self.META}: review.pending is 1, condition C needs 0 (decide every case in "
+                  "data/cases/train/review.csv, then rebuild)",
+                  f'P13 {self.META}: test_overlap.status is "pending", condition C needs "applied" (run '
+                  "scripts/check_cases_vs_test.py, then scripts/build_train_aug.py)"])):
+            # not committed: the first error is the git one; the failing stand-in shows --check is not reached
+            errors, info = self.p13(commit=False, edit=edit, script=FAILING_BUILD_TRAIN_AUG)
+            self.assertEqual((errors, info), ([dirty] + want, None))
+        unreadable = [f"P13 {self.META}: unreadable or missing keys"]
+        for raw in (b"{", b"[]\n", b"\xff\n", b"null\n"):
+            self.assertEqual(self.p13(files={"cases_meta.json": raw}), (unreadable, None), raw)
+        for edit in (lambda m: m.pop("ready_for_training"), lambda m: m.pop("review"),
+                     lambda m: m["review"].pop("pending"), lambda m: m["test_overlap"].pop("status"),
+                     lambda m: m.update(test_overlap="applied"), lambda m: m.pop("outputs"),
+                     lambda m: m.update(outputs=[]), lambda m: m.update(outputs=None),
+                     lambda m: m.pop("script"), lambda m: m["script"].pop("sha256_lf"),
+                     lambda m: m["script"].update(sha256_lf=7)):
+            errors, info = self.p13(commit=False, edit=edit)
+            self.assertEqual((errors[1:], info), (unreadable, None))
+        # an "outputs" entry that is missing or has no SHA-256 is named, one line per file, and the other pins
+        # are still compared (the failing stand-in shows --check is not reached)
+        no_list = (f"P13 {self.META}: outputs has no train_aug.csv entry (scripts/build_train_aug.py records it "
+                   "only for a set that is ready for training)")
+        for edit, want in (
+                (lambda m: m["outputs"].pop("train_aug.csv"), [no_list]),
+                (lambda m: m["outputs"].update({"train_aug.csv": None}), [no_list]),
+                (lambda m: m["outputs"].pop("cases.csv"), [f"P13 {self.META}: outputs has no cases.csv entry"]),
+                (lambda m: m["outputs"]["review.csv"].pop("sha256"),
+                 [f"P13 {self.META}: outputs review.csv has no sha256 string"]),
+                (lambda m: m["outputs"]["cases.csv"].update(sha256=None),
+                 [f"P13 {self.META}: outputs cases.csv has no sha256 string"]),
+                (lambda m: m["outputs"]["train_aug.csv"].update(sha256=7),
+                 [f"P13 {self.META}: outputs train_aug.csv has no sha256 string"]),
+                (lambda m: m["outputs"].update({"review.csv": "0" * 64}),
+                 [f"P13 {self.META}: outputs review.csv has no sha256 string"]),
+                (lambda m: (m["outputs"].pop("review.csv"), m["outputs"].pop("train_aug.csv"),
+                            m["outputs"]["cases.csv"].update(sha256="0" * 64)),
+                 [f"P13 {AUG_DIR}/cases.csv: sha256 {sha(AUG_CASES_BYTES)[:12]} != cases_meta 000000000000",
+                  f"P13 {self.META}: outputs has no review.csv entry", no_list])):
+            errors, info = self.p13(commit=False, edit=edit, script=FAILING_BUILD_TRAIN_AUG)
+            self.assertEqual((errors[1:], info), (want, None))
+
+    def test_stale_list_next_to_a_meta_that_is_not_ready(self):
+        """build_train_aug.py records outputs["train_aug.csv"] only for a set that is ready for training. A
+        train_aug.csv left next to the meta of a set that is not ready is refused with the state of the set."""
+        def not_ready(m):
+            m.update(ready_for_training=False)
+            m["review"].update(pending=3, keep=0)
+            m["test_overlap"].update(status="pending")
+            del m["outputs"]["train_aug.csv"]
+
+        errors, info = self.p13(edit=not_ready, script=FAILING_BUILD_TRAIN_AUG)  # committed: no git error
+        self.assertEqual((errors, info), ([
+            f"P13 {self.META}: ready_for_training is false, condition C needs true",
+            f"P13 {self.META}: review.pending is 3, condition C needs 0 (decide every case in "
+            "data/cases/train/review.csv, then rebuild)",
+            f'P13 {self.META}: test_overlap.status is "pending", condition C needs "applied" (run '
+            "scripts/check_cases_vs_test.py, then scripts/build_train_aug.py)",
+            f"P13 {self.META}: outputs has no train_aug.csv entry (scripts/build_train_aug.py records it only for "
+            "a set that is ready for training)"], None))
+        meta = json.loads((self.root / self.META).read_bytes())
+        self.assertEqual(sorted(meta["outputs"]), ["cases.csv", "review.csv"])  # the shape under test
+
+    def test_sha_pins(self):
+        files = make_aug_files(self.root, script=None)
+        for n in ("cases.csv", "review.csv", "train_aug.csv"):
+            errors, info = self.p13(edit=lambda m: m["outputs"][n].update(sha256="0" * 64),
+                                    script=FAILING_BUILD_TRAIN_AUG)
+            self.assertEqual((errors, info), (
+                [f"P13 {AUG_DIR}/{n}: sha256 {sha(files[n])[:12]} != cases_meta 000000000000"], None))
+        self.assertEqual(sha(AUG_LIST_BYTES)[:12], "3db72cfb5421")
+        errors, info = self.p13(edit=lambda m: m["script"].update(sha256_lf="1" * 64),
+                                script=FAILING_BUILD_TRAIN_AUG)
+        self.assertEqual((errors, info), ([
+            f"P13 scripts/build_train_aug.py: sha256_lf {sha(FAILING_BUILD_TRAIN_AUG)[:12]} != cases_meta script "
+            "111111111111 (script changed after the augmentation set was built: rebuild it)"], None))
+        # the data files are pinned byte for byte: a CRLF copy of review.csv is not the file the meta records
+        crlf_review = AUG_REVIEW_BYTES.replace(b"\n", b"\r\n")
+        errors, info = self.p13(files={"review.csv": crlf_review},
+                                edit=lambda m: m["outputs"]["review.csv"].update(sha256=sha(AUG_REVIEW_BYTES)),
+                                script=FAILING_BUILD_TRAIN_AUG)
+        self.assertEqual((errors, info), ([f"P13 {AUG_DIR}/review.csv: sha256 {sha(crlf_review)[:12]} != cases_meta "
+                                           f"{sha(AUG_REVIEW_BYTES)[:12]}"], None))
+        self.assertEqual((self.root / AUG_DIR / "review.csv").read_bytes(), crlf_review)
+        # LF-normalised: a CRLF checkout of the builder still equals the LF hash recorded in the meta
+        crlf = STANDIN_BUILD_TRAIN_AUG.replace(b"\n", b"\r\n")
+        self.assertNotEqual(sha(crlf), sha(STANDIN_BUILD_TRAIN_AUG))
+        errors, info = self.p13(script=crlf)
+        self.assertEqual((errors, info["build_train_aug_sha256_lf"]), ([], sha(STANDIN_BUILD_TRAIN_AUG)))
+
+    def test_check_subprocess_and_join(self):
+        self.assertEqual(self.p13(script=FAILING_BUILD_TRAIN_AUG), ([CHECK_FAILED], None))
+        # a join error is reported with its code and stops before --check (the failing stand-in is not reached)
+        bad = AUG_LIST_BYTES.replace(b"86923eba67a9", b"86923eba67aa")
+        self.assertNotEqual(bad, AUG_LIST_BYTES)
+        self.assertEqual(self.p13(files={"train_aug.csv": bad}, script=FAILING_BUILD_TRAIN_AUG),
+                         (["P13 J04 train_aug.csv: aug-04-001 text_sha256_12 differs from the raw text"], None))
+        self.assertEqual(self.p13(files={"train_aug.csv": AUG_LIST_HEAD}, script=FAILING_BUILD_TRAIN_AUG),
+                         (["P13 J08 train_aug.csv: no rows (condition C needs augmentation rows)"], None))
+        # 10,000 rows that are not cases: ten lines and one count, not 10,000 lines
+        many = AUG_LIST_HEAD + b"".join(f"zz-{i:06d},0,000000000000\n".encode("ascii") for i in range(10000))
+        self.assertEqual(self.p13(files={"train_aug.csv": many}, script=FAILING_BUILD_TRAIN_AUG), (
+            [f"P13 J02 train_aug.csv: zz-{i:06d} is not a row of the split" for i in range(10)]
+            + ["P13 J02 train_aug.csv: 9990 more error(s) of this kind"], None))
+        # the FAIL lines of a failing --check: the first five, each ASCII and cut at 300 characters
+        errors, info = self.p13(script=NOISY_BUILD_TRAIN_AUG)
+        self.assertEqual((errors, info), ([
+            "P13 scripts/build_train_aug.py --check exit 2: FAIL K00 \\ufffd byte | "
+            + " | ".join(f"FAIL K0{n} " + "x" * 288 + "..." for n in range(1, 5))], None))
+        self.assertEqual(len(errors[0]), len("P13 scripts/build_train_aug.py --check exit 2: FAIL K00 \\ufffd byte")
+                         + 4 * (3 + 300))
+        self.assertEqual(self.p13()[0], [])
+        real, calls = subprocess.run, []
+
+        def spy(cmd, *a, **kw):
+            if cmd[-1] == "--check":
+                calls.append((list(cmd), a, kw))
+            return real(cmd, *a, **kw)
+
+        # the check runs like L08: the same interpreter, from the repo root, in UTF-8 mode, at most 600 s
+        with mock.patch.object(subprocess, "run", side_effect=spy), mock.patch.dict(os.environ, {"PYTHONUTF8": "0"}):
+            self.assertEqual(train.verify_augmentation(self.root)[0], [])
+        self.assertEqual(len(calls), 1)
+        cmd, a, kw = calls[0]
+        self.assertEqual((cmd, a), ([sys.executable, str(self.root / "scripts" / "build_train_aug.py"), "--check"], ()))
+        self.assertEqual((kw["cwd"], kw["timeout"], kw["capture_output"], kw["env"]["PYTHONUTF8"]),
+                         (str(self.root), 600, True, "1"))
+        self.assertEqual(data_lists.CHECK_TIMEOUT_S, 600)
+
+        def slow(cmd, *a, **kw):
+            if cmd[-1] == "--check":
+                raise subprocess.TimeoutExpired(cmd, kw["timeout"])
+            return real(cmd, *a, **kw)
+
+        with mock.patch.object(subprocess, "run", side_effect=slow):
+            self.assertEqual(train.verify_augmentation(self.root),
+                             (["P13 scripts/build_train_aug.py --check: no result within 600 s"], None))
+
+    # ---- the whole preflight
+
+    def official(self, **kw):
+        d = make_repo_files(self.root, False, where="official", script=STANDIN_BUILD_LISTS)
+        # 11,056 = 691 * 16 train_clean rows: N = 2073, and counting three more rows would already give 2076
+        meta = json.loads((d / "lists_meta.json").read_text(encoding="ascii"))
+        meta["outputs"]["train_clean.csv"]["rows"] = 11056
+        (d / "lists_meta.json").write_bytes(json.dumps(meta).encode("ascii"))
+        make_aug_files(self.root, **kw)
+        self.commit()
+
+    def preflight(self, **kw):
+        args = types.SimpleNamespace(**{"model": "bert", "smoke": False, "seed": 42, "lists": "official",
+                                        "rerun": False, "condition": "C", **kw})
+        with contextlib.ExitStack() as st:
+            for p in self.ready():
+                st.enter_context(p)
+            errors, ctx = train.preflight(args, CFG, self.root)
+        self.assertFalse((self.root / "runs").exists())
+        return errors, ctx
+
+    def test_condition_c_passes_with_the_budget_of_a(self):
+        self.official()
+        before = self.tree()
+        errors, ctx = self.preflight()
+        self.assertEqual(errors, [])
+        self.assertEqual((ctx["stage"], ctx["condition"], ctx["seed"], ctx["run_id"], ctx["run_dir"]),
+                         ("s4", "C", 42, "s4-bert-C-s42", self.root / "runs" / "s4-bert-C-s42"))
+        # N from the 11,056 train_clean rows of lists_meta.json alone: 3 * (11056 / 16) = 3 * 691 = 2073;
+        # with the 3 augmentation rows it would be 3 * ceil(11059 / 16) = 3 * 692 = 2076 (and P10 would refuse)
+        self.assertEqual((ctx["lists"]["train_clean_rows"], train.budget(11056 + 3, 3)), (11056, 2076))
+        self.assertEqual((ctx["n_total"], ctx["eval_at"], ctx["n_run"]), (2073, [691, 1382, 2073], 2073))
+        self.assertEqual(ctx["aug_dir"], self.root / "data" / "cases" / "train")
+        self.assertEqual(sorted(ctx["augmentation"]),
+                         ["build_train_aug_sha256_lf", "dir", "files_sha256", "label_counts"])
+        self.assertEqual((ctx["augmentation"]["label_counts"], ctx["augmentation"]["files_sha256"]["train_aug.csv"]),
+                         ({"0": 2, "1": 1}, AUG_LIST_SHA256))
+        errors, a = self.preflight(condition="A")  # condition A on the same repo: as before stage 4
+        self.assertEqual((errors, a["stage"], a["condition"], a["run_id"]), ([], "s2", "A", "s2-bert-A-s42"))
+        self.assertEqual(sorted(a), ["condition", "eval_at", "list_dir", "lists", "n_run", "n_total", "run_dir",
+                                     "run_id", "seed", "stage"])
+        self.assertEqual(sorted(set(ctx) - set(a)), ["aug_dir", "augmentation"])
+        same = ("seed", "lists", "list_dir", "n_total", "eval_at", "n_run")
+        self.assertEqual({k: ctx[k] for k in same}, {k: a[k] for k in same})
+        self.assertEqual(self.tree(), before)  # nothing created
+
+    def test_p13_is_for_condition_c_only(self):
+        make_repo_files(self.root, False, where="official", script=STANDIN_BUILD_LISTS)
+        self.commit()  # no augmentation set at all
+        self.assertEqual(self.preflight(condition="A")[0], [])
+        errors, ctx = self.preflight()
+        self.assertEqual((len(errors), ctx), (1, None))
+        self.assertTrue(errors[0].startswith("P13 augmentation: missing: data/cases/train/cases.csv, "), errors)
+        make_aug_files(self.root, script=FAILING_BUILD_TRAIN_AUG)  # a set that fails its --check
+        self.commit()
+        self.assertEqual(self.preflight(condition="A")[0], [])
+        self.assertEqual(self.preflight(), ([CHECK_FAILED], None))
+
+    def test_p13_is_reported_next_to_a_list_failure(self):
+        errors, ctx = self.preflight()  # neither official lists nor an augmentation set: both are reported
+        self.assertEqual(([e.split()[0] for e in errors], ctx), (["P07", "P13"], None))
+        self.assertTrue(errors[0].startswith("P07 L01 official lists: missing in data/processed/: "), errors)
+        self.assertTrue(errors[1].startswith("P13 augmentation: missing: data/cases/train/cases.csv, "), errors)
+        make_aug_files(self.root, script=FAILING_BUILD_TRAIN_AUG)  # still no lists; the set fails its --check
+        self.commit()
+        errors, ctx = self.preflight()
+        self.assertEqual((errors[1:], ctx), ([CHECK_FAILED], None))
+        self.assertTrue(errors[0].startswith("P07 L01 "), errors)
+
+    def test_stage4_git_checks(self):
+        self.official()
+        (self.root / "notes.txt").write_text("x")
+        self.commit()
+        with open(self.root / "notes.txt", "a", encoding="ascii") as f:
+            f.write("y")
+        with open(self.root / "scripts" / "train.py", "a", encoding="ascii") as f:
+            f.write("# edit\n")
+        self.assertEqual(self.preflight()[0], [
+            "P08 stage 4 needs unmodified project files; modified: scripts/train.py",
+            "P09 stage 4 refuses modified tracked files outside runs/: 1 (notes.txt)"])
+        self.assertEqual(self.preflight(condition="A")[0], [  # the stage-2 wording is unchanged
+            "P08 stage 2 needs unmodified project files; modified: scripts/train.py",
+            "P09 stage 2 refuses modified tracked files outside runs/: 1 (notes.txt)"])
+        self.commit()
+        self.git("rm", "-q", "--cached", "scripts/eval_lib.py")  # the file stays on disk, no longer tracked
+        self.git("-c", "user.name=test", "-c", "user.email=test@example.invalid", "commit", "-q", "-m", "untrack")
+        self.assertEqual(self.preflight()[0],
+                         ["P08 stage 4 needs git-tracked project files; untracked: scripts/eval_lib.py"])
+        self.assertEqual(self.preflight(condition="A")[0],
+                         ["P08 stage 2 needs git-tracked project files; untracked: scripts/eval_lib.py"])
+
+    def test_condition_c_keeps_the_stage2_rules(self):
+        self.official()
+        errors, _ = self.preflight(lists="trial", seed=7)
+        self.assertIn("P03 --lists trial is allowed only with --smoke (README 7.1: stage 4 uses the official lists)",
+                      errors)
+        self.assertIn(f"P03 seed 7 is not in configs/train.json seeds {CFG['seeds']}", errors)
+        errors, _ = self.preflight(lists="trial", condition="A")
+        self.assertIn("P03 --lists trial is allowed only with --smoke (README 7.1: stage 2 uses the official lists)",
+                      errors)
+        (self.root / "runs" / "s4-bert-C-s42").mkdir(parents=True)
+        (self.root / "runs" / "s4-bert-C-s42.lock").write_text("pid 1\n")
+        args = types.SimpleNamespace(model="bert", smoke=False, seed=42, lists="official", rerun=False, condition="C")
+        with contextlib.ExitStack() as st:
+            for p in self.ready():
+                st.enter_context(p)
+            errors, _ = train.preflight(args, CFG, self.root)
+            self.assertEqual([e.split()[0] for e in errors], ["P06", "P12"])
+            self.assertIn("runs/s4-bert-C-s42/ exists; pass --rerun", errors[0])
+            errors, a = train.preflight(types.SimpleNamespace(**{**vars(args), "condition": "A"}), CFG, self.root)
+            self.assertEqual((errors, a["run_id"]), ([], "s2-bert-A-s42"))  # another run ID: not blocked
+
+    def test_preflight_only_cli(self):
+        self.official()
+        before = self.tree()
+        out = io.StringIO()
+        with contextlib.ExitStack() as st:
+            for p in self.ready() + [mock.patch.object(train, "ROOT", self.root), contextlib.redirect_stdout(out)]:
+                st.enter_context(p)
+            self.assertEqual(train.main(["--model", "bert", "--seed", "42", "--condition", "C", "--preflight-only"]), 0)
+            self.assertEqual(train.main(["--model", "bert", "--seed", "42", "--preflight-only"]), 0)
+            self.assertEqual(self.tree(), before)  # nothing created
+            (self.root / AUG_DIR / "train_aug.csv").unlink()
+            self.assertEqual(train.main(["--model", "bert", "--seed", "42", "--condition", "C", "--preflight-only"]), 1)
+            self.assertEqual(train.main(["--model", "bert", "--seed", "42", "--preflight-only"]), 1)  # P09
+        text = out.getvalue()
+        self.assertIn("preflight passed: s4-bert-C-s42 would start (lists official, git tracked check True, N 2073, "
+                      "updates 2073, eval at [691, 1382, 2073], augmentation 3 rows); --preflight-only: nothing "
+                      "created\n", text)
+        self.assertIn("preflight passed: s2-bert-A-s42 would start (lists official, git tracked check True, N 2073, "
+                      "updates 2073, eval at [691, 1382, 2073]); --preflight-only: nothing created\n", text)
+        self.assertIn("FAIL P13 augmentation: missing: data/cases/train/train_aug.csv (", text)
+        self.assertIn("preflight failed: 2 error(s); nothing created\n", text)
+        self.assertFalse((self.root / "runs").exists())
+
+
+RUN_JSON_KEYS = ["attempt", "budget", "checkpoint", "code", "condition", "config", "data", "determinism", "env",
+                 "failure", "finished_utc", "lists", "model", "model_key", "optimizer", "resources", "run_id",
+                 "schema", "seed", "selection", "stage", "started_utc", "status", "wall_s"]
+
+
+class TestRunConditions(unittest.TestCase):
+    """run() for conditions A and C: 16 train_clean rows, the real augmentation loader, patched model and fit."""
+
+    def setUp(self):
+        self.root = Path(tempfile.mkdtemp())
+        (self.root / "runs").mkdir()
+        self.files = make_aug_files(self.root, script=None)
+        self.pins = {n: sha(b) for n, b in self.files.items()}
+
+    def tearDown(self):
+        shutil.rmtree(self.root, ignore_errors=True)
+
+    def go(self, condition):
+        stage = {"A": "s2", "C": "s4"}[condition]
+        run_id = f"{stage}-bert-{condition}-s42"
+        # N = 3 * ceil(16 / 16) = 3; with the 3 augmentation rows counted it would be 3 * ceil(19 / 16) = 6
+        ctx = {"stage": stage, "condition": condition, "seed": 42, "run_id": run_id,
+               "run_dir": self.root / "runs" / run_id,
+               "lists": {"mode": "official", "dir": "data/processed", "git_tracked_checked": True},
+               "list_dir": None, "n_total": train.budget(16, 3), "eval_at": [1, 2, 3], "n_run": 3}
+        if condition == "C":
+            # label_counts here are not the counts of the set: the record must carry those of the rows it loaded
+            ctx.update(aug_dir=self.root / "data" / "cases" / "train",
+                       augmentation={"dir": "data/cases/train", "files_sha256": dict(self.pins),
+                                     "label_counts": {"0": 20, "1": 10}, "build_train_aug_sha256_lf": "f" * 64})
+        seen = {"order": [], "encoded": []}
+        real_load = train.load_augmentation
+
+        def load(*a):
+            seen["order"].append("load_augmentation")
+            return real_load(*a)
+
+        def encode(tok, texts, n):
+            seen["encoded"].append(list(texts))
+            return [[2, 5, 3]] * len(texts), {"max_tokens": 3, "rows_over_max_length": 0}
+
+        def fake_fit(model, key, data, cfg, **kw):
+            seen["order"].append("fit")
+            seen.update(train_rows=len(data["train_ids"]), train_labels=list(data["train_labels"]),
+                        n_total=kw["n_total"], n_run=kw["n_run"], eval_at=kw["eval_at"])
+            info = model_specs.save_checkpoint(tiny_model(0), key, kw["ckpt_dir"], kw["run_id"], 1)
+            scores = torch.tensor([0.75, 0.25, 0.5, 0.125])
+            kw["on_eval"]({"step": 1}, torch.tensor([1.5, -2.0, 0.0, -3.0]), scores,
+                          eval_lib.predictions(scores, cfg["threshold"]))
+            rows = [{"update": u, "epoch": 1, "examples": 16, "lr": 2e-5, "loss": 1 / u, "grad_norm": 1.0,
+                     "seconds": 0.01} for u in range(1, kw["n_run"] + 1)]
+            return {"log": rows, "evals": [], "saved": [1], "eval_s": [0.1], "save_s": [0.1], "optimizer": {},
+                    "best": {"step": 1, "sha256": info["sha256"], "size": info["size"], "tensors": info["tensors"]}}
+
+        reload = {"state_dict_equal": True, "prediction_flips": 0, "max_abs_margin_diff": 0.0, "passed": True,
+                  "seconds": 0.1}
+        patches = [
+            mock.patch.object(data_lists, "load_rows", return_value=None),
+            mock.patch.object(data_lists, "load_training_data", return_value={
+                "train": [(f"train:{i:06d}", i % 2, "t") for i in range(16)],
+                "validation": [(f"validation:{i:06d}", i % 2, "v", True) for i in range(4)]}),
+            mock.patch.object(train, "load_augmentation", side_effect=load),
+            mock.patch.object(train, "seed_everything",
+                              side_effect=lambda s: seen["order"].append(f"seed_everything({s})")),
+            mock.patch.object(train, "apply_determinism", return_value={}),
+            mock.patch.object(train, "env_info", return_value={"gpu": {"name": "cpu"}}),
+            mock.patch.object(model_specs, "load_tokenizer", return_value=types.SimpleNamespace(pad_token_id=0)),
+            mock.patch.object(model_specs, "check_tokenizer", return_value="fp"),
+            mock.patch.object(eval_lib, "encode", side_effect=encode),
+            mock.patch.object(model_specs, "load_model",
+                              side_effect=lambda *a, **k: seen["order"].append("load_model") or mock.MagicMock()),
+            mock.patch.object(train, "fit", side_effect=fake_fit),
+            mock.patch.object(train, "reload_check", return_value=reload),
+            mock.patch.object(train, "code_record",
+                              return_value={"git_commit": None, "git_dirty": [], "files_sha256_lf": {}}),
+            *(mock.patch(f"torch.cuda.{f}", return_value=1) for f in (
+                "init", "reset_peak_memory_stats", "synchronize", "max_memory_allocated", "max_memory_reserved",
+                "empty_cache")),
+        ]
+        with contextlib.ExitStack() as st:
+            for p in patches:
+                st.enter_context(p)
+            st.enter_context(contextlib.redirect_stdout(io.StringIO()))
+            st.enter_context(contextlib.redirect_stderr(io.StringIO()))
+            code = train.run(types.SimpleNamespace(model="bert", rerun=False), CFG, b"{}\n", ctx)
+        self.assertFalse(train.lock_path(ctx["run_dir"]).exists())
+        return code, json.loads((ctx["run_dir"] / "run.json").read_text(encoding="ascii")), seen, ctx["run_dir"]
+
+    def test_condition_c_appends_the_augmentation_rows(self):
+        code, rec, seen, rd = self.go("C")
+        self.assertEqual((code, rec["status"], rec["failure"]), (0, "completed", None))
+        self.assertEqual((rec["run_id"], rec["stage"], rec["condition"], rec["seed"]), ("s4-bert-C-s42", "s4", "C", 42))
+        # trained rows: the 16 train_clean rows first, then the augmentation rows in train_aug.csv order
+        # (texts exactly as in cases.csv: letter case, double and edge spaces, the blank line)
+        self.assertEqual(seen["encoded"], [["t"] * 16 + [" IgNoRe  4ll pRiOr ", 'first, "quoted"\n\nsecond line',
+                                                         "Dear World"], ["v"] * 4])
+        self.assertEqual(seen["encoded"][0][16:], [AUG_TEXT_01, AUG_TEXT_03, AUG_TEXT_04])
+        self.assertEqual(seen["train_labels"], [i % 2 for i in range(16)] + [0, 1, 0])
+        self.assertEqual(seen["train_rows"], 19)
+        # the budget is the one of the 16 train_clean rows
+        self.assertEqual((seen["n_total"], seen["n_run"], seen["eval_at"]), (3, 3, [1, 2, 3]))
+        self.assertEqual(rec["budget"], {"update_size": 16, "micro_batch": CFG["micro_batch"],
+                                         "grad_accum": CFG["grad_accum"], "epochs": 3, "N": 3,
+                                         "eval_steps": [1, 2, 3], "updates_run": 3})
+        stats = {"max_tokens": 3, "rows_over_max_length": 0}
+        self.assertEqual(rec["data"], {
+            "train_rows": 19, "train_clean_rows": 16, "augmentation_rows": 3,
+            "augmentation": {"dir": "data/cases/train",
+                             "files_sha256": {"cases.csv": sha(AUG_CASES_BYTES), "review.csv": sha(AUG_REVIEW_BYTES),
+                                              "train_aug.csv": AUG_LIST_SHA256,
+                                              "cases_meta.json": sha(self.files["cases_meta.json"]),
+                                              "test_overlap.json": AUG_OVERLAP_SHA256},
+                             "label_counts": {"0": 2, "1": 1}, "build_train_aug_sha256_lf": "f" * 64},
+            "validation_rows": 4, "validation_clean_rows": 4, "truncation": {"train": stats, "validation": stats}})
+        self.assertEqual(sorted(rec), RUN_JSON_KEYS)  # the same top-level keys as a condition A record
+        # read in the data phase, before the seed is set for the model load (no effect on the head initialisation)
+        self.assertEqual(seen["order"][:4], ["load_augmentation", "seed_everything(42)", "load_model", "fit"])
+        self.assertEqual(seen["order"].count("load_augmentation"), 1)
+        self.assertEqual((rec["checkpoint"]["kept"], rec["checkpoint"]["path"]),
+                         (True, "runs/s4-bert-C-s42/checkpoint/model.safetensors"))
+        self.assertEqual(sha((rd / "checkpoint" / "model.safetensors").read_bytes()), rec["checkpoint"]["sha256"])
+        preds = (rd / "predictions_validation.csv").read_text(encoding="ascii").split("\n")
+        self.assertEqual(preds, ["step,sentence_id,label,in_clean,margin,score,prediction,threshold,condition",
+                                 "1,validation:000000,0,1,1.5,0.75,1,0.5,C", "1,validation:000001,1,1,-2,0.25,0,0.5,C",
+                                 "1,validation:000002,0,1,0,0.5,1,0.5,C", "1,validation:000003,1,1,-3,0.125,0,0.5,C",
+                                 ""])
+        log = (rd / "log.txt").read_text(encoding="ascii")
+        self.assertIn("augmentation: 3 rows of data/cases/train/train_aug.csv (label 1: 1, label 0: 2) appended "
+                      "after 16 train_clean rows; N stays 3\n", log)
+        self.assertIn("data: train 19 rows, validation 4 rows (4 in_clean)", log)
+        for name in train.SMALL_FILES:  # IDs and numbers only
+            text = (rd / name).read_text(encoding="ascii")
+            self.assertFalse(any(t in text.lower() for t in ("ignore", "prior", "dear world", "second line",
+                                                             "quoted")), name)
+
+    def test_condition_a_is_unchanged(self):
+        shutil.rmtree(self.root / "data")  # condition A never looks at the augmentation set
+        code, rec, seen, rd = self.go("A")
+        self.assertEqual((code, rec["status"], rec["failure"]), (0, "completed", None))
+        self.assertEqual((rec["run_id"], rec["stage"], rec["condition"]), ("s2-bert-A-s42", "s2", "A"))
+        stats = {"max_tokens": 3, "rows_over_max_length": 0}
+        self.assertEqual(rec["data"], {"train_rows": 16, "validation_rows": 4, "validation_clean_rows": 4,
+                                       "truncation": {"train": stats, "validation": stats}})  # no new key
+        self.assertEqual(sorted(rec), RUN_JSON_KEYS)
+        self.assertEqual(seen["encoded"], [["t"] * 16, ["v"] * 4])
+        self.assertEqual((seen["train_rows"], seen["train_labels"]), (16, [i % 2 for i in range(16)]))
+        self.assertEqual((seen["n_total"], seen["n_run"], seen["eval_at"]), (3, 3, [1, 2, 3]))
+        self.assertEqual(seen["order"][:3], ["seed_everything(42)", "load_model", "fit"])
+        self.assertNotIn("load_augmentation", seen["order"])
+        self.assertEqual(rec["checkpoint"]["path"], "runs/s2-bert-A-s42/checkpoint/model.safetensors")
+        preds = (rd / "predictions_validation.csv").read_text(encoding="ascii").split("\n")
+        self.assertEqual(preds[1:], ["1,validation:000000,0,1,1.5,0.75,1,0.5,A", "1,validation:000001,1,1,-2,0.25,0,0.5,A",
+                                     "1,validation:000002,0,1,0,0.5,1,0.5,A", "1,validation:000003,1,1,-3,0.125,0,0.5,A",
+                                     ""])
+        log = (rd / "log.txt").read_text(encoding="ascii")
+        self.assertIn("data: train 16 rows, validation 4 rows (4 in_clean)", log)
+        self.assertNotIn("augmentation", log + (rd / "run.json").read_text(encoding="ascii"))
+
+    def test_condition_c_stops_when_the_set_changed_after_the_preflight(self):
+        with open(self.root / AUG_DIR / "review.csv", "ab") as f:
+            f.write(b"aug-05-001,000000000000,keep,,tester\n")
+        code, rec, seen, rd = self.go("C")
+        self.assertEqual((code, rec["status"], rec["failure"]["phase"], rec["failure"]["exception"]),
+                         (1, "failed", "data", "data_lists.ListError"))
+        self.assertEqual((seen["order"], seen["encoded"]), (["load_augmentation"], []))  # nothing trained
+        self.assertIn("FAIL J09 data/cases/train: changed after the preflight: review.csv\n",
+                      (rd / "log.txt").read_text(encoding="ascii"))
+        self.assertNotIn("data", rec)
+        self.assertFalse((rd / "checkpoint").exists() or (rd / train.STAGING).exists())
+        self.assertIsNone(rec["checkpoint"])
+
+    def test_condition_c_join_refusal_is_short_in_the_log(self):
+        # 500 listed rows that are not cases, with the pin of exactly these bytes (as if a preflight had passed)
+        many = AUG_LIST_HEAD + b"".join(f"zz-{i:06d},0,000000000000\n".encode("ascii") for i in range(500))
+        (self.root / AUG_DIR / "train_aug.csv").write_bytes(many)
+        self.pins["train_aug.csv"] = sha(many)
+        code, rec, seen, rd = self.go("C")
+        self.assertEqual((code, rec["status"], rec["failure"]["phase"], rec["failure"]["exception"]),
+                         (1, "failed", "data", "data_lists.ListError"))
+        self.assertEqual((seen["order"], seen["encoded"]), (["load_augmentation"], []))  # nothing trained
+        log = (rd / "log.txt").read_text(encoding="ascii")
+        self.assertEqual(log.count("FAIL J"), 11)  # ten rows and one count, not 500 lines
+        for i in range(10):
+            self.assertIn(f"FAIL J02 train_aug.csv: zz-{i:06d} is not a row of the split\n", log)
+        self.assertIn("FAIL J02 train_aug.csv: 490 more error(s) of this kind\n", log)
+        self.assertNotIn("data", rec)
 
 
 if __name__ == "__main__":

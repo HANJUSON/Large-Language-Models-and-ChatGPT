@@ -1,0 +1,290 @@
+{
+ "schema": 1,
+ "rules_id": "external_rules_v1",
+ "basis": "README 3.4 (EXT-01 to EXT-08), README 3.2 (similarity levels A, B, C), stage-4 design D7 (2026-11-17)",
+ "state": "Rules fixed for freeze 1. The raw files were downloaded and hashed only: no external row has been parsed, read or predicted (EXT-02).",
+ "checked_by": {
+  "scripts/fetch_external.py": "offline check: raw files and download manifests against the pins, and these keys of \"sources\": dataset, dataset_url, revision, license, dir, manifest, manifest_sha256, files, split_files, adopted_splits",
+  "scripts/external_lang.py --self-check": "\"language\" -> \"deepset\": rule_id, main, supplementary, stopwords, known_overlaps, self_check.counts"
+ },
+ "sources": {
+  "deepset": {
+   "dataset": "deepset/prompt-injections",
+   "dataset_url": "https://huggingface.co/datasets/deepset/prompt-injections",
+   "revision": "4f61ecb038e9c3fb77e21034b22511b523772cdd",
+   "license": "apache-2.0",
+   "license_note": "data card metadata at the revision: license apache-2.0; the dataset_info block of the same card names cc-by-4.0 (README 3.4)",
+   "role": "attack and benign rows from a source other than S-Labs: F1, precision, recall, FPR and ROC-AUC for this source (README 5.4 item 1)",
+   "use": "evaluation only",
+   "dir": "data/external/deepset",
+   "manifest": "data/external/deepset/download_manifest.json",
+   "manifest_sha256": "4d2791bcd7a0673cc197ad38ed414eb5b2d63e4abaed056afcab3f52cb57eaae",
+   "files": [
+    {
+     "path": "README.md",
+     "size_bytes": 500,
+     "sha256": "d90b4518dfe06154deeec938243d1ec9119bdfbfd2105aee9cf1567999764b94"
+    },
+    {
+     "path": "data/test-00000-of-00001-701d16158af87368.parquet",
+     "size_bytes": 10892,
+     "sha256": "39ac797cabc157eeed58435a08593b2952bb6cb16fc394a2d383f447cc7b246e"
+    },
+    {
+     "path": "data/train-00000-of-00001-9564e8b05b4757ab.parquet",
+     "size_bytes": 40323,
+     "sha256": "2e10bc7ab30f542c97e4e83e2a5683000b5057d25ec10908784c631d44124c04"
+    }
+   ],
+   "adopted_splits": [
+    "train",
+    "test"
+   ],
+   "split_files": {
+    "train": "data/train-00000-of-00001-9564e8b05b4757ab.parquet",
+    "test": "data/test-00000-of-00001-701d16158af87368.parquet"
+   },
+   "split_note": "Both original splits are adopted. The split named train is evaluation data here, like the split named test: neither is used for training, augmentation or the selection of a checkpoint, model or threshold. Results are reported per original split.",
+   "card_rows": {
+    "train": 546,
+    "test": 116
+   },
+   "card_rows_note": "row counts declared in the data card metadata (dataset_info.splits) at the revision; to be compared with the parquet row counts at the stage-5 conversion"
+  },
+  "notinject": {
+   "dataset": "leolee99/NotInject",
+   "dataset_url": "https://huggingface.co/datasets/leolee99/NotInject",
+   "revision": "847ae76cf8fea5ed325429e569ae8cfef022d2e0",
+   "license": "mit",
+   "license_note": "data card metadata at the revision: license mit (README 3.4)",
+   "role": "benign rows that contain attack-related trigger words: FPR and false positives per category; no recall, ROC-AUC or F1 for this source (README 5.4 item 2)",
+   "use": "evaluation only",
+   "dir": "data/external/notinject",
+   "manifest": "data/external/notinject/download_manifest.json",
+   "manifest_sha256": "400b417e830e99fa89f9412b68367f8f24d48b0959a5ec10d952e1719db9c0d5",
+   "files": [
+    {
+     "path": "README.md",
+     "size_bytes": 2973,
+     "sha256": "ffaf685021522a526f94af2047e5099ec6b7439a462c67e0ecaca0d631a0d43f"
+    },
+    {
+     "path": "data/NotInject_one-00000-of-00001.parquet",
+     "size_bytes": 10859,
+     "sha256": "5b1d3a8ec341205305efd8c6d2cabeb5ba0f594dd8726b08ee7fde1a46ddc6ec"
+    },
+    {
+     "path": "data/NotInject_three-00000-of-00001.parquet",
+     "size_bytes": 13009,
+     "sha256": "d5c685b123570c092a0f374ba6bdf324b2026d905a2751a243eb2bb360d411a8"
+    },
+    {
+     "path": "data/NotInject_two-00000-of-00001.parquet",
+     "size_bytes": 11183,
+     "sha256": "a5a8c1b3b851b0b5acc3b6caf8bfee26d7da631b2967dd31ca90358df8883feb"
+    }
+   ],
+   "adopted_splits": [
+    "NotInject_one",
+    "NotInject_two",
+    "NotInject_three"
+   ],
+   "split_files": {
+    "NotInject_one": "data/NotInject_one-00000-of-00001.parquet",
+    "NotInject_two": "data/NotInject_two-00000-of-00001.parquet",
+    "NotInject_three": "data/NotInject_three-00000-of-00001.parquet"
+   },
+   "split_note": "The three subsets (one, two or three trigger words per row) are the splits of the data card. The files data/train-, data/validation- and data/test-00000-of-00001.parquet of the revision are the same git blobs as the one, two and three files and are not downloaded.",
+   "card_rows": {
+    "NotInject_one": 113,
+    "NotInject_two": 113,
+    "NotInject_three": 113
+   },
+   "card_rows_note": "row counts declared in the data card metadata (dataset_info.splits) at the revision; to be compared with the parquet row counts at the stage-5 conversion"
+  }
+ },
+ "labels": {
+  "project": {
+   "0": "benign",
+   "1": "injection"
+  },
+  "deepset": {
+   "input_field": "text",
+   "label_field": "label",
+   "mapping": {
+    "0": 0,
+    "1": 1
+   },
+   "note": "The source label is used as it is: 1 = injection, 0 = benign. Field names and types are those declared in the data card metadata (text: string, label: int64) and are confirmed at the stage-5 conversion."
+  },
+  "notinject": {
+   "input_field": "prompt",
+   "label_field": null,
+   "all_rows": 0,
+   "category_field": "category",
+   "note": "Every row is benign (0); the source has no label column. Fields declared in the data card metadata: prompt, word_list, category; confirmed at the stage-5 conversion."
+  },
+  "policy": "A label is never changed and a row is never removed because a model got it wrong (EXT-05). Differences between the label definition of a source and the threat model of the project are reported, not corrected."
+ },
+ "language": {
+  "main": "english",
+  "policy": "The main evaluation is the English evaluation (EXT-06). A source with language metadata gives its English rows to the main evaluation. A source without language metadata gives every row that its language rule does not identify as non-English. Rows identified as non-English are reported separately as supplementary results. The rules are fixed here and applied at stage 5 without model predictions.",
+  "deepset": {
+   "rule": "external_lang",
+   "script": "scripts/external_lang.py",
+   "rule_id": "external_lang_v1",
+   "why": "the source has no language metadata",
+   "tokens": "the words of the punct key of the text (scripts/build_lists.py pk: NFKC, whitespace collapsed, casefold, every Unicode punctuation and symbol character -> space)",
+   "hits": "en_hits = tokens (occurrences) that are in the English word list; de_hits = tokens that are in the German word list",
+   "decision": "english if en_hits > de_hits and en_hits >= 1; german if de_hits > en_hits; otherwise undetermined",
+   "main": [
+    "english",
+    "undetermined"
+   ],
+   "supplementary": [
+    "german"
+   ],
+   "main_note": "Lead decision (stage-4 design D7, option b): rows that come out undetermined stay in the main evaluation; only rows that come out german (identified non-English) are supplementary. Reason: on S-Labs train and validation about 4% of the rows come out undetermined, nearly all of them without any list word and most of them injections (see self_check.counts); leaving them out would bias the main evaluation by label. The number of undetermined rows in the main evaluation is reported with the results.",
+   "stopwords": {
+    "english": {
+     "count": 164,
+     "sha256": "e33d6a9f63283ddf389972b52727af0ad4ac9f571d0b8f306e52db5c2544d77a"
+    },
+    "german": {
+     "count": 223,
+     "sha256": "edf2dad35354084cae0c71238a447384a02bc57ac6240a1e150f4b979fe4b317"
+    }
+   },
+   "stopwords_note": "closed-class words only; the two lists are disjoint; the words of the AMBIGUOUS list of the script (hand-picked ordinary words of both languages or of the other one, not complete) are in neither list; sha256 = SHA-256 of the sorted words, one per line (LF, UTF-8)",
+   "known_overlaps": {
+    "english": [
+     "all",
+     "her",
+     "not"
+    ],
+    "german": [
+     "den",
+     "mit"
+    ]
+   },
+   "known_overlaps_note": "List words that are also words of the other language and stay in their list (German all, her, Not; English den, MIT). One such hit can decide a short text: an English row whose only list word is den or MIT comes out german, and all, her or Not in a German row counts as an English hit.",
+   "limits": "The rule separates English from German only. A text in a third language comes out undetermined, or english when it contains English list words; either way it is in the main evaluation. A text without any list word comes out undetermined and is in the main evaluation, whatever its language (see self_check.counts: undetermined_no_hit). The AMBIGUOUS list is not complete (see known_overlaps).",
+   "self_check": {
+    "data": "raw S-Labs train and validation rows (all rows of dataset revision 002a9dd18514abd021869823d6b0429b38606d99); test is not read",
+    "command": "PYTHONUTF8=1 HF_HUB_OFFLINE=1 .venv/Scripts/python.exe scripts/external_lang.py --self-check",
+    "counts": {
+     "train": {
+      "rows": 11089,
+      "english": 10607,
+      "german": 1,
+      "undetermined": 481,
+      "undetermined_no_hit": 478,
+      "undetermined_tie": 3,
+      "by_label": {
+       "0": {
+        "english": 6242,
+        "german": 0,
+        "undetermined": 61
+       },
+       "1": {
+        "english": 4365,
+        "german": 1,
+        "undetermined": 420
+       }
+      }
+     },
+     "validation": {
+      "rows": 2101,
+      "english": 2051,
+      "german": 0,
+      "undetermined": 50,
+      "undetermined_no_hit": 50,
+      "undetermined_tie": 0,
+      "by_label": {
+       "0": {
+        "english": 1050,
+        "german": 0,
+        "undetermined": 0
+       },
+       "1": {
+        "english": 1001,
+        "german": 0,
+        "undetermined": 50
+       }
+      }
+     }
+    }
+   }
+  },
+  "notinject": {
+   "rule": "metadata",
+   "field": "category",
+   "supplementary_values": [
+    "Multilingual Queries"
+   ],
+   "main": "every other category value (English)",
+   "note": "Rows of the category Multilingual Queries are supplementary non-English rows; rows of the other categories are English and belong to the main evaluation. The category values are confirmed at the stage-5 conversion."
+  }
+ },
+ "duplicates": {
+  "levels": {
+   "A": "same exact text (exact duplicate key)",
+   "B": "same normalised key, or same punct key",
+   "C": "punct-key word sequences differ by one word (one insertion, deletion or replacement; the shorter one has at least 5 words)"
+  },
+  "levels_source": "README 3.2 similar-sentence check; keys as in scripts/build_lists.py (digest, nk, pk, sim_keys)",
+  "against_s_labs": {
+   "compared_with": [
+    "train",
+    "validation",
+    "test",
+    "augmentation"
+   ],
+   "removed_levels": [
+    "A",
+    "B"
+   ],
+   "counted_levels": [
+    "C"
+   ],
+   "rule": "An external row that matches a row of S-Labs train, validation or test, or a training augmentation case, at level A or B is removed from the external list (EXT-04). Level C matches are counted and stay in the list.",
+   "test_note": "S-Labs test is compared through key hashes only (scripts/build_lists.py load_test); its text is not read, printed or stored."
+  },
+  "within_source": {
+   "keep": "first",
+   "levels": [
+    "A"
+   ],
+   "rule": "Rows of one source with the same exact text keep the first row (splits in the order of adopted_splits, then row order in the file); the later rows are removed and counted. Rows of one source that match at level B only stay in the list; rows with the same normalised key form one bootstrap group (README 6.1 resampling unit).",
+   "label_conflict": "A group of same-text rows with different labels is recorded and decided in the stage-5 review before freeze 2, without model predictions."
+  },
+  "cross_source": {
+   "action": "recorded",
+   "rule": "Duplicates between the two sources are recorded with their IDs and counts; no row is removed because of them."
+  },
+  "common": "The duplicate rule and the resulting lists are the same for every model and condition (EXT-04)."
+ },
+ "length": {
+  "max_length": 256,
+  "truncation": true,
+  "length_based_exclusion": false,
+  "rule": "Every eligible row is evaluated with the common input rule of 256 tokens with truncation. No row is excluded because of its length. The truncation rate per source and the results on the rows that are not truncated (common no-truncation subset) are reported as supplementary results (README 3.4, EXT-08)."
+ },
+ "sampling": {
+  "rule": "none",
+  "note": "All eligible rows of the adopted splits are evaluated (README 3.4)."
+ },
+ "conversion": {
+  "tool": "pyarrow",
+  "environment": "a separate tools environment, not the training/evaluation environment",
+  "version": "pinned at stage 5",
+  "pin": "the SHA-256 values of the raw parquet files (sources.*.files) are the input pin of the conversion",
+  "state": "not run at stage 4: parquet rows are not parsed in this environment"
+ },
+ "deferred_to_stage_5": [
+  "conversion",
+  "review",
+  "list building"
+ ],
+ "deferred_note": "Stage 5, after freeze 1: convert the parquet files with the pinned tool, apply the label, language, duplicate and length rules above, review the result, and fix the external lists and their counts at freeze 2. External rows are predicted once, after freeze 2."
+}

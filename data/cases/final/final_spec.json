@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "readme": "README 3.2 (test use procedure), 5.2, DATA-07/08/12; rules in data/cases/final/RULES.md (fixed at freeze 1)",
+  "purpose": "final",
+  "candidates": "data/processed/test_clean.csv (final test_clean of freeze 1)",
+  "extraction": {
+    "seed": 20261117,
+    "shuffle": "random.Random(f's5-final:20261117:label{label}') over the sorted test_clean sentence IDs of the label, once",
+    "label_order": [
+      1,
+      0
+    ],
+    "per_label": {
+      "ROB-01": [
+        0,
+        49
+      ],
+      "ROB-02": [
+        50,
+        99
+      ],
+      "ROB-03": [
+        100,
+        149
+      ],
+      "reserve": [
+        150,
+        164
+      ]
+    }
+  },
+  "targets": {
+    "ROB-01": {
+      "1": 50,
+      "0": 50
+    },
+    "ROB-02": {
+      "1": 50,
+      "0": 50
+    },
+    "ROB-03": {
+      "1": 50,
+      "0": 50
+    },
+    "ROB-04": {
+      "0": 50
+    },
+    "reserve_originals_per_label": 15,
+    "rob04_reserve_items": 15,
+    "review_cases": 650
+  },
+  "generators": {
+    "ROB-01": {
+      "version": "rob01-v1",
+      "code": "scripts/build_dev_cases.py ROB01[subtype](text, random.Random(f'rob01-v1:{case_id}'))",
+      "subtypes": {
+        "case": "main",
+        "space": "main",
+        "char": "main",
+        "homoglyph": "held_out"
+      },
+      "case_id": "final-rob01-<subtype>-<6-digit test row>"
+    },
+    "ROB-02": {
+      "prompt": "data/cases/final/prompts/rob02_paraphrase_final_v1.md",
+      "items": 130,
+      "case_id": "final-rob02-<6-digit test row>"
+    },
+    "ROB-03": {
+      "prompt": "data/cases/final/prompts/rob03_contexts_final_v1.md",
+      "passages": {
+        "short": 80,
+        "long": 40
+      },
+      "template": "rob03-v1: build_dev_cases.plan_rob03 (seed 'rob03-v1') and assemble() with blank-line separators",
+      "max_tokens": 256,
+      "tokenizers": [
+        "bert",
+        "roberta",
+        "deberta"
+      ],
+      "case_id": "final-rob03-<6-digit test row>"
+    },
+    "ROB-04": {
+      "prompt": "data/cases/final/prompts/rob04_benign_final_v1.md",
+      "items": 65,
+      "main": 50,
+      "chars": [
+        40,
+        200
+      ],
+      "case_id": "final-rob04-<3-digit n>"
+    },
+    "llm_model": "claude-opus-5-5",
+    "llm_interface": "Claude Code subagent"
+  },
+  "held_out_method": "ROB-01 homoglyph (never used for training augmentation)",
+  "review": {
+    "decisions": [
+      "keep",
+      "relabel",
+      "exclude"
+    ],
+    "rob04_relabel": false,
+    "reviewers": "HANJUSON, or a separate Claude Code session ordered by HANJUSON recorded as llm:<model>:<prompt version> (not a human review)",
+    "replacement": "an excluded original group is replaced by the next unused reserve original of the same label; ROB-04 by the next reserve item"
+  },
+  "prompts_sha256_lf": {
+    "data/cases/final/prompts/rob02_paraphrase_final_v1.md": "bd930535a2c9e1d7865f4787f7c2367a0481b7e12ac7cb5821a98bd695b44661",
+    "data/cases/final/prompts/rob03_contexts_final_v1.md": "e529993c7d372dae0fef1552fbce93c6c31979fb15f44b0e682afd96c0e66873",
+    "data/cases/final/prompts/rob04_benign_final_v1.md": "e8711f71cd8f9723137b6deb77a6c1c6a395f459a041abf02816ecb45f40aec9"
+  }
+}

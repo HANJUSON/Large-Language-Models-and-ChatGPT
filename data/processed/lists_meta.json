@@ -31,7 +31,22 @@
       "whitespace_edge_rows": 0
     }
   },
-  "augmentation": null,
+  "augmentation": {
+    "dir": "data/cases/train",
+    "files": {
+      "cases.csv": "dc23890d1f12268292884f2936f4ff2ab3dc2f622c41098a455a38196bbc7d8d",
+      "train_aug.csv": "b5685fcd007800e52aa28ae2e14eb174f4fc427a51299dd9a30c499cde3a0754"
+    },
+    "label_counts": {
+      "0": 850,
+      "1": 847
+    },
+    "level_c_pairs": {
+      "test": 0,
+      "validation": 0
+    },
+    "rows": 1697
+  },
   "dataset": {
     "files": {
       "test": {
@@ -74,9 +89,17 @@
       "rows": 963,
       "sha256": "b2551b1cee222c286e26ed033d69538ba10d033f553e1146a09895791bc1e571"
     },
+    "test_clean.csv": {
+      "rows": 1985,
+      "sha256": "7915f168ee6c6848f0eba6d13824f6ace5fbe80b5a4e8b1730df7ca998ab4aa4"
+    },
     "test_clean_preaug.csv": {
       "rows": 1985,
       "sha256": "7915f168ee6c6848f0eba6d13824f6ace5fbe80b5a4e8b1730df7ca998ab4aa4"
+    },
+    "test_excluded.csv": {
+      "rows": 116,
+      "sha256": "1259e8b25dffa44b8b35dfc2f9187267bef28d5c19df3fa0343f57c75b391b2a"
     },
     "test_excluded_preaug.csv": {
       "rows": 116,
@@ -121,6 +144,7 @@
     }
   },
   "rules": {
+    "augmentation": "the cases listed in train_aug.csv of the augmentation folder (sentence_id = case ID, label, text_sha256_12; strictly ascending), text from cases.csv; every listed case has status assigned there with the same label and text hash; no listed case equals a row of the whole original validation or of test at level A (exact key) or B (normalised_key, punct_key), otherwise the build stops (B09); level C (one_word_edit) pairs with the whole original validation and with test are counted only (README 3.2)",
     "exact_key": "raw text field, unchanged (README 3.1)",
     "normalised_key": "NFKC, strip and collapse whitespace, casefold (README 3.1); used for train review groups, the train/validation audit and the similar-sentence check; on test only as a SHA-256 digest inside load_test",
     "punct_key": "normalised key with every Unicode P* (punctuation) and S* (symbol) character replaced by a space, whitespace collapsed; an empty punct key is no key (README 3.2)",
@@ -128,6 +152,7 @@
     "similar_levels": "pairs whose exact keys differ, each at its first level: B normalised_key (normalised keys equal), B punct_key (punct keys equal, normalised keys differ), C one_word_edit (punct-key word sequences differ by one word inserted, deleted or substituted, the shorter has >= 5 words); decided from SHA-256 digests only (README 3.2)",
     "similar_scope": "train_clean internal: a B group (one punct key, >= 2 rows) with >= 2 labels stops the build (B08), otherwise all rows are kept; validation_clean internal and vs every original train row; test_clean_preaug internal (B only) and vs every original train row and the whole original validation; cross-split pairs are counted and listed, never excluded; similar_pairs.csv lists every B and C pair except test C pairs (counted only)",
     "test_audit": "the lists and the audit compare test by exact key only (SHA-256 digests); the similar block compares test_clean_preaug by digests of the normalised key, the punct key and its one-word deletions (no test text is kept)",
+    "test_clean": "final list at the augmentation freeze: test minus rows whose exact key is in the cleaned train, the augmentation cases or the whole original validation (README 3.2 DATA-05); one primary reason per row by precedence train_overlap > augmentation_overlap > validation_overlap; no augmentation case equals a test row (B09), so the rows are those of test_clean_preaug and its similar-sentence statistics apply",
     "test_clean_preaug": "test minus rows whose exact key is in the cleaned train, the augmentation cases (none before the augmentation freeze) or the whole original validation (README 3.2 DATA-05); one primary reason per row by precedence train_overlap > augmentation_overlap > validation_overlap",
     "text_sha256_12": "first 12 lowercase hex characters of SHA-256 of the raw text field in UTF-8",
     "train_clean": "drop review rows with decision exclude, then keep the lowest sentence ID of every exact-key group (README 3.2)",
@@ -136,7 +161,7 @@
   "schema": 1,
   "script": {
     "path": "scripts/build_lists.py",
-    "sha256_lf": "0986fc648f0b47b4293a22cf788734938820de10e12633ebd8e1c9d29087d028"
+    "sha256_lf": "e4ed79f2ef5aabd6017bac4b64a6346f9ae3d9c8d927a8301bdc6369664b5958"
   },
   "similar": {
     "test_clean_preaug": {
@@ -254,6 +279,25 @@
         },
         "rows": 116
       },
+      "final": {
+        "clean": {
+          "labels": {
+            "0": 1043,
+            "1": 942
+          },
+          "rows": 1985
+        },
+        "excluded": {
+          "by_reason": {
+            "validation_overlap": 116
+          },
+          "labels": {
+            "0": 7,
+            "1": 109
+          },
+          "rows": 116
+        }
+      },
       "source": {
         "labels": {
           "0": 1050,
@@ -316,7 +360,7 @@
       }
     }
   },
-  "test_clean_stage": "pre-augmentation",
+  "test_clean_stage": "final",
   "trial": false,
   "unicode_version": "16.0.0",
   "usable_for": "official"

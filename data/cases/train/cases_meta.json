@@ -1,0 +1,4230 @@
+{
+  "allocation": {
+    "label_0": {
+      "ineligible": {
+        "alternating_case": 1,
+        "word_count": 3
+      },
+      "train_clean_rows": 6267,
+      "walked": 664
+    },
+    "label_1": {
+      "ineligible": {
+        "all_caps_row": 4,
+        "leetspeak": 1,
+        "multiple_spaces": 1,
+        "non_ascii": 3,
+        "spaced_letters": 4,
+        "word_count": 31
+      },
+      "train_clean_rows": 4783,
+      "walked": 704
+    }
+  },
+  "aug03_passages": {
+    "excluded": [],
+    "prompt_format_flags": {
+      "forbidden_word_or_question": [],
+      "word_count_out_of_range": []
+    },
+    "single_label": {
+      "label_0_only": [
+        10,
+        91,
+        94,
+        122,
+        131
+      ],
+      "label_1_only": []
+    },
+    "unused": [
+      166,
+      176,
+      178,
+      183,
+      184,
+      185,
+      190,
+      192,
+      193,
+      195,
+      204,
+      205,
+      209,
+      210,
+      214,
+      217,
+      224,
+      226,
+      235,
+      237
+    ],
+    "used": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162,
+      163,
+      164,
+      165,
+      167,
+      168,
+      169,
+      170,
+      171,
+      172,
+      173,
+      174,
+      175,
+      177,
+      179,
+      180,
+      181,
+      182,
+      186,
+      187,
+      188,
+      189,
+      191,
+      194,
+      196,
+      197,
+      198,
+      199,
+      200,
+      201,
+      202,
+      203,
+      206,
+      207,
+      208,
+      211,
+      212,
+      213,
+      215,
+      216,
+      218,
+      219,
+      220,
+      221,
+      222,
+      223,
+      225,
+      227,
+      228,
+      229,
+      230,
+      231,
+      232,
+      233,
+      234,
+      236,
+      238,
+      239,
+      240
+    ]
+  },
+  "aug03_plan": [
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        230
+      ],
+      "originals": {
+        "label_0": "train:004156",
+        "label_1": "train:002383"
+      },
+      "pair": 0,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        207
+      ],
+      "originals": {
+        "label_0": "train:000990",
+        "label_1": "train:000347"
+      },
+      "pair": 1,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        102,
+        95
+      ],
+      "originals": {
+        "label_0": "train:005613",
+        "label_1": "train:003804"
+      },
+      "pair": 2,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        216
+      ],
+      "originals": {
+        "label_0": "train:008275",
+        "label_1": "train:007956"
+      },
+      "pair": 3,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        171
+      ],
+      "originals": {
+        "label_0": "train:003559",
+        "label_1": "train:008244"
+      },
+      "pair": 4,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        115,
+        123
+      ],
+      "originals": {
+        "label_0": "train:006363",
+        "label_1": "train:007974"
+      },
+      "pair": 5,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        40
+      ],
+      "originals": {
+        "label_0": "train:000782",
+        "label_1": "train:002738"
+      },
+      "pair": 6,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        218
+      ],
+      "originals": {
+        "label_0": "train:004343",
+        "label_1": "train:007459"
+      },
+      "pair": 7,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        74,
+        45
+      ],
+      "originals": {
+        "label_0": "train:011002",
+        "label_1": "train:000828"
+      },
+      "pair": 8,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        116
+      ],
+      "originals": {
+        "label_0": "train:007351",
+        "label_1": "train:007622"
+      },
+      "pair": 9,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        135
+      ],
+      "originals": {
+        "label_0": "train:003312",
+        "label_1": "train:007255"
+      },
+      "pair": 10,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        149,
+        42
+      ],
+      "originals": {
+        "label_0": "train:010415",
+        "label_1": "train:008365"
+      },
+      "pair": 11,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        72
+      ],
+      "originals": {
+        "label_0": "train:003313",
+        "label_1": "train:007131"
+      },
+      "pair": 12,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        158
+      ],
+      "originals": {
+        "label_0": "train:002196",
+        "label_1": "train:001039"
+      },
+      "pair": 13,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        50,
+        111
+      ],
+      "originals": {
+        "label_0": "train:000135",
+        "label_1": "train:009138"
+      },
+      "pair": 14,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        43
+      ],
+      "originals": {
+        "label_0": "train:000909",
+        "label_1": "train:001935"
+      },
+      "pair": 15,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        56
+      ],
+      "originals": {
+        "label_0": "train:004044",
+        "label_1": "train:006446"
+      },
+      "pair": 16,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        78,
+        61
+      ],
+      "originals": {
+        "label_0": "train:009627",
+        "label_1": "train:007858"
+      },
+      "pair": 17,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        228
+      ],
+      "originals": {
+        "label_0": "train:006344",
+        "label_1": "train:006080"
+      },
+      "pair": 18,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        26
+      ],
+      "originals": {
+        "label_0": "train:008856",
+        "label_1": "train:005094"
+      },
+      "pair": 19,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        85,
+        9
+      ],
+      "originals": {
+        "label_0": "train:001073",
+        "label_1": "train:001426"
+      },
+      "pair": 20,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        139
+      ],
+      "originals": {
+        "label_0": "train:008540",
+        "label_1": "train:006552"
+      },
+      "pair": 21,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        31
+      ],
+      "originals": {
+        "label_0": "train:006605",
+        "label_1": "train:011060"
+      },
+      "pair": 22,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        16,
+        138
+      ],
+      "originals": {
+        "label_0": "train:009901",
+        "label_1": "train:000740"
+      },
+      "pair": 23,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        213
+      ],
+      "originals": {
+        "label_0": "train:009068",
+        "label_1": "train:006033"
+      },
+      "pair": 24,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        103
+      ],
+      "originals": {
+        "label_0": "train:009300",
+        "label_1": "train:009011"
+      },
+      "pair": 25,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        99,
+        60
+      ],
+      "originals": {
+        "label_0": "train:010919",
+        "label_1": "train:001585"
+      },
+      "pair": 26,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        67
+      ],
+      "originals": {
+        "label_0": "train:003458",
+        "label_1": "train:005130"
+      },
+      "pair": 27,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        229
+      ],
+      "originals": {
+        "label_0": "train:008231",
+        "label_1": "train:008393"
+      },
+      "pair": 28,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        129,
+        39
+      ],
+      "originals": {
+        "label_0": "train:004680",
+        "label_1": "train:010011"
+      },
+      "pair": 29,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        220
+      ],
+      "originals": {
+        "label_0": "train:002445",
+        "label_1": "train:008944"
+      },
+      "pair": 30,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        179
+      ],
+      "originals": {
+        "label_0": "train:000620",
+        "label_1": "train:002937"
+      },
+      "pair": 31,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        107,
+        1
+      ],
+      "originals": {
+        "label_0": "train:006724",
+        "label_1": "train:011008"
+      },
+      "pair": 32,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        66
+      ],
+      "originals": {
+        "label_0": "train:004631",
+        "label_1": "train:008903"
+      },
+      "pair": 33,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        82
+      ],
+      "originals": {
+        "label_0": "train:001448",
+        "label_1": "train:002143"
+      },
+      "pair": 34,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        156,
+        6
+      ],
+      "originals": {
+        "label_0": "train:010077",
+        "label_1": "train:001781"
+      },
+      "pair": 35,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        143
+      ],
+      "originals": {
+        "label_0": "train:003536",
+        "label_1": "train:003733"
+      },
+      "pair": 36,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        170
+      ],
+      "originals": {
+        "label_0": "train:002197",
+        "label_1": "train:000125"
+      },
+      "pair": 37,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        57,
+        38
+      ],
+      "originals": {
+        "label_0": "train:005270",
+        "label_1": "train:010775"
+      },
+      "pair": 38,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        201
+      ],
+      "originals": {
+        "label_0": "train:009837",
+        "label_1": "train:000013"
+      },
+      "pair": 39,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        126
+      ],
+      "originals": {
+        "label_0": "train:006225",
+        "label_1": "train:000950"
+      },
+      "pair": 40,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        122,
+        131
+      ],
+      "originals": {
+        "label_0": "train:010084",
+        "label_1": "train:002521"
+      },
+      "pair": 41,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        128
+      ],
+      "originals": {
+        "label_0": "train:008307",
+        "label_1": "train:010373"
+      },
+      "pair": 42,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        110
+      ],
+      "originals": {
+        "label_0": "train:008461",
+        "label_1": "train:001929"
+      },
+      "pair": 43,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        55,
+        65
+      ],
+      "originals": {
+        "label_0": "train:004267",
+        "label_1": "train:010861"
+      },
+      "pair": 44,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        12
+      ],
+      "originals": {
+        "label_0": "train:004900",
+        "label_1": "train:007954"
+      },
+      "pair": 45,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        79
+      ],
+      "originals": {
+        "label_0": "train:004240",
+        "label_1": "train:009081"
+      },
+      "pair": 46,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        77,
+        25
+      ],
+      "originals": {
+        "label_0": "train:001479",
+        "label_1": "train:000963"
+      },
+      "pair": 47,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        196
+      ],
+      "originals": {
+        "label_0": "train:009732",
+        "label_1": "train:004844"
+      },
+      "pair": 48,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        163
+      ],
+      "originals": {
+        "label_0": "train:005533",
+        "label_1": "train:001832"
+      },
+      "pair": 49,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        17,
+        133
+      ],
+      "originals": {
+        "label_0": "train:007581",
+        "label_1": "train:005776"
+      },
+      "pair": 50,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        14
+      ],
+      "originals": {
+        "label_0": "train:010864",
+        "label_1": "train:008651"
+      },
+      "pair": 51,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        202
+      ],
+      "originals": {
+        "label_0": "train:001611",
+        "label_1": "train:008032"
+      },
+      "pair": 52,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        96,
+        113
+      ],
+      "originals": {
+        "label_0": "train:002604",
+        "label_1": "train:005719"
+      },
+      "pair": 53,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        20
+      ],
+      "originals": {
+        "label_0": "train:009143",
+        "label_1": "train:002628"
+      },
+      "pair": 54,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        101
+      ],
+      "originals": {
+        "label_0": "train:008999",
+        "label_1": "train:008081"
+      },
+      "pair": 55,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        3,
+        127
+      ],
+      "originals": {
+        "label_0": "train:010814",
+        "label_1": "train:005401"
+      },
+      "pair": 56,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        222
+      ],
+      "originals": {
+        "label_0": "train:000164",
+        "label_1": "train:007126"
+      },
+      "pair": 57,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        162
+      ],
+      "originals": {
+        "label_0": "train:004466",
+        "label_1": "train:002722"
+      },
+      "pair": 58,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        69,
+        81
+      ],
+      "originals": {
+        "label_0": "train:000795",
+        "label_1": "train:003099"
+      },
+      "pair": 59,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        223
+      ],
+      "originals": {
+        "label_0": "train:008415",
+        "label_1": "train:001904"
+      },
+      "pair": 60,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        203
+      ],
+      "originals": {
+        "label_0": "train:009695",
+        "label_1": "train:003032"
+      },
+      "pair": 61,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        153,
+        29
+      ],
+      "originals": {
+        "label_0": "train:000853",
+        "label_1": "train:001968"
+      },
+      "pair": 62,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        191
+      ],
+      "originals": {
+        "label_0": "train:003470",
+        "label_1": "train:001762"
+      },
+      "pair": 63,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        159
+      ],
+      "originals": {
+        "label_0": "train:000455",
+        "label_1": "train:000979"
+      },
+      "pair": 64,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        86,
+        80
+      ],
+      "originals": {
+        "label_0": "train:008420",
+        "label_1": "train:005927"
+      },
+      "pair": 65,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        71
+      ],
+      "originals": {
+        "label_0": "train:009906",
+        "label_1": "train:010855"
+      },
+      "pair": 66,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        232
+      ],
+      "originals": {
+        "label_0": "train:007475",
+        "label_1": "train:009055"
+      },
+      "pair": 67,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        32,
+        7
+      ],
+      "originals": {
+        "label_0": "train:003146",
+        "label_1": "train:010192"
+      },
+      "pair": 68,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        181
+      ],
+      "originals": {
+        "label_0": "train:002844",
+        "label_1": "train:007392"
+      },
+      "pair": 69,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        124
+      ],
+      "originals": {
+        "label_0": "train:008338",
+        "label_1": "train:001954"
+      },
+      "pair": 70,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        41,
+        23
+      ],
+      "originals": {
+        "label_0": "train:000719",
+        "label_1": "train:004074"
+      },
+      "pair": 71,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        75
+      ],
+      "originals": {
+        "label_0": "train:001201",
+        "label_1": "train:004089"
+      },
+      "pair": 72,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        221
+      ],
+      "originals": {
+        "label_0": "train:005420",
+        "label_1": "train:008919"
+      },
+      "pair": 73,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        84,
+        58
+      ],
+      "originals": {
+        "label_0": "train:005519",
+        "label_1": "train:003244"
+      },
+      "pair": 74,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        21
+      ],
+      "originals": {
+        "label_0": "train:004449",
+        "label_1": "train:003495"
+      },
+      "pair": 75,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        147
+      ],
+      "originals": {
+        "label_0": "train:005831",
+        "label_1": "train:003959"
+      },
+      "pair": 76,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        53,
+        46
+      ],
+      "originals": {
+        "label_0": "train:002429",
+        "label_1": "train:000879"
+      },
+      "pair": 77,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        231
+      ],
+      "originals": {
+        "label_0": "train:002354",
+        "label_1": "train:002708"
+      },
+      "pair": 78,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        177
+      ],
+      "originals": {
+        "label_0": "train:007232",
+        "label_1": "train:007466"
+      },
+      "pair": 79,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        93,
+        145
+      ],
+      "originals": {
+        "label_0": "train:004375",
+        "label_1": "train:005074"
+      },
+      "pair": 80,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        198
+      ],
+      "originals": {
+        "label_0": "train:009579",
+        "label_1": "train:009721"
+      },
+      "pair": 81,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        182
+      ],
+      "originals": {
+        "label_0": "train:005196",
+        "label_1": "train:002908"
+      },
+      "pair": 82,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        19,
+        36
+      ],
+      "originals": {
+        "label_0": "train:001373",
+        "label_1": "train:002133"
+      },
+      "pair": 83,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        174
+      ],
+      "originals": {
+        "label_0": "train:008198",
+        "label_1": "train:007389"
+      },
+      "pair": 84,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        197
+      ],
+      "originals": {
+        "label_0": "train:009294",
+        "label_1": "train:009131"
+      },
+      "pair": 85,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        94,
+        91
+      ],
+      "originals": {
+        "label_0": "train:003855",
+        "label_1": "train:005389"
+      },
+      "pair": 86,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        83
+      ],
+      "originals": {
+        "label_0": "train:002180",
+        "label_1": "train:005930"
+      },
+      "pair": 87,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        90
+      ],
+      "originals": {
+        "label_0": "train:002419",
+        "label_1": "train:001592"
+      },
+      "pair": 88,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        160,
+        44
+      ],
+      "originals": {
+        "label_0": "train:001410",
+        "label_1": "train:006005"
+      },
+      "pair": 89,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        165
+      ],
+      "originals": {
+        "label_0": "train:010442",
+        "label_1": "train:010200"
+      },
+      "pair": 90,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        225
+      ],
+      "originals": {
+        "label_0": "train:006051",
+        "label_1": "train:004282"
+      },
+      "pair": 91,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        155,
+        104
+      ],
+      "originals": {
+        "label_0": "train:008207",
+        "label_1": "train:010526"
+      },
+      "pair": 92,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        206
+      ],
+      "originals": {
+        "label_0": "train:005063",
+        "label_1": "train:001017"
+      },
+      "pair": 93,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        168
+      ],
+      "originals": {
+        "label_0": "train:003849",
+        "label_1": "train:000857"
+      },
+      "pair": 94,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        88,
+        132
+      ],
+      "originals": {
+        "label_0": "train:011061",
+        "label_1": "train:003742"
+      },
+      "pair": 95,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        227
+      ],
+      "originals": {
+        "label_0": "train:010896",
+        "label_1": "train:001080"
+      },
+      "pair": 96,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        233
+      ],
+      "originals": {
+        "label_0": "train:010895",
+        "label_1": "train:004500"
+      },
+      "pair": 97,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        64,
+        89
+      ],
+      "originals": {
+        "label_0": "train:005166",
+        "label_1": "train:003923"
+      },
+      "pair": 98,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        187
+      ],
+      "originals": {
+        "label_0": "train:006647",
+        "label_1": "train:004454"
+      },
+      "pair": 99,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        37
+      ],
+      "originals": {
+        "label_0": "train:000070",
+        "label_1": "train:010714"
+      },
+      "pair": 100,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        120,
+        125
+      ],
+      "originals": {
+        "label_0": "train:005525",
+        "label_1": "train:002405"
+      },
+      "pair": 101,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        161
+      ],
+      "originals": {
+        "label_0": "train:006809",
+        "label_1": "train:006490"
+      },
+      "pair": 102,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        28
+      ],
+      "originals": {
+        "label_0": "train:009395",
+        "label_1": "train:003276"
+      },
+      "pair": 103,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        157,
+        144
+      ],
+      "originals": {
+        "label_0": "train:008445",
+        "label_1": "train:001146"
+      },
+      "pair": 104,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        212
+      ],
+      "originals": {
+        "label_0": "train:007278",
+        "label_1": "train:003792"
+      },
+      "pair": 105,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        172
+      ],
+      "originals": {
+        "label_0": "train:002446",
+        "label_1": "train:000982"
+      },
+      "pair": 106,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        33,
+        117
+      ],
+      "originals": {
+        "label_0": "train:001374",
+        "label_1": "train:004739"
+      },
+      "pair": 107,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        51
+      ],
+      "originals": {
+        "label_0": "train:003126",
+        "label_1": "train:003949"
+      },
+      "pair": 108,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        5
+      ],
+      "originals": {
+        "label_0": "train:004192",
+        "label_1": "train:006002"
+      },
+      "pair": 109,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        22,
+        137
+      ],
+      "originals": {
+        "label_0": "train:009003",
+        "label_1": "train:000655"
+      },
+      "pair": 110,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        169
+      ],
+      "originals": {
+        "label_0": "train:000629",
+        "label_1": "train:000323"
+      },
+      "pair": 111,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        97
+      ],
+      "originals": {
+        "label_0": "train:001756",
+        "label_1": "train:004224"
+      },
+      "pair": 112,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        11,
+        70
+      ],
+      "originals": {
+        "label_0": "train:009860",
+        "label_1": "train:005116"
+      },
+      "pair": 113,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        24
+      ],
+      "originals": {
+        "label_0": "train:006267",
+        "label_1": "train:003039"
+      },
+      "pair": 114,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        8
+      ],
+      "originals": {
+        "label_0": "train:000346",
+        "label_1": "train:009701"
+      },
+      "pair": 115,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        92,
+        152
+      ],
+      "originals": {
+        "label_0": "train:001490",
+        "label_1": "train:009679"
+      },
+      "pair": 116,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        219
+      ],
+      "originals": {
+        "label_0": "train:002609",
+        "label_1": "train:008912"
+      },
+      "pair": 117,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        194
+      ],
+      "originals": {
+        "label_0": "train:009535",
+        "label_1": "train:007250"
+      },
+      "pair": 118,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        141,
+        119
+      ],
+      "originals": {
+        "label_0": "train:008086",
+        "label_1": "train:007824"
+      },
+      "pair": 119,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        150
+      ],
+      "originals": {
+        "label_0": "train:010547",
+        "label_1": "train:000271"
+      },
+      "pair": 120,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        239
+      ],
+      "originals": {
+        "label_0": "train:004283",
+        "label_1": "train:006727"
+      },
+      "pair": 121,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        2,
+        134
+      ],
+      "originals": {
+        "label_0": "train:003208",
+        "label_1": "train:006480"
+      },
+      "pair": 122,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        112
+      ],
+      "originals": {
+        "label_0": "train:006756",
+        "label_1": "train:002188"
+      },
+      "pair": 123,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        98
+      ],
+      "originals": {
+        "label_0": "train:004105",
+        "label_1": "train:003088"
+      },
+      "pair": 124,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        106,
+        4
+      ],
+      "originals": {
+        "label_0": "train:001621",
+        "label_1": "train:002616"
+      },
+      "pair": 125,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        146
+      ],
+      "originals": {
+        "label_0": "train:008433",
+        "label_1": "train:008148"
+      },
+      "pair": 126,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        208
+      ],
+      "originals": {
+        "label_0": "train:003560",
+        "label_1": "train:000218"
+      },
+      "pair": 127,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        130,
+        76
+      ],
+      "originals": {
+        "label_0": "train:001709",
+        "label_1": "train:006117"
+      },
+      "pair": 128,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        148
+      ],
+      "originals": {
+        "label_0": "train:006307",
+        "label_1": "train:003273"
+      },
+      "pair": 129,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        54
+      ],
+      "originals": {
+        "label_0": "train:010859",
+        "label_1": "train:004976"
+      },
+      "pair": 130,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        47,
+        100
+      ],
+      "originals": {
+        "label_0": "train:010335",
+        "label_1": "train:007204"
+      },
+      "pair": 131,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        175
+      ],
+      "originals": {
+        "label_0": "train:005989",
+        "label_1": "train:000926"
+      },
+      "pair": 132,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        121
+      ],
+      "originals": {
+        "label_0": "train:008267",
+        "label_1": "train:004856"
+      },
+      "pair": 133,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        63,
+        142
+      ],
+      "originals": {
+        "label_0": "train:003161",
+        "label_1": "train:003880"
+      },
+      "pair": 134,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        62
+      ],
+      "originals": {
+        "label_0": "train:006466",
+        "label_1": "train:000736"
+      },
+      "pair": 135,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        164
+      ],
+      "originals": {
+        "label_0": "train:005209",
+        "label_1": "train:010862"
+      },
+      "pair": 136,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        140,
+        59
+      ],
+      "originals": {
+        "label_0": "train:010327",
+        "label_1": "train:001864"
+      },
+      "pair": 137,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        35
+      ],
+      "originals": {
+        "label_0": "train:000263",
+        "label_1": "train:006421"
+      },
+      "pair": 138,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        188
+      ],
+      "originals": {
+        "label_0": "train:007840",
+        "label_1": "train:002682"
+      },
+      "pair": 139,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        30,
+        15
+      ],
+      "originals": {
+        "label_0": "train:010561",
+        "label_1": "train:008614"
+      },
+      "pair": 140,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        211
+      ],
+      "originals": {
+        "label_0": "train:000270",
+        "label_1": "train:004174"
+      },
+      "pair": 141,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        109
+      ],
+      "originals": {
+        "label_0": "train:005902",
+        "label_1": "train:010383"
+      },
+      "pair": 142,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        136,
+        154
+      ],
+      "originals": {
+        "label_0": "train:001123",
+        "label_1": "train:003897"
+      },
+      "pair": 143,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        10
+      ],
+      "originals": {
+        "label_0": "train:003473",
+        "label_1": "train:004325"
+      },
+      "pair": 144,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        236
+      ],
+      "originals": {
+        "label_0": "train:008560",
+        "label_1": "train:003593"
+      },
+      "pair": 145,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        108,
+        151
+      ],
+      "originals": {
+        "label_0": "train:001262",
+        "label_1": "train:004439"
+      },
+      "pair": 146,
+      "position": "both"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        167
+      ],
+      "originals": {
+        "label_0": "train:003439",
+        "label_1": "train:005611"
+      },
+      "pair": 147,
+      "position": "prefix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        52
+      ],
+      "originals": {
+        "label_0": "train:008788",
+        "label_1": "train:005384"
+      },
+      "pair": 148,
+      "position": "suffix"
+    },
+    {
+      "block": "assigned",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        34,
+        105
+      ],
+      "originals": {
+        "label_0": "train:003712",
+        "label_1": "train:003488"
+      },
+      "pair": 149,
+      "position": "both"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        200
+      ],
+      "originals": {
+        "label_0": "train:003222",
+        "label_1": "train:006515"
+      },
+      "pair": 150,
+      "position": "prefix"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        189
+      ],
+      "originals": {
+        "label_0": "train:004901",
+        "label_1": "train:005490"
+      },
+      "pair": 151,
+      "position": "suffix"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        48,
+        73
+      ],
+      "originals": {
+        "label_0": "train:002244",
+        "label_1": "train:004294"
+      },
+      "pair": 152,
+      "position": "both"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        180
+      ],
+      "originals": {
+        "label_0": "train:010715",
+        "label_1": "train:004676"
+      },
+      "pair": 153,
+      "position": "prefix"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        234
+      ],
+      "originals": {
+        "label_0": "train:004202",
+        "label_1": "train:005165"
+      },
+      "pair": 154,
+      "position": "suffix"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        118,
+        49
+      ],
+      "originals": {
+        "label_0": "train:003997",
+        "label_1": "train:000710"
+      },
+      "pair": 155,
+      "position": "both"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        238
+      ],
+      "originals": {
+        "label_0": "train:009644",
+        "label_1": "train:009871"
+      },
+      "pair": 156,
+      "position": "prefix"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        215
+      ],
+      "originals": {
+        "label_0": "train:003293",
+        "label_1": "train:001743"
+      },
+      "pair": 157,
+      "position": "suffix"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        114,
+        87
+      ],
+      "originals": {
+        "label_0": "train:007110",
+        "label_1": "train:007473"
+      },
+      "pair": 158,
+      "position": "both"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        173
+      ],
+      "originals": {
+        "label_0": "train:010170",
+        "label_1": "train:009530"
+      },
+      "pair": 159,
+      "position": "prefix"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        199
+      ],
+      "originals": {
+        "label_0": "train:006351",
+        "label_1": "train:002241"
+      },
+      "pair": 160,
+      "position": "suffix"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        68,
+        13
+      ],
+      "originals": {
+        "label_0": "train:002216",
+        "label_1": "train:007394"
+      },
+      "pair": 161,
+      "position": "both"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        186
+      ],
+      "originals": {
+        "label_0": "train:004293",
+        "label_1": "train:006549"
+      },
+      "pair": 162,
+      "position": "prefix"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        240
+      ],
+      "originals": {
+        "label_0": "train:010245",
+        "label_1": "train:009898"
+      },
+      "pair": 163,
+      "position": "suffix"
+    },
+    {
+      "block": "reserve",
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        27,
+        18
+      ],
+      "originals": {
+        "label_0": "train:000197",
+        "label_1": "train:002338"
+      },
+      "pair": 164,
+      "position": "both"
+    }
+  ],
+  "automatic_exclusions": [
+    {
+      "case_id": "aug-05-083",
+      "reasons": [
+        "train_material=train:002035"
+      ]
+    }
+  ],
+  "counts": {
+    "assigned": {
+      "label_0": 850,
+      "label_1": 847
+    },
+    "cases": 1920,
+    "groups": [
+      {
+        "assigned": 150,
+        "auto_excluded": 0,
+        "condition": "AUG-01",
+        "exclude": 0,
+        "keep": 150,
+        "label": 1,
+        "pending": 0,
+        "quota": 150,
+        "reserve": 15,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "case",
+        "usable": 150
+      },
+      {
+        "assigned": 150,
+        "auto_excluded": 0,
+        "condition": "AUG-01",
+        "exclude": 0,
+        "keep": 150,
+        "label": 1,
+        "pending": 0,
+        "quota": 150,
+        "reserve": 15,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "space",
+        "usable": 150
+      },
+      {
+        "assigned": 150,
+        "auto_excluded": 0,
+        "condition": "AUG-01",
+        "exclude": 0,
+        "keep": 150,
+        "label": 1,
+        "pending": 0,
+        "quota": 150,
+        "reserve": 15,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "char",
+        "usable": 150
+      },
+      {
+        "assigned": 150,
+        "auto_excluded": 0,
+        "condition": "AUG-01",
+        "exclude": 0,
+        "keep": 150,
+        "label": 0,
+        "pending": 0,
+        "quota": 150,
+        "reserve": 15,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "case",
+        "usable": 150
+      },
+      {
+        "assigned": 150,
+        "auto_excluded": 0,
+        "condition": "AUG-01",
+        "exclude": 0,
+        "keep": 150,
+        "label": 0,
+        "pending": 0,
+        "quota": 150,
+        "reserve": 15,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "space",
+        "usable": 150
+      },
+      {
+        "assigned": 150,
+        "auto_excluded": 0,
+        "condition": "AUG-01",
+        "exclude": 0,
+        "keep": 150,
+        "label": 0,
+        "pending": 0,
+        "quota": 150,
+        "reserve": 15,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "char",
+        "usable": 150
+      },
+      {
+        "assigned": 147,
+        "auto_excluded": 0,
+        "condition": "AUG-03",
+        "exclude": 3,
+        "keep": 147,
+        "label": 1,
+        "pending": 0,
+        "quota": 150,
+        "reserve": 15,
+        "review_excluded": 3,
+        "shortfall": 0,
+        "subtype": "context",
+        "usable": 147
+      },
+      {
+        "assigned": 150,
+        "auto_excluded": 0,
+        "condition": "AUG-03",
+        "exclude": 0,
+        "keep": 150,
+        "label": 0,
+        "pending": 0,
+        "quota": 150,
+        "reserve": 15,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "context",
+        "usable": 150
+      },
+      {
+        "assigned": 42,
+        "auto_excluded": 0,
+        "condition": "AUG-04",
+        "exclude": 0,
+        "keep": 42,
+        "label": 0,
+        "pending": 0,
+        "quota": 42,
+        "reserve": 8,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "b1",
+        "usable": 42
+      },
+      {
+        "assigned": 42,
+        "auto_excluded": 0,
+        "condition": "AUG-04",
+        "exclude": 0,
+        "keep": 42,
+        "label": 0,
+        "pending": 0,
+        "quota": 42,
+        "reserve": 8,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "b2",
+        "usable": 42
+      },
+      {
+        "assigned": 42,
+        "auto_excluded": 0,
+        "condition": "AUG-04",
+        "exclude": 0,
+        "keep": 42,
+        "label": 0,
+        "pending": 0,
+        "quota": 42,
+        "reserve": 8,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "b3",
+        "usable": 42
+      },
+      {
+        "assigned": 42,
+        "auto_excluded": 0,
+        "condition": "AUG-04",
+        "exclude": 0,
+        "keep": 42,
+        "label": 0,
+        "pending": 0,
+        "quota": 42,
+        "reserve": 8,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "b4",
+        "usable": 42
+      },
+      {
+        "assigned": 41,
+        "auto_excluded": 0,
+        "condition": "AUG-04",
+        "exclude": 0,
+        "keep": 41,
+        "label": 0,
+        "pending": 0,
+        "quota": 41,
+        "reserve": 9,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "b5",
+        "usable": 41
+      },
+      {
+        "assigned": 41,
+        "auto_excluded": 0,
+        "condition": "AUG-04",
+        "exclude": 0,
+        "keep": 41,
+        "label": 0,
+        "pending": 0,
+        "quota": 41,
+        "reserve": 9,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "b6",
+        "usable": 41
+      },
+      {
+        "assigned": 50,
+        "auto_excluded": 0,
+        "condition": "AUG-05",
+        "exclude": 0,
+        "keep": 50,
+        "label": 1,
+        "pending": 0,
+        "quota": 50,
+        "reserve": 10,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "a1",
+        "usable": 50
+      },
+      {
+        "assigned": 40,
+        "auto_excluded": 1,
+        "condition": "AUG-05",
+        "exclude": 0,
+        "keep": 40,
+        "label": 1,
+        "pending": 0,
+        "quota": 40,
+        "reserve": 7,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "a2",
+        "usable": 40
+      },
+      {
+        "assigned": 40,
+        "auto_excluded": 0,
+        "condition": "AUG-05",
+        "exclude": 0,
+        "keep": 40,
+        "label": 1,
+        "pending": 0,
+        "quota": 40,
+        "reserve": 8,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "a3",
+        "usable": 40
+      },
+      {
+        "assigned": 30,
+        "auto_excluded": 0,
+        "condition": "AUG-05",
+        "exclude": 0,
+        "keep": 30,
+        "label": 1,
+        "pending": 0,
+        "quota": 30,
+        "reserve": 6,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "a4",
+        "usable": 30
+      },
+      {
+        "assigned": 30,
+        "auto_excluded": 0,
+        "condition": "AUG-05",
+        "exclude": 0,
+        "keep": 30,
+        "label": 1,
+        "pending": 0,
+        "quota": 30,
+        "reserve": 6,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "a5",
+        "usable": 30
+      },
+      {
+        "assigned": 30,
+        "auto_excluded": 0,
+        "condition": "AUG-05",
+        "exclude": 0,
+        "keep": 30,
+        "label": 1,
+        "pending": 0,
+        "quota": 30,
+        "reserve": 6,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "a6",
+        "usable": 30
+      },
+      {
+        "assigned": 30,
+        "auto_excluded": 0,
+        "condition": "AUG-05",
+        "exclude": 0,
+        "keep": 30,
+        "label": 1,
+        "pending": 0,
+        "quota": 30,
+        "reserve": 6,
+        "review_excluded": 0,
+        "shortfall": 0,
+        "subtype": "a7",
+        "usable": 30
+      }
+    ],
+    "shortfall": 0,
+    "status": {
+      "assigned": 1697,
+      "auto_excluded": 1,
+      "reserve": 219,
+      "review_excluded": 3
+    },
+    "usable": {
+      "label_0": 850,
+      "label_1": 847,
+      "total": 1697
+    }
+  },
+  "flags": [
+    {
+      "case_id": "aug-01-case-007223",
+      "flags": [
+        "train_normalised_key=train:007425"
+      ]
+    },
+    {
+      "case_id": "aug-01-case-007838",
+      "flags": [
+        "train_punct_key=train:006334"
+      ]
+    }
+  ],
+  "generators": {
+    "aug03_contexts_v1": {
+      "file": "llm/aug03_contexts_v1.json",
+      "generator": {
+        "date": "2026-11-17",
+        "interface": "Claude Code workflow subagents (one agent per slice, each given only the prompt file)",
+        "model": "claude-fable-5-2",
+        "notes": "slices: p1, p2, p3; each agent wrote its item range from the same prompt; no dev/validation/test material was given to the agents",
+        "prompt_file": "data/cases/train/prompts/aug03_contexts_v1.md",
+        "prompt_sha256": "7d01a7c7987c0c7f7668fb829aedecb76a6b170e6c2e294b464b16d5d71d131f"
+      },
+      "items": 240,
+      "prompt": "prompts/aug03_contexts_v1.md",
+      "prompt_sha256_lf": "7d01a7c7987c0c7f7668fb829aedecb76a6b170e6c2e294b464b16d5d71d131f",
+      "sha256_lf": "3d8a00b74d6a239e32f4a5c5327334b4009bb3e0b415a94f6684567fbbd86eb3"
+    },
+    "aug04_benign_v1": {
+      "file": "llm/aug04_benign_v1.json",
+      "generator": {
+        "date": "2026-11-17",
+        "interface": "Claude Code workflow subagents (one agent per slice, each given only the prompt file)",
+        "model": "claude-fable-5-2",
+        "notes": "slices: b1, b2, b3, b4, b5, b6; each agent wrote its item range from the same prompt; no dev/validation/test material was given to the agents",
+        "prompt_file": "data/cases/train/prompts/aug04_benign_v1.md",
+        "prompt_sha256": "0023f3d7710d9f564cd2641473182979e5e5ef87ef0b5c1004f5769aa5f1d0fc"
+      },
+      "items": 300,
+      "prompt": "prompts/aug04_benign_v1.md",
+      "prompt_sha256_lf": "0023f3d7710d9f564cd2641473182979e5e5ef87ef0b5c1004f5769aa5f1d0fc",
+      "sha256_lf": "6126d6094d6eb20905695b2f1e4173bdb9fb534a98a242cfc7665048b3f5af45"
+    },
+    "aug05_attacks_v1": {
+      "file": "llm/aug05_attacks_v1.json",
+      "generator": {
+        "date": "2026-11-17",
+        "interface": "Claude Code workflow subagents (one agent per slice, each given only the prompt file)",
+        "model": "claude-fable-5-2",
+        "notes": "slices: a1, a2, a3, a4, a5, a6, a7; each agent wrote its item range from the same prompt; no dev/validation/test material was given to the agents",
+        "prompt_file": "data/cases/train/prompts/aug05_attacks_v1.md",
+        "prompt_sha256": "11e72170681e05a060acf60984ab172a3879d2988e19df036401fdd294f7e9b0"
+      },
+      "items": 300,
+      "prompt": "prompts/aug05_attacks_v1.md",
+      "prompt_sha256_lf": "11e72170681e05a060acf60984ab172a3879d2988e19df036401fdd294f7e9b0",
+      "sha256_lf": "44e54aa8132be218f592d55c45313e91f6d027f34cac9096918fd0fd4f9ae1c6"
+    }
+  },
+  "inputs": {
+    "development_material": {
+      "cases.csv": {
+        "path": "data/cases/dev/cases.csv",
+        "rows": 845,
+        "sha256": "ff216b51f3beaaf9f818850c85bcc50606b3f6793f5a9cec200ea5e172aebf9b"
+      },
+      "llm/rob02_paraphrase_v1.json": {
+        "items": 130,
+        "path": "data/cases/dev/llm/rob02_paraphrase_v1.json",
+        "sha256_lf": "90270d20373617b2ea8a0b49950191f19f572b4a97c16f1235d60e2f28fbed3e"
+      },
+      "llm/rob03_contexts_v1.json": {
+        "items": 120,
+        "path": "data/cases/dev/llm/rob03_contexts_v1.json",
+        "sha256_lf": "7641ef40122499d2e6173b740ad2513de05b9d7af6cdbfd1e5955157ef5ff24e"
+      },
+      "llm/rob04_benign_v1.json": {
+        "items": 65,
+        "path": "data/cases/dev/llm/rob04_benign_v1.json",
+        "sha256_lf": "19ea965c83ced6fe2f4c16f5bce7c7bee4cfb63ac202e2d47a864cf74eaf2a7c"
+      }
+    },
+    "download_manifest.json": {
+      "path": "datasets/s-labs-prompt-injection/download_manifest.json",
+      "revision": "002a9dd18514abd021869823d6b0429b38606d99",
+      "sha256": "c9c2791b10c2be6e57b65edfb8fd04323b07f49e47dc6fd7d1e83d2ad2ec7d99"
+    },
+    "lists_meta.json": {
+      "path": "data/processed/lists_meta.json",
+      "sha256": "ee6608111be35f096da6ace6ed4add8b06b46f70a64fa90706ef979d7a54447e"
+    },
+    "scripts/build_dev_cases.py": {
+      "path": "scripts/build_dev_cases.py",
+      "sha256_lf": "d62e6470cd10a4f6bf709040ecfbe5605df535c3a3a61ff42707902628d04457"
+    },
+    "scripts/build_lists.py": {
+      "path": "scripts/build_lists.py",
+      "sha256_lf": "e4ed79f2ef5aabd6017bac4b64a6346f9ae3d9c8d927a8301bdc6369664b5958"
+    },
+    "scripts/data_lists.py": {
+      "path": "scripts/data_lists.py",
+      "sha256_lf": "9cf7f9e2ac8fba44858e0e26ad7f25104bf4937954fe686c43f9185b562b0368"
+    },
+    "scripts/model_specs.py": {
+      "path": "scripts/model_specs.py",
+      "sha256_lf": "cb240a2a0d9b9101fd55bd1652a26c64ff446beb5836dcbe56483f156e0d6d1a"
+    },
+    "train.csv": {
+      "rows": 11089,
+      "sha256": "bab012fec95d4214599b18777fd6efc5cc5e9545354df581880aeca5c1d487d7",
+      "size": 747016,
+      "via": "download_manifest.json"
+    },
+    "train_clean.csv": {
+      "path": "data/processed/train_clean.csv",
+      "rows": 11050,
+      "sha256": "1dbb9244b99eca35ae65608f994dc1aa8f1901e950e19af979cd59ee586b6ca3"
+    },
+    "validation.csv": {
+      "rows": 2101,
+      "sha256": "c7d14d24a14dd30a37ebe0de928b8ccdcdf6639c3c2e830b59561e2dd5fb7b55",
+      "size": 122918,
+      "via": "download_manifest.json"
+    }
+  },
+  "not_ready_reasons": [],
+  "outputs": {
+    "cases.csv": {
+      "rows": 1920,
+      "sha256": "dc23890d1f12268292884f2936f4ff2ab3dc2f622c41098a455a38196bbc7d8d"
+    },
+    "originals.csv": {
+      "rows": 1368,
+      "sha256": "c76de5a90e57956c39cfff4e0f35d959126bc16b730fd7bd8ee853474d1eecf1"
+    },
+    "review.csv": {
+      "rows": 1700,
+      "sha256": "074caebfa00948ab408a0f6d1a13aa2862c62ea5eda58398749b86fc450bdfc9"
+    },
+    "train_aug.csv": {
+      "rows": 1697,
+      "sha256": "b5685fcd007800e52aa28ae2e14eb174f4fc427a51299dd9a30c499cde3a0754"
+    }
+  },
+  "purpose": "train",
+  "readme": "README 3.3 DATA-07..12, 5.3 (condition C), 3.2 keys; design .omc/autopilot/stage4-design.md D1, D2",
+  "ready_for_training": true,
+  "review": {
+    "exclude": 3,
+    "keep": 1697,
+    "pending": 0,
+    "retained_without_effect": 0,
+    "reviewers": {
+      "llm:claude-opus-5-5:aug_review_v1": 1700
+    },
+    "rows": 1700
+  },
+  "rule_versions": {
+    "aug01": "aug01-v1",
+    "aug01_subtypes": [
+      "case",
+      "space",
+      "char"
+    ],
+    "aug03": "aug03-v1",
+    "aug03_tries": 20,
+    "held_out": "ROB-01 homoglyph (never used for training augmentation; refused, C08)",
+    "leet_map": {
+      "a": "4",
+      "e": "3",
+      "i": "1",
+      "o": "0",
+      "s": "5",
+      "t": "7"
+    },
+    "max_tokens": 256,
+    "rob01_operations": "scripts/build_dev_cases.py ROB01 (rob01-v1)"
+  },
+  "rules": {
+    "aug01": "build_dev_cases.ROB01[subtype] (ROB-01 v1 operations case, space, char) on new train originals with new seeds; the held-out method homoglyph is refused",
+    "aug03": "pair i shares its passages across labels; position (prefix, suffix, both)[i % 3]; assigned block: 25 of the 50 prefix and 25 of the 50 suffix pairs get one long passage (seeded sample), the others one short; reserve block: prefix and suffix pairs get one long passage; both = two short; first of at most 20 queue candidates (planned class, then the other) with <= 256 tokens for both cases and all three tokenizers; a passage is used by one pair only",
+    "aug04_aug05": "items of a family in file order: the first K passing items are assigned, later passing items are reserves",
+    "checks": "validation rows: exact / normalised key / punct key -> exclude; train rows: exact -> exclude, key match with another label -> exclude (label_conflict), same label -> flag for AUG-01/03 (train-derived), exclude (train_material) for AUG-04/05 (new LLM text); development material: exact / key -> exclude, AUG-04/05 also a one-word edit; duplicate inside the set -> the later case excluded; > 256 tokens -> exclude; LLM text format -> exclude",
+    "eligible_original": "ASCII, no line break, 4-40 words, none of the surface patterns alternating_case, spaced_letters, multiple_spaces, leetspeak, all_caps_row",
+    "review": "pending | keep | exclude; exclude -> review_excluded, not replaced; usable = assigned and keep",
+    "selection": "per label (1, 0) the sorted train_clean IDs are shuffled once and walked; slot groups case, space, char (label 1, then 0), then context; 150 assigned + 15 reserve passing candidates per group; a failing candidate is auto_excluded and skipped; one case per original",
+    "test_overlap": "levels A and B from test_overlap.json (scripts/check_cases_vs_test.py), applied only when its pool_sha256 equals the current pool; a matching assigned case is replaced by the next non-matching reserve of its slot group",
+    "train_aug": "written only when the test overlap is applied and no review row is pending"
+  },
+  "schema": 1,
+  "script": {
+    "path": "scripts/build_train_aug.py",
+    "sha256_lf": "40bd0bdca8027c67f6b7c399f85c557a31deefa583287c6df32ca203fd60ad26"
+  },
+  "seeds": {
+    "aug01": "random.Random(f'aug01-v1:{case_id}')",
+    "aug03": "random.Random('aug03-v1'): long-passage samples (assigned prefix pairs, assigned suffix pairs), short queue, long queue",
+    "selection": "random.Random(f's4-aug:20261117:label{label}').shuffle(sorted IDs)",
+    "selection_seed": 20261117
+  },
+  "test_overlap": {
+    "cases_matched": {
+      "assigned": 0,
+      "auto_excluded": 0,
+      "reserve": 0
+    },
+    "counts": {
+      "exact": 0,
+      "normalised_key": 0,
+      "one_word_edit_cases": 0,
+      "one_word_edit_pairs": 0,
+      "punct_key": 0
+    },
+    "file": "test_overlap.json",
+    "pool_sha256": "4726fb19832475594faadce6159a5f94661ca6aa1c55993144fd43d43de44aa9",
+    "reason": null,
+    "replacements": [],
+    "sha256": "02194ee45d4c7ecabece5210eae142d64eab0103ecdc574e1e8e3b648da08b67",
+    "status": "applied"
+  },
+  "token_lengths": {
+    "AUG-01": {
+      "bert": {
+        "max": 136,
+        "median": 23.0,
+        "n": 900,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 138,
+        "median": 27.0,
+        "n": 900,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 136,
+        "median": 29.0,
+        "n": 900,
+        "over_256": 0
+      }
+    },
+    "AUG-03": {
+      "bert": {
+        "max": 128,
+        "median": 79,
+        "n": 297,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 125,
+        "median": 75,
+        "n": 297,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 128,
+        "median": 83,
+        "n": 297,
+        "over_256": 0
+      }
+    },
+    "AUG-04": {
+      "bert": {
+        "max": 46,
+        "median": 27.0,
+        "n": 250,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 43,
+        "median": 26.0,
+        "n": 250,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 43,
+        "median": 27.0,
+        "n": 250,
+        "over_256": 0
+      }
+    },
+    "AUG-05": {
+      "bert": {
+        "max": 50,
+        "median": 24.0,
+        "n": 250,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 45,
+        "median": 23.0,
+        "n": 250,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 48,
+        "median": 23.0,
+        "n": 250,
+        "over_256": 0
+      }
+    },
+    "all": {
+      "bert": {
+        "max": 136,
+        "median": 27,
+        "n": 1697,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 138,
+        "median": 27,
+        "n": 1697,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 136,
+        "median": 29,
+        "n": 1697,
+        "over_256": 0
+      }
+    }
+  },
+  "tokenizers": {
+    "bert": "4d03705f0a40bce5fc03ae80e84ff8ec33eafd64ec90aded019d2be80300fc52",
+    "deberta": "4adacb9141d658578ad4de72802c8cb37d4f9618ee7652dc6f6e7a85ac037b5b",
+    "roberta": "0f49de6c1aae4b1b86b2badcb8000545cbb34cf6399caebbe84d76ccb636cb0e"
+  },
+  "train_patterns_after": {
+    "counts": {
+      "after": {
+        "all_caps_row": {
+          "label_0": 0,
+          "label_1": 24
+        },
+        "alternating_case": {
+          "label_0": 46,
+          "label_1": 56
+        },
+        "cyrillic": {
+          "label_0": 0,
+          "label_1": 0
+        },
+        "leetspeak": {
+          "label_0": 150,
+          "label_1": 172
+        },
+        "multiple_spaces": {
+          "label_0": 150,
+          "label_1": 153
+        },
+        "non_ascii": {
+          "label_0": 0,
+          "label_1": 22
+        },
+        "spaced_letters": {
+          "label_0": 150,
+          "label_1": 162
+        }
+      },
+      "augmentation_assigned": {
+        "all_caps_row": {
+          "label_0": 0,
+          "label_1": 0
+        },
+        "alternating_case": {
+          "label_0": 39,
+          "label_1": 43
+        },
+        "cyrillic": {
+          "label_0": 0,
+          "label_1": 0
+        },
+        "leetspeak": {
+          "label_0": 150,
+          "label_1": 150
+        },
+        "multiple_spaces": {
+          "label_0": 150,
+          "label_1": 150
+        },
+        "non_ascii": {
+          "label_0": 0,
+          "label_1": 0
+        },
+        "spaced_letters": {
+          "label_0": 150,
+          "label_1": 150
+        }
+      },
+      "augmentation_usable": {
+        "all_caps_row": {
+          "label_0": 0,
+          "label_1": 0
+        },
+        "alternating_case": {
+          "label_0": 39,
+          "label_1": 43
+        },
+        "cyrillic": {
+          "label_0": 0,
+          "label_1": 0
+        },
+        "leetspeak": {
+          "label_0": 150,
+          "label_1": 150
+        },
+        "multiple_spaces": {
+          "label_0": 150,
+          "label_1": 150
+        },
+        "non_ascii": {
+          "label_0": 0,
+          "label_1": 0
+        },
+        "spaced_letters": {
+          "label_0": 150,
+          "label_1": 150
+        }
+      },
+      "train_clean": {
+        "all_caps_row": {
+          "label_0": 0,
+          "label_1": 24
+        },
+        "alternating_case": {
+          "label_0": 7,
+          "label_1": 13
+        },
+        "cyrillic": {
+          "label_0": 0,
+          "label_1": 0
+        },
+        "leetspeak": {
+          "label_0": 0,
+          "label_1": 22
+        },
+        "multiple_spaces": {
+          "label_0": 0,
+          "label_1": 3
+        },
+        "non_ascii": {
+          "label_0": 0,
+          "label_1": 22
+        },
+        "spaced_letters": {
+          "label_0": 0,
+          "label_1": 12
+        }
+      }
+    },
+    "definitions": {
+      "all_caps_row": ">= 4 cased characters and no lowercase character in the row",
+      "alternating_case": "an ASCII letter run of >= 4 letters whose case alternates at every letter",
+      "cyrillic": "a character in U+0400-U+04FF",
+      "leetspeak": "a token (maximal ASCII letter/digit run) of letters and the digits 0 1 3 4 5 7 with at least one of each whose de-leeted form (0->o, 1->i or l, 3->e, 4->a, 5->s, 7->t) is a word of >= 3 letters occurring as an all-letter token in the train or validation texts (base64-like fragments, codes and numbers such as mp3 or 4k do not count)",
+      "multiple_spaces": "two or more spaces between non-space characters",
+      "non_ascii": "a non-ASCII character (README 3.2: all such train rows are injections, a shortcut candidate)",
+      "spaced_letters": ">= 4 single ASCII letters separated by single spaces"
+    },
+    "scopes": "train_clean; augmentation_assigned (status assigned); augmentation_usable (assigned and keep); after = train_clean + augmentation_usable",
+    "vocabulary": "leetspeak vocabulary: all-letter tokens of >= 3 letters in the raw train and validation rows (as build_dev_cases.train_patterns)"
+  }
+}

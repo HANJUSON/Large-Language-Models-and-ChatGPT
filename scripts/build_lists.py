@@ -1,10 +1,11 @@
 """Build the common sentence lists (README 3.2 DATA-01..06, 7.1) from the pinned raw splits.
 
 Reads datasets/s-labs-prompt-injection/download_manifest.json (its SHA-256 is
-pinned), the three raw splits it lists and data/processed/train_review.csv;
-checks every raw file against the manifest (revision, size, SHA-256) before
-parsing; writes ID lists (never sentence text) and lists_meta.json. Standard
-library only.
+pinned), the three raw splits it lists, data/processed/train_review.csv and,
+when it exists, the frozen augmentation list data/cases/train/train_aug.csv
+with its cases.csv (final stage, below); checks every raw file against the
+manifest (revision, size, SHA-256) before parsing; writes ID lists (never
+sentence text) and lists_meta.json. Standard library only.
 
 Rules (README line numbers as of the commit that adds this script):
   - Sentence ID `split:NNNNNN`: 0-based index of the data records read with the
@@ -26,6 +27,37 @@ Rules (README line numbers as of the commit that adds this script):
     primary reason per excluded row by precedence train_overlap >
     augmentation_overlap > validation_overlap; non-exclusive overlap counts
     are in lists_meta.json "audit".
+  - Stages (README 3.2 DATA-05, 7.1). No train_aug.csv in the augmentation
+    folder (--augmentation, default data/cases/train) = pre-augmentation
+    stage: the eight files below, "test_clean_stage": "pre-augmentation",
+    "augmentation": null. train_aug.csv exists = final stage (augmentation
+    freeze): the same eight files with the same rows plus test_clean.csv and
+    test_excluded.csv, "test_clean_stage": "final" and an "augmentation"
+    record (folder, SHA-256 of train_aug.csv and cases.csv, rows, label
+    counts, level C pair counts).
+  - Augmentation input (final stage, stop code B09). train_aug.csv: ASCII, LF,
+    header sentence_id,label,text_sha256_12, sentence_id = augmentation case
+    ID (aug-01-<case|space|char>-NNNNNN, aug-03-NNNNNN, aug-04-NNN,
+    aug-05-NNN), strictly ascending, no quoting. cases.csv: the 16 case
+    columns (case_id ... text), read with the csv module (strict), text = the
+    field unchanged. Every listed case must exist in cases.csv with status
+    `assigned`, the same label and h12(text) equal to text_sha256_12.
+    No listed case may equal a row of the whole original validation or of test
+    at level A (exact key) or B (normalised key, punct key; decided by
+    similar_pairs like every other B pair): scripts/build_train_aug.py must
+    have removed such cases already, so a match is a stop, not an exclusion.
+    Level C (one_word_edit) pairs augmentation-validation and
+    augmentation-test are counted only (lists_meta.json "augmentation").
+  - test_clean (final stage): test minus rows whose exact key is in the
+    cleaned train, the augmentation cases or the whole original validation,
+    same precedence of reasons. Because B09 allows no augmentation case that
+    equals a test row, a successful final build has augmentation_overlap 0
+    and test_clean.csv holds the rows of test_clean_preaug.csv; the
+    similar-sentence statistics of test_clean_preaug therefore describe
+    test_clean too. In the final stage the non-exclusive overlap counts
+    ("audit" test.augmentation_overlap_rows, EXPECTED "test_overlap") are
+    those of the final build, i.e. counted against the real augmentation
+    cases.
   - test use (3.2 L176-184): automated duplicate IDs and counts only.
   - Similar-sentence check (README 3.2, DATA-06). Levels of a pair of rows
     whose exact keys differ, each pair at its first level: A exact key
@@ -52,7 +84,10 @@ Rules (README line numbers as of the commit that adds this script):
     IDs compare case-insensitively; empty tokens are R09 and are not counted
     by R20/R23; R23 compares each row's sorted ID set, so the order is free.
   - Expected counts are constants (EXPECTED) citing README; a legitimate
-    decision change edits README 3.2 and EXPECTED together (B02).
+    decision change edits README 3.2 and EXPECTED together (B02). The
+    final-stage counts are in EXPECTED_FINAL; an entry that is still None is
+    not pinned: the final build then stops with B02, prints the actual counts
+    to pin and writes nothing (official lists never carry unpinned counts).
   - Contract gap: a normalised-key variant of a conflict text forms a 1-row
     normkey_only group whose label is not compared with the label kept in the
     conflict group by the review checks (cannot occur at the pinned revision);
@@ -67,6 +102,8 @@ Outputs (UTF-8 without BOM, LF, header, trailing LF, sorted by sentence_id):
                             (train_overlap -> lowest original train ID)
   test_clean_preaug.csv     sentence_id
   test_excluded_preaug.csv  sentence_id,reason
+  test_clean.csv            sentence_id          (final stage only)
+  test_excluded.csv         sentence_id,reason   (final stage only)
   similar_pairs.csv         level,sentence_id,other_id (level normalised_key,
                             punct_key or one_word_edit; sentence_id is the
                             train_clean / validation_clean / test_clean_preaug
@@ -87,15 +124,20 @@ Modes:
     --allow-proposed is ignored (bytes identical with or without it).
   - --check: rebuild in memory and require the official files in <out-dir>/
     to be byte-identical and meta "trial": false; writes nothing. Stage-2 and
-    freeze-1 code must require it to pass.
+    freeze-1 code must require it to pass. Eight files in the
+    pre-augmentation stage, ten in the final stage; in the pre-augmentation
+    stage a test_clean.csv / test_excluded.csv left in <out-dir>/ fails it.
   Write sequence: validate everything in memory; remove a stale <name>.tmp of
-  every output; delete <target>/lists_meta.json; write each file to <name>.tmp
-  (exclusive create) and os.replace it; meta last; on an exception the .tmp
-  files are removed and the run fails with B05 (no meta is left).
+  every output; delete <target>/lists_meta.json; in the pre-augmentation
+  stage remove a test_clean.csv / test_excluded.csv of an earlier final-stage
+  build; write each file to <name>.tmp (exclusive create) and os.replace it;
+  meta last; on an exception the .tmp files are removed and the run fails
+  with B05 (no meta is left).
   Output locations (B06, checked before any raw file is read):
-    - --out-dir never under datasets/ (each ancestor compared by file identity);
+    - --out-dir and --augmentation never under datasets/ (each ancestor
+      compared by file identity);
     - a write to the default out-dir (official, or its trial/) and --check on
-      it need the default --review and --manifest;
+      it need the default --review, --manifest and --augmentation;
     - --out-dir data/processed/trial/ is refused for every write (official
       lists never go to the trial folder);
     - with --allow-proposed, <out-dir>/trial must be data/processed/trial/ or
@@ -129,19 +171,29 @@ lists_meta.json deleted; a folder without lists_meta.json is incomplete, rerun):
   If R05, R06, R07 or R09 occur, the group checks R12-R15, R18, R19, R21 and R23
   are skipped (a `note:` line says so), so one malformed row does not cascade.
   B01 exact-key group with >= 2 labels after review exclusion
-  B02 count != EXPECTED (actual and expected printed)
+  B02 count != EXPECTED (actual and expected printed); final stage: count !=
+      EXPECTED_FINAL, or an EXPECTED_FINAL entry not pinned yet (actual printed)
   B03 invariant broken (partition by label, disjointness, unique train_clean
       keys, test_clean disjoint from validation and cleaned train, review
-      exclude rows listed as review_exclude, refs)
+      exclude rows listed as review_exclude, refs; final stage: test_clean +
+      test_excluded partition test, test_clean disjoint from the cleaned
+      train, the augmentation and validation)
   B04 output line grammar, or a non-ASCII stdout line
   B05 write failure (PermissionError etc.)
   B06 refused location or mode (see Output locations); --check with
       --allow-proposed, with proposed review rows, or with missing, trial or
       differing files (a differing lists_meta.json names up to 10 differing
-      keys); an event refused by the audit hook
+      keys) or final-stage files left in a pre-augmentation out-dir; an event
+      refused by the audit hook
   B07 unexpected exception: type and line in this script only, message suppressed
   B08 train_clean B group (normalised or punct key) with >= 2 labels: human
       review needed (README 3.2); train_review.csv has no check type for it yet
+  B09 augmentation input (final stage): train_aug.csv or cases.csv unreadable
+      or malformed (encoding, header, field count, case ID, label, hash
+      format, order, canonical form, duplicate case_id); a listed case missing
+      in cases.csv, not `assigned`, with another label, another text hash or
+      an empty text; a listed case equal to a validation or test row at level
+      A or B (case IDs only)
 
 Test-safety guarantees: test.csv is read once, by load_test() only, as bytes
 whose size and SHA-256 are checked before parsing; inside load_test each text
@@ -150,6 +202,10 @@ one-word deletions with positions, plus the word count) and the texts are
 dropped; they are never printed, logged or written; exceptions inside load_test
 are reported by type and record number only. Test lists and similar_pairs.csv
 carry test IDs (B levels) and reasons only; stdout is ASCII, counts and IDs.
+The augmentation cases are compared with test through these digests only
+(check_augmentation, build_test); a B09 match names augmentation case IDs.
+Augmentation text is never printed or written either: reader errors carry
+record numbers, or case IDs that passed the ID grammar.
 main() installs an audit hook (once) that, while main runs, refuses (Python-level
 opens and the listed events only):
   - an open of a path whose basename is test.csv (case-insensitive, also after
@@ -185,19 +241,22 @@ Run from Git Bash at the repo root:
     PYTHONUTF8=1 .venv/Scripts/python.exe scripts/build_lists.py
         (after a member confirms every review row -> official lists)
     PYTHONUTF8=1 .venv/Scripts/python.exe scripts/build_lists.py --check
-Options: --review PATH, --manifest PATH, --out-dir PATH (defaults resolve from
-the repo root, not the cwd).
+Options: --review PATH, --manifest PATH, --out-dir PATH, --augmentation DIR
+(defaults resolve from the repo root, not the cwd).
 
-Out of scope: augmentation input. build_test() takes augmentation_digests, but
-the CLI has none yet. At the augmentation freeze the final post-augmentation
-lists are test_clean.csv / test_excluded.csv with lists_meta.json
-"test_clean_stage": "final" (README 3.2 L156); this script writes only the
-pre-augmentation test_clean_preaug.csv / test_excluded_preaug.csv
-("test_clean_stage": "pre-augmentation"). The similar-sentence rules for later
-inputs (README 3.2) are applied when those inputs exist, not here: drop an
-augmentation case whose exact, normalised or punct key equals a validation or
-test row; drop an external row whose key equals an S-Labs split row or an
-augmentation case; count C in both.
+Pinning the final stage (once, at the augmentation freeze): run the default
+build; it stops with one `FAIL B02 <key>: final-stage count not pinned; actual
+{...}` line per EXPECTED_FINAL entry and writes nothing. Copy each printed
+value into EXPECTED_FINAL (the only place), state the same counts in README
+3.2, rerun the default build (ten files, "test_clean_stage": "final") and
+commit the lists with this script.
+
+Out of scope: dropping augmentation cases. A case whose exact, normalised or
+punct key equals a validation or test row is removed by
+scripts/build_train_aug.py with scripts/check_cases_vs_test.py; here such a
+case stops the build (B09). The similar-sentence rule for external rows
+(README 3.2: drop an external row whose key equals an S-Labs split row or an
+augmentation case; count C) is applied when those inputs exist, not here.
 
 Exit code 0 on success, 1 on any failure.
 """
@@ -220,6 +279,9 @@ DATASETS = ROOT / "datasets"
 DEFAULT_MANIFEST = DATASETS / "s-labs-prompt-injection" / "download_manifest.json"
 DEFAULT_REVIEW = ROOT / "data" / "processed" / "train_review.csv"
 DEFAULT_OUT = ROOT / "data" / "processed"
+DEFAULT_AUGMENTATION = ROOT / "data" / "cases" / "train"  # README 7.1; written by scripts/build_train_aug.py
+AUG_LIST = "train_aug.csv"  # the usable cases; its presence selects the final stage
+AUG_CASES = "cases.csv"     # case_id -> label, status, text
 TRIAL_DIR = "trial"
 META = "lists_meta.json"
 SCHEMA = 1
@@ -265,8 +327,22 @@ EXPECTED = {
         "one_word_edit": {"rows": 212, "pairs": 271, "label_disagree_pairs": 0}},
 }
 
+# Final-stage counts (README 3.2 DATA-05: test_clean.csv at the augmentation freeze), checked in
+# addition to EXPECTED when <augmentation>/train_aug.csv exists. None = not pinned yet: the final build
+# stops with B02, prints the actual counts of that entry and writes nothing. This dict is the only place
+# to pin them (with README 3.2), from the B02 lines of one run on the frozen augmentation. B09 allows no
+# augmentation case that equals a test row, so test_clean / test_excluded can only repeat the
+# pre-augmentation counts above (augmentation_overlap 0).
+EXPECTED_FINAL = {  # pinned 2026-11-17 on the reviewed augmentation (README 3.2, 5.3)
+    "augmentation": {"rows": 1697, "0": 850, "1": 847},  # rows of train_aug.csv, by label
+    "augmentation_level_c": {"validation": 0, "test": 0},  # one_word_edit pairs, counted only
+    "test_clean": {"rows": 1985, "0": 1043, "1": 942},
+    "test_excluded": {"rows": 116, "train_overlap": 0, "augmentation_overlap": 0, "validation_overlap": 116},
+}
+
 OUTPUTS = ("train_clean", "train_excluded", "validation_clean", "validation_excluded",
            "test_clean_preaug", "test_excluded_preaug")
+FINAL_OUTPUTS = ("test_clean", "test_excluded")  # final stage only, in addition to OUTPUTS
 SIMILAR = "similar_pairs"  # README 3.2 similar-sentence check; not a clean/excluded list
 SIM_LEVELS = ("normalised_key", "punct_key", "one_word_edit")  # B, B, C
 MIN_EDIT_WORDS = 5  # one_word_edit: the shorter word sequence has at least this many words
@@ -277,6 +353,8 @@ HEADERS = {
     "validation_excluded": "sentence_id,label,text_sha256_12,reason,ref",
     "test_clean_preaug": "sentence_id",
     "test_excluded_preaug": "sentence_id,reason",
+    "test_clean": "sentence_id",
+    "test_excluded": "sentence_id,reason",
     SIMILAR: "level,sentence_id,other_id",
 }
 LINE_GRAMMAR = {k: re.compile(v) for k, v in {
@@ -287,6 +365,8 @@ LINE_GRAMMAR = {k: re.compile(v) for k, v in {
     "validation_excluded": r"validation:[0-9]{6},[01],[0-9a-f]{12},train_overlap,train:[0-9]{6}",
     "test_clean_preaug": r"test:[0-9]{6}",
     "test_excluded_preaug": r"test:[0-9]{6},(?:train_overlap|augmentation_overlap|validation_overlap)",
+    "test_clean": r"test:[0-9]{6}",
+    "test_excluded": r"test:[0-9]{6},(?:train_overlap|augmentation_overlap|validation_overlap)",
     SIMILAR: r"(?:normalised_key|punct_key|one_word_edit),"
              r"(?:train:[0-9]{6},train|validation:[0-9]{6},(?:train|validation)):[0-9]{6}"
              r"|(?:normalised_key|punct_key),test:[0-9]{6},(?:train|validation|test):[0-9]{6}",
@@ -313,6 +393,16 @@ TRAIN_SID_RE = re.compile(r"train:[0-9]{6}")
 GROUP_RE = re.compile(r"T-(?:CONFLICT|NORMKEY)-[1-9][0-9]*")
 H12_RE = re.compile(r"[0-9a-f]{12}")
 GITHUB_ID_RE = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}")
+
+# Augmentation input (final stage, B09). The header, the case columns, the case ID grammar and the usable
+# status are those of scripts/build_train_aug.py (TRAIN_AUG_HEADER, CASE_COLUMNS, CASE_ID_RE, `assigned`).
+AUG_LIST_HEADER = "sentence_id,label,text_sha256_12"
+AUG_CASE_COLUMNS = ("case_id", "group_id", "source_split", "source_id", "purpose", "condition", "subtype",
+                    "eval_group", "label", "position", "context_ids", "generator", "generator_version",
+                    "status", "auto_flags", "text")
+AUG_ID_RE = re.compile(r"aug-01-(?:case|space|char)-[0-9]{6}|aug-03-[0-9]{6}|aug-0[45]-[0-9]{3}")
+AUG_USABLE_STATUS = "assigned"
+AUG_REFERENCES = ("validation", "test")  # whole original splits compared with the augmentation cases
 
 RULES = {
     "sentence_id": "split:NNNNNN = 0-based index of the data records read with Python csv "
@@ -344,6 +434,20 @@ RULES = {
     "test_audit": "the lists and the audit compare test by exact key only (SHA-256 digests); the similar "
                   "block compares test_clean_preaug by digests of the normalised key, the punct key and its "
                   "one-word deletions (no test text is kept)",
+}
+# Added to lists_meta.json "rules" in the final stage only (the pre-augmentation meta keeps RULES as is).
+FINAL_RULES = {
+    "augmentation": f"the cases listed in {AUG_LIST} of the augmentation folder (sentence_id = case ID, label, "
+                    f"text_sha256_12; strictly ascending), text from {AUG_CASES}; every listed case has status "
+                    f"{AUG_USABLE_STATUS} there with the same label and text hash; no listed case equals a row "
+                    "of the whole original validation or of test at level A (exact key) or B (normalised_key, "
+                    "punct_key), otherwise the build stops (B09); level C (one_word_edit) pairs with the whole "
+                    "original validation and with test are counted only (README 3.2)",
+    "test_clean": "final list at the augmentation freeze: test minus rows whose exact key is in the cleaned "
+                  "train, the augmentation cases or the whole original validation (README 3.2 DATA-05); one "
+                  "primary reason per row by precedence train_overlap > augmentation_overlap > "
+                  "validation_overlap; no augmentation case equals a test row (B09), so the rows are those of "
+                  "test_clean_preaug and its similar-sentence statistics apply",
 }
 
 
@@ -486,6 +590,13 @@ def fmt_ids(ids, limit=10):
     shown = ", ".join(ids[:limit])
     more = f", ... (+{len(ids) - limit} more)" if len(ids) > limit else ""
     return f"{len(ids)} ({shown}{more})"
+
+
+def fmt_recs(numbers, limit=10):
+    """Like fmt_ids for 1-based record numbers (header excluded), in file order."""
+    shown = ", ".join(str(n) for n in numbers[:limit])
+    more = f", ... (+{len(numbers) - limit} more)" if len(numbers) > limit else ""
+    return f"{len(numbers)} (record {shown}{more})"
 
 
 def fmt_counts(counts, keys):
@@ -948,10 +1059,10 @@ def build_test(test_digests, *, cleaned_train_digests, validation_digests, origi
     return sorted(clean), sorted(excluded), {k: overlap[k] for k in OVERLAP_KEYS}
 
 
-def count_lists(lists, test_labels, overlap):
+def count_lists(lists, test_labels, overlap, stems=OUTPUTS):
     """Counts compared with EXPECTED: rows and labels for clean lists, rows and reasons for excluded."""
     counts = {}
-    for stem in OUTPUTS:
+    for stem in stems:
         rows = lists[stem]
         c = {"rows": len(rows)}
         if "_clean" in stem:
@@ -964,34 +1075,49 @@ def count_lists(lists, test_labels, overlap):
     return counts
 
 
-def check_expected(counts, expected=EXPECTED):
-    """B02: every count must equal the README constants (actual and expected printed)."""
+def check_expected(counts, expected=EXPECTED, name="EXPECTED"):
+    """B02: every count must equal the README constants (actual and expected printed).
+
+    An entry that is None (EXPECTED_FINAL before the augmentation freeze) is not pinned: B02 with the
+    actual counts, so nothing is written until the entry holds them.
+    """
     errors = []
     for stem, want in expected.items():
         got = counts.get(stem, {})
+        if want is None:
+            errors.append(f"B02 {stem}: final-stage count not pinned; actual {json.dumps(got)}; set "
+                          f"{name}[\"{stem}\"] in scripts/build_lists.py to this value at the augmentation "
+                          f"freeze, together with README 3.2, and rerun")
+            continue
         diffs = [f"{k} {got.get(k, 0)} (expected {want.get(k, 0)})"
                  for k in sorted(set(want) | set(got)) if got.get(k, 0) != want.get(k, 0)]
         if diffs:
             errors.append(f"B02 {stem}: {', '.join(diffs)}; a legitimate decision change edits README 3.2 "
-                          f"and EXPECTED in scripts/build_lists.py together")
+                          f"and {name} in scripts/build_lists.py together")
     return errors
 
 
-def check_invariants(train, validation, test, review_rows, lists):
-    """B03 invariants on the built lists (train/validation rows (sid, label, text), test rows (sid, label, digest, ...))."""
+def check_invariants(train, validation, test, review_rows, lists, augmentation_digests=None):
+    """B03 invariants on the built lists (train/validation rows (sid, label, text), test rows (sid, label, digest, ...)).
+
+    augmentation_digests (final stage only; exact-key digests of the augmentation cases) adds the checks
+    of test_clean / test_excluded: partition of test, test_clean disjoint from the cleaned train, the
+    augmentation and validation.
+    """
     errors = []
     tr = {sid: (label, text) for sid, label, text in train}
     va = {sid: (label, text) for sid, label, text in validation}
     te = {sid: (label, dg) for sid, label, dg, *_ in test}
 
-    def partition(split, src, clean, excl):
+    def partition(split, src, clean, excl, name=None):
+        name = name or split
         c_ids, x_ids = [r[0] for r in lists[clean]], [r[0] for r in lists[excl]]
         if len(set(c_ids)) != len(c_ids) or len(set(x_ids)) != len(x_ids) or set(c_ids) & set(x_ids):
-            errors.append(f"B03 {split}: clean and excluded lists are not disjoint")
+            errors.append(f"B03 {name}: clean and excluded lists are not disjoint")
         if set(c_ids) | set(x_ids) != set(src):
-            errors.append(f"B03 {split}: clean + excluded does not cover the source rows")
+            errors.append(f"B03 {name}: clean + excluded does not cover the source rows")
         if Counter(src[s][0] for s in c_ids + x_ids if s in src) != Counter(v[0] for v in src.values()):
-            errors.append(f"B03 {split}: clean + excluded label counts differ from the source")
+            errors.append(f"B03 {name}: clean + excluded label counts differ from the source")
         if split != "test":
             bad = [r[0] for r in lists[clean] + lists[excl]
                    if r[0] not in src or r[1] != src[r[0]][0] or r[2] != h12(src[r[0]][1])]
@@ -1030,12 +1156,16 @@ def check_invariants(train, validation, test, review_rows, lists):
                       f"with the same text: {fmt_ids(bad_ref)}")
     val_dg = {digest(text) for _, _, text in validation}
     cleaned_dg = {digest(tr[s][1]) for s in clean_ids if s in tr}
-    test_clean_dg = {te[r[0]][1] for r in lists["test_clean_preaug"] if r[0] in te}
-    if test_clean_dg & val_dg:
-        errors.append(f"B03 test_clean_preaug: {len(test_clean_dg & val_dg)} row(s) share an exact key with validation")
-    if test_clean_dg & cleaned_dg:
-        errors.append(f"B03 test_clean_preaug: {len(test_clean_dg & cleaned_dg)} row(s) share an exact key "
-                      f"with the cleaned train")
+    pools = [("validation", val_dg), ("the cleaned train", cleaned_dg)]
+    checks = [("test_clean_preaug", pools)]
+    if augmentation_digests is not None:
+        partition("test", te, "test_clean", "test_excluded", "test (final lists)")
+        checks.append(("test_clean", pools + [("the augmentation", set(augmentation_digests))]))
+    for stem, against in checks:
+        test_clean_dg = {te[r[0]][1] for r in lists[stem] if r[0] in te}
+        for name, pool in against:
+            if test_clean_dg & pool:
+                errors.append(f"B03 {stem}: {len(test_clean_dg & pool)} row(s) share an exact key with {name}")
     return errors
 
 
@@ -1174,6 +1304,178 @@ def similar_check(train, validation, test, lists):
     return sorted(rows_out, key=lambda r: (r[1], r[2])), stats, errors
 
 
+# ---------------------------------------------------------------- augmentation (final stage, B09)
+
+def parse_aug_list(data):
+    """train_aug.csv bytes -> ([(case_id, label, text_sha256_12)], errors B09).
+
+    ASCII, header AUG_LIST_HEADER, three fields per record (case ID, 0/1, 12 hex), IDs strictly
+    ascending, and the bytes must equal the canonical rendering (LF, no quoting, one trailing LF), so
+    that a line-based reader (data_lists.read_list) sees the same rows. Errors carry record numbers only.
+    """
+    if not data.isascii():
+        return [], [f"B09 {AUG_LIST}: non-ASCII bytes"]
+    try:
+        recs = list(csv.reader(io.StringIO(data.decode("ascii"), newline=""), strict=True))
+    except csv.Error as exc:
+        return [], [f"B09 {AUG_LIST}: {exc_name(exc)} (message suppressed)"]
+    if not recs or recs[0] != AUG_LIST_HEADER.split(","):
+        return [], [f"B09 {AUG_LIST}: header is not {AUG_LIST_HEADER}"]
+    rows, prev = [], None
+    bad_fields, bad_ids, bad_labels, bad_hashes, unsorted = [], [], [], [], []
+    for n, rec in enumerate(recs[1:], start=1):  # n = 1-based record number, header excluded
+        if len(rec) != 3:
+            bad_fields.append(n)
+            continue
+        cid, label, sha = rec
+        if not AUG_ID_RE.fullmatch(cid):
+            bad_ids.append(n)  # the value is never printed: it is not a checked ID
+            continue
+        if label not in LABELS:
+            bad_labels.append(n)
+        if not H12_RE.fullmatch(sha):
+            bad_hashes.append(n)
+        if prev is not None and not cid > prev:
+            unsorted.append(n)
+        prev = cid
+        rows.append((cid, label, sha))
+    errors = [f"B09 {AUG_LIST}: {what} at {fmt_recs(numbers)}" for what, numbers in (
+        ("field count != 3", bad_fields), ("sentence_id is not an augmentation case ID", bad_ids),
+        ("label not 0/1", bad_labels), ("text_sha256_12 is not 12 lowercase hex characters", bad_hashes),
+        ("rows not strictly ascending by sentence_id", unsorted)) if numbers]
+    if not errors and data != ("\n".join(",".join(rec) for rec in recs) + "\n").encode("ascii"):
+        errors.append(f"B09 {AUG_LIST}: not in the canonical form (LF line endings, no quoting, exactly one "
+                      f"trailing LF)")
+    return rows, errors
+
+
+def parse_aug_cases(data):
+    """cases.csv bytes -> ({case_id: (label, status, text)}, errors B09).
+
+    csv module, strict; UTF-8 without BOM; header = AUG_CASE_COLUMNS; every record has that many fields,
+    a case ID of the augmentation grammar (unique) and label 0/1. text is the field, unchanged. A value
+    is printed only when it is a case ID that passed the grammar; otherwise the record number.
+    """
+    if data.startswith(codecs.BOM_UTF8):
+        return {}, [f"B09 {AUG_CASES}: starts with a UTF-8 BOM"]
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError:
+        return {}, [f"B09 {AUG_CASES}: not valid UTF-8 (message suppressed)"]
+    cases, n = {}, 0
+    bad_fields, bad_ids, dups, bad_labels = [], [], set(), []
+    idx = {c: AUG_CASE_COLUMNS.index(c) for c in ("case_id", "label", "status", "text")}
+    try:
+        reader = csv.reader(io.StringIO(text, newline=""), strict=True)
+        if next(reader, None) != list(AUG_CASE_COLUMNS):
+            return {}, [f"B09 {AUG_CASES}: header is not the {len(AUG_CASE_COLUMNS)} case columns "
+                        f"({AUG_CASE_COLUMNS[0]} ... {AUG_CASE_COLUMNS[-1]})"]
+        for rec in reader:
+            n += 1
+            if len(rec) != len(AUG_CASE_COLUMNS):
+                bad_fields.append(n)
+                continue
+            cid, label = rec[idx["case_id"]], rec[idx["label"]]
+            if not AUG_ID_RE.fullmatch(cid):
+                bad_ids.append(n)
+                continue
+            if cid in cases:
+                dups.add(cid)
+                continue
+            if label not in LABELS:
+                bad_labels.append(cid)
+            cases[cid] = (label, rec[idx["status"]], rec[idx["text"]])
+    except csv.Error as exc:
+        return {}, [f"B09 {AUG_CASES}: {exc_name(exc)} after record {n} (message suppressed)"]
+    errors = []
+    if bad_fields:
+        errors.append(f"B09 {AUG_CASES}: field count != {len(AUG_CASE_COLUMNS)} at {fmt_recs(bad_fields)}")
+    if bad_ids:
+        errors.append(f"B09 {AUG_CASES}: case_id is not an augmentation case ID at {fmt_recs(bad_ids)}")
+    if dups:
+        errors.append(f"B09 {AUG_CASES}: duplicate case_id {fmt_ids(dups)}")
+    if bad_labels:
+        errors.append(f"B09 {AUG_CASES}: label not 0/1 in {fmt_ids(bad_labels)}")
+    return cases, errors
+
+
+def read_augmentation(directory):
+    """Augmentation input of the final stage (B09). Returns (record or None, errors).
+
+    (None, []) = no train_aug.csv in the folder = pre-augmentation stage. Otherwise both files are read
+    once as bytes (hashed and parsed from the same bytes) and every listed case must exist in cases.csv
+    with status `assigned`, the same label, a non-empty text and h12(text) == text_sha256_12.
+    record = {"dir", "files": {name: SHA-256}, "cases": rows of cases.csv,
+              "rows": [(case_id, label, text)] in train_aug.csv order}.
+    """
+    directory = Path(directory)
+    try:
+        with open(directory / AUG_LIST, "rb") as f:
+            list_bytes = f.read()
+    except (FileNotFoundError, NotADirectoryError):  # no such file, also when the folder itself is missing
+        return None, []
+    except OSError as exc:
+        return None, [f"B09 {AUG_LIST}: cannot read ({exc_name(exc)})"]
+    try:
+        with open(directory / AUG_CASES, "rb") as f:
+            case_bytes = f.read()
+    except OSError as exc:
+        return None, [f"B09 {AUG_CASES}: cannot read ({exc_name(exc)}); {AUG_LIST} exists, so the final stage "
+                      f"needs it"]
+    listed, errors = parse_aug_list(list_bytes)
+    cases, errs = parse_aug_cases(case_bytes)
+    errors += errs
+    if errors:
+        return None, errors
+    rows, missing, unusable, bad_labels, bad_hashes, empty = [], [], [], [], [], []
+    for cid, label, sha in listed:
+        case = cases.get(cid)
+        if case is None:
+            missing.append(cid)
+            continue
+        c_label, status, text = case
+        if status != AUG_USABLE_STATUS:
+            unusable.append(cid)
+        if c_label != label:
+            bad_labels.append(cid)
+        if h12(text) != sha:
+            bad_hashes.append(cid)
+        if not text.strip():
+            empty.append(cid)
+        rows.append((cid, label, text))
+    errors = [f"B09 {AUG_LIST}: listed case(s) {what}: {fmt_ids(ids)}" for what, ids in (
+        (f"missing in {AUG_CASES}", missing), (f"status is not {AUG_USABLE_STATUS}", unusable),
+        (f"label differs from {AUG_CASES}", bad_labels),
+        (f"text_sha256_12 differs from the {AUG_CASES} text", bad_hashes),
+        ("empty or whitespace-only text", empty)) if ids]
+    if errors:
+        return None, errors
+    return {"dir": directory, "files": {AUG_LIST: sha256_hex(list_bytes), AUG_CASES: sha256_hex(case_bytes)},
+            "cases": len(cases), "rows": rows}, []
+
+
+def check_augmentation(aug, references):
+    """B09: no augmentation case may equal a validation or test row at level A or B. Returns (errors, level_c).
+
+    aug and every references[name] are digest rows (id, label, exact digest, sim_keys), so test takes
+    part as returned by load_test (no text). Level A = equal exact digests; level B = similar_pairs'
+    normalised_key / punct_key (exact digests differ; a row with an empty punct key has no B level).
+    level_c[name] = number of one_word_edit pairs (case, row), counted only. Errors name case IDs.
+    """
+    errors, level_c = [], {}
+    for name, rows in references.items():
+        exact = {r[2] for r in rows}
+        pairs = similar_pairs(aug, rows, edit=True)
+        hits = {"A (exact key)": {r[0] for r in aug if r[2] in exact}}
+        hits.update({f"B ({level})": {a for (a, _), found in pairs.items() if found == level}
+                     for level in SIM_LEVELS[:2]})
+        errors += [f"B09 augmentation: case(s) equal to a {name} row at level {level}: {fmt_ids(ids)}; "
+                   f"scripts/build_train_aug.py must exclude them (README 3.2)"
+                   for level, ids in hits.items() if ids]
+        level_c[name] = sum(found == SIM_LEVELS[2] for found in pairs.values())
+    return errors, level_c
+
+
 # ---------------------------------------------------------------- render + grammar
 
 def render_csv(stem, rows):
@@ -1217,18 +1519,23 @@ def check_grammar(name, data):
 # ---------------------------------------------------------------- write / check
 
 def write_outputs(target, files):
-    """Remove stale <name>.tmp files, delete meta, write each file to <name>.tmp (exclusive
-    create) + os.replace, meta last. Returns None or a B05 error."""
+    """Remove stale <name>.tmp files, delete meta, remove the final-stage lists this build does not
+    write (pre-augmentation stage), write each file to <name>.tmp (exclusive create) + os.replace,
+    meta last. Returns None or a B05 error."""
     names = [n for n in files if n != META] + [META]
     tmps, current = [], "creating the target folder"
     try:
         target.mkdir(parents=True, exist_ok=True)
-        for name in [f"{stem}.csv" for stem in OUTPUTS + (SIMILAR,)] + [META]:
+        for name in [f"{stem}.csv" for stem in OUTPUTS + FINAL_OUTPUTS + (SIMILAR,)] + [META]:
             current = f"removing a stale {name}.tmp"
             (target / (name + ".tmp")).unlink(missing_ok=True)
         current = f"deleting {META}"
         if (target / META).exists():
             os.remove(target / META)
+        for name in (f"{stem}.csv" for stem in FINAL_OUTPUTS):
+            if name not in files:
+                current = f"removing {name} of an earlier final-stage build"
+                (target / name).unlink(missing_ok=True)
         for name in names:
             current = f"writing {name}"
             tmp = target / (name + ".tmp")
@@ -1261,8 +1568,15 @@ def _diff_keys(old, new, prefix=""):
 
 
 def compare_official(out_dir, files):
-    """--check: the official files in out_dir must equal the rebuilt bytes and meta trial must be false."""
-    errors = []
+    """--check: the official files in out_dir must equal the rebuilt bytes and meta trial must be false.
+
+    files holds eight entries in the pre-augmentation stage and ten in the final stage; a final-stage
+    list left in out_dir by an earlier build fails a pre-augmentation check.
+    """
+    errors = [f"B06 --check: {name} is in the out-dir but this build is in the pre-augmentation stage "
+              f"(no {AUG_LIST} in the augmentation folder)"
+              for name in (f"{stem}.csv" for stem in FINAL_OUTPUTS)
+              if name not in files and os.path.lexists(out_dir / name)]
     for name, data in files.items():
         try:
             with open(out_dir / name, "rb") as f:
@@ -1307,6 +1621,9 @@ def _parse_args(argv):
     p.add_argument("--review", help="review record (default data/processed/train_review.csv)")
     p.add_argument("--manifest", help="dataset manifest (default datasets/s-labs-prompt-injection/download_manifest.json)")
     p.add_argument("--out-dir", help="output folder (default data/processed)")
+    p.add_argument("--augmentation", metavar="DIR",
+                   help="augmentation folder with train_aug.csv and cases.csv (default data/cases/train); "
+                        "without train_aug.csv the build is in the pre-augmentation stage")
     return p.parse_args(argv)
 
 
@@ -1343,16 +1660,20 @@ def _run(args):
     out_dir = Path(args.out_dir).resolve() if args.out_dir else DEFAULT_OUT
     review_path = Path(args.review).resolve() if args.review else DEFAULT_REVIEW
     manifest_path = Path(args.manifest).resolve() if args.manifest else DEFAULT_MANIFEST
+    aug_dir = Path(args.augmentation).resolve() if args.augmentation else DEFAULT_AUGMENTATION
 
     # B06 output locations, before any raw file is read.
     if args.check and args.allow_proposed:
         errors.append("B06 --check and --allow-proposed are mutually exclusive")
     if _under(out_dir, DATASETS):
         errors.append("B06 --out-dir is under datasets/ (raw data stays read-only)")
+    if _under(aug_dir, DATASETS):
+        errors.append("B06 --augmentation is under datasets/ (the augmentation set is not raw data)")
     if _same(out_dir, DEFAULT_OUT) and not (_same(review_path, DEFAULT_REVIEW)
-                                            and _same(manifest_path, DEFAULT_MANIFEST)):
+                                            and _same(manifest_path, DEFAULT_MANIFEST)
+                                            and _same(aug_dir, DEFAULT_AUGMENTATION)):
         errors.append("B06 the default out-dir data/processed/ (official lists, trial/ and --check) needs the "
-                      "default --review and --manifest; pass --out-dir for another build")
+                      "default --review, --manifest and --augmentation; pass --out-dir for another build")
     if not args.check:
         trial_dir, default_trial = out_dir / TRIAL_DIR, DEFAULT_OUT / TRIAL_DIR
         if _same(out_dir, default_trial):
@@ -1402,10 +1723,20 @@ def _run(args):
             say(f"ok review {show(review_path)}: rows {len(rows)} (proposed {status['proposed']}, "
                 f"confirmed {status['confirmed']}), groups {len({r['group_id'] for r in rows})}")
 
+    aug, aug_errors = read_augmentation(aug_dir)
+    errors += aug_errors
+    if aug is not None:
+        c = Counter(r[1] for r in aug["rows"])
+        say(f"ok augmentation {show(aug_dir)}: {AUG_LIST} rows {len(aug['rows'])} ({fmt_counts(c, LABELS)}), "
+            f"{AUG_CASES} rows {aug['cases']}: final stage")
+    elif not aug_errors:
+        say(f"note: no {AUG_LIST} in {show(aug_dir)}: pre-augmentation stage "
+            f"({', '.join(f'{stem}.csv' for stem in FINAL_OUTPUTS)} are not built)")
+
     files = None
     trial = review_rows is not None and any(r["status"] == "proposed" for r in review_rows)
-    if len(src) == len(SPLITS) and review_rows is not None:
-        files, errs = _build(src, review_rows, info, man, manifest_path, review_path, review_bytes, trial)
+    if len(src) == len(SPLITS) and review_rows is not None and not aug_errors:
+        files, errs = _build(src, review_rows, info, man, manifest_path, review_path, review_bytes, trial, aug)
         errors += errs
 
     if args.check:
@@ -1436,12 +1767,16 @@ def _run(args):
         say(f"TRIAL LISTS ONLY ({show(target)}/, meta trial true): the review has proposed rows; "
             f"do not use these lists for stage 2 or freeze-1")
     else:
-        say("OFFICIAL LISTS written (meta trial false)")
+        say("OFFICIAL LISTS written (meta trial false" + (", test_clean_stage final)" if aug is not None else ")"))
     return 0
 
 
-def _build(src, review_rows, info, man, manifest_path, review_path, review_bytes, trial):
-    """Build, check and render every output in memory. Returns (files or None, errors)."""
+def _build(src, review_rows, info, man, manifest_path, review_path, review_bytes, trial, aug=None):
+    """Build, check and render every output in memory. Returns (files or None, errors).
+
+    aug = None: pre-augmentation stage (eight files). aug = the record of read_augmentation(): final
+    stage, the same eight files plus test_clean.csv / test_excluded.csv (README 3.2 DATA-05).
+    """
     train, validation, test = src["train"], src["validation"], src["test"]
     try:
         train_clean, train_excluded = build_train(train, review_rows)
@@ -1450,25 +1785,41 @@ def _build(src, review_rows, info, man, manifest_path, review_path, review_bytes
     validation_clean, validation_excluded = build_validation(validation, train)
     clean_ids = {r[0] for r in train_clean}
     cleaned_dg = frozenset(digest(text) for sid, _, text in train if sid in clean_ids)
-    test_clean, test_excluded, overlap = build_test(
-        test, cleaned_train_digests=cleaned_dg,
-        validation_digests=frozenset(digest(text) for _, _, text in validation),
-        original_train_digests=frozenset(digest(text) for _, _, text in train))
+    pools = {"cleaned_train_digests": cleaned_dg,
+             "validation_digests": frozenset(digest(text) for _, _, text in validation),
+             "original_train_digests": frozenset(digest(text) for _, _, text in train)}
+    test_clean, test_excluded, overlap = build_test(test, **pools)
     lists = {"train_clean": train_clean, "train_excluded": train_excluded,
              "validation_clean": validation_clean, "validation_excluded": validation_excluded,
              "test_clean_preaug": test_clean, "test_excluded_preaug": test_excluded}
-    errors = check_invariants(train, validation, test, review_rows, lists)
+    stems, aug_rows, aug_dg, aug_errors, level_c = OUTPUTS, [], None, [], {}
+    if aug is not None:  # final stage: the pre-augmentation lists above keep their rows
+        stems = OUTPUTS + FINAL_OUTPUTS
+        aug_rows = [(cid, label, digest(text), sim_keys(text)) for cid, label, text in aug["rows"]]
+        aug_dg = frozenset(r[2] for r in aug_rows)
+        val_rows = [(sid, label, digest(text), sim_keys(text)) for sid, label, text in validation]
+        aug_errors, level_c = check_augmentation(aug_rows, dict(zip(AUG_REFERENCES, (val_rows, test))))
+        lists["test_clean"], lists["test_excluded"], overlap = build_test(test, augmentation_digests=aug_dg,
+                                                                          **pools)
+    errors = check_invariants(train, validation, test, review_rows, lists, aug_dg)
     similar_rows, similar, errs = similar_check(train, validation, test, lists)
-    errors += errs
+    errors += errs + aug_errors
     test_labels = {sid: label for sid, label, *_ in test}
-    counts = count_lists(lists, test_labels, overlap)
+    counts = count_lists(lists, test_labels, overlap, stems)
     counts.update({f"similar.{scope}": levels for scope, levels in similar.items()})
     errors += check_expected(counts)
+    if aug is not None:
+        c = Counter(r[1] for r in aug_rows)
+        counts["augmentation"] = {"rows": len(aug_rows), **{k: c[k] for k in LABELS}}
+        counts["augmentation_level_c"] = {k: level_c[k] for k in AUG_REFERENCES}
+        counts["test_excluded"] = {"rows": counts["test_excluded"]["rows"],
+                                   **{k: counts["test_excluded"].get(k, 0) for k in TEST_REASONS}}
+        errors += check_expected(counts, EXPECTED_FINAL, "EXPECTED_FINAL")
     expected_check, partition = find_groups(train)
     audit = compute_audit(train, validation, test, [expected_check[next(iter(g))] for g in partition],
                           cleaned_dg, overlap)
 
-    for stem in OUTPUTS:
+    for stem in stems:
         c = counts[stem]
         keys = LABELS if "_clean" in stem else sorted(k for k in c if k != "rows")
         say(f"{stem} {c['rows']} ({fmt_counts(c, keys)})")
@@ -1478,8 +1829,11 @@ def _build(src, review_rows, info, man, manifest_path, review_path, review_bytes
     for scope, levels in similar.items():
         say(f"similar {scope}: " + "; ".join(f"{level} " + ", ".join(f"{k} {v}" for k, v in d.items())
                                             for level, d in levels.items()))
+    if aug is not None:
+        say(f"augmentation {len(aug_rows)} ({fmt_counts(counts['augmentation'], LABELS)}); level C "
+            f"one_word_edit pairs, counted only ({fmt_counts(level_c, AUG_REFERENCES)})")
 
-    files = {f"{stem}.csv": render_csv(stem, lists[stem]) for stem in OUTPUTS}
+    files = {f"{stem}.csv": render_csv(stem, lists[stem]) for stem in stems}
     files[f"{SIMILAR}.csv"] = render_csv(SIMILAR, similar_rows)
     src_counts = {s: Counter(r[1] for r in src[s]) for s in SPLITS}
 
@@ -1487,17 +1841,22 @@ def _build(src, review_rows, info, man, manifest_path, review_path, review_bytes
         lab = {r[0]: r[1] for r in src[split]}
         return {k: sum(lab[i] == k for i in ids) for k in LABELS}
 
+    def clean_excluded(split, clean, excl, ridx):
+        x_ids = [r[0] for r in lists[excl]]
+        return {"clean": {"rows": len(lists[clean]), "labels": label_counts([r[0] for r in lists[clean]], split)},
+                "excluded": {"rows": len(x_ids), "labels": label_counts(x_ids, split),
+                             "by_reason": dict(sorted(Counter(r[ridx] for r in lists[excl]).items()))}}
+
     splits_meta = {}
     for split, clean, excl, ridx in (("train", "train_clean", "train_excluded", 3),
                                      ("validation", "validation_clean", "validation_excluded", 3),
                                      ("test", "test_clean_preaug", "test_excluded_preaug", 1)):
-        x_ids = [r[0] for r in lists[excl]]
         splits_meta[split] = {
             "source": {"rows": len(src[split]), "labels": {k: src_counts[split][k] for k in LABELS}},
-            "clean": {"rows": len(lists[clean]), "labels": label_counts([r[0] for r in lists[clean]], split)},
-            "excluded": {"rows": len(x_ids), "labels": label_counts(x_ids, split),
-                         "by_reason": dict(sorted(Counter(r[ridx] for r in lists[excl]).items()))},
+            **clean_excluded(split, clean, excl, ridx),
         }
+    if aug is not None:  # splits.test.clean / .excluded stay the pre-augmentation lists
+        splits_meta["test"]["final"] = clean_excluded("test", "test_clean", "test_excluded", 1)
     script_bytes = Path(__file__).read_bytes()
     meta = {
         "schema": SCHEMA,
@@ -1518,9 +1877,13 @@ def _build(src, review_rows, info, man, manifest_path, review_path, review_bytes
             "decisions": {k: sum(r["decision"] == k for r in review_rows) for k in DECISIONS},
             "reasons": dict(sorted(Counter(r["reason"] for r in review_rows).items())),
         },
-        "augmentation": None,
-        "test_clean_stage": "pre-augmentation",
-        "rules": RULES,
+        "augmentation": None if aug is None else {
+            "dir": rel(aug["dir"]), "files": dict(aug["files"]), "rows": len(aug_rows),
+            "label_counts": {k: counts["augmentation"][k] for k in LABELS},
+            "level_c_pairs": dict(counts["augmentation_level_c"]),
+        },
+        "test_clean_stage": "pre-augmentation" if aug is None else "final",
+        "rules": RULES if aug is None else {**RULES, **FINAL_RULES},
         "splits": splits_meta,
         "audit": audit,
         "similar": similar,

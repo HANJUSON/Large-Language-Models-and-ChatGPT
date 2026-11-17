@@ -1,0 +1,1452 @@
+{
+ "generator": {
+  "model": "claude-fable-5-2",
+  "interface": "Claude Code workflow subagents (one agent per slice, each given only the prompt file)",
+  "date": "2026-11-17",
+  "prompt_file": "data/cases/train/prompts/aug03_contexts_v1.md",
+  "prompt_sha256": "7d01a7c7987c0c7f7668fb829aedecb76a6b170e6c2e294b464b16d5d71d131f",
+  "notes": "slices: p1, p2, p3; each agent wrote its item range from the same prompt; no dev/validation/test material was given to the agents"
+ },
+ "items": [
+  {
+   "n": 1,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Finally finished re-stringing my grandfather's mandolin last weekend. The old tuning pegs were stiff, but a drop of oil loosened them and the instrument holds pitch nicely now."
+  },
+  {
+   "n": 2,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "The facilities team has finished repainting the third-floor kitchen, and the new coffee machine arrived on Tuesday. Staff on that floor now have a second fridge beside the window."
+  },
+  {
+   "n": 3,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Sample batch 14 was incubated at 37 degrees for six hours. Colonies appeared on four of the six plates, and the two controls remained clear at the final check."
+  },
+  {
+   "n": 4,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "Saturday morning brings the annual plant swap to the village hall, from ten until noon. Tables are set out by the side entrance, and tea is served in the foyer."
+  },
+  {
+   "n": 5,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "The bakery is hiring an early-shift baker to prepare bread and pastries five mornings a week. Experience with laminated dough is welcome, and training on the deck oven is provided."
+  },
+  {
+   "n": 6,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Lighthouse keepers of the northern isles are the subject of this episode, which draws on old logbooks and an interview with a retired keeper's daughter."
+  },
+  {
+   "n": 7,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "The dishwasher's eco cycle heats water to a lower temperature and runs for about three hours. A small light on the door goes out when the drying phase ends."
+  },
+  {
+   "n": 8,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "A low drive from the edge of the box gave the home side the lead after twelve minutes, and they held on through a tense second half to win two-one."
+  },
+  {
+   "n": 9,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "When a retired clockmaker inherits a crumbling seaside hotel, she discovers an attic full of unfinished timepieces and a family story nobody thought to tell her."
+  },
+  {
+   "n": 10,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "The allotment society's water supply is switched off for the winter from the first of November. Taps are turned back on in March once the frost risk has passed."
+  },
+  {
+   "n": 11,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Reporting for the sightings thread: a pair of goldcrests turned up in the hedge behind our allotment this morning, the first there since the cold spell two winters ago."
+  },
+  {
+   "n": 12,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "Congratulations go to the warehouse crew in the northern depot, who reached two hundred days without a late dispatch. A cake was shared in the break room on Friday afternoon."
+  },
+  {
+   "n": 13,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Pendulum trial, run 7: the mean period was 2.01 seconds over twenty swings. Air currents from the open door may have affected the last three readings."
+  },
+  {
+   "n": 14,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "An evening of traditional fiddle music takes place at the old corn exchange on the last Friday of the month, with doors opening at seven and dancing afterwards."
+  },
+  {
+   "n": 15,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "Maintaining the greenhouse irrigation system and recording weekly growth data form the core of this role. Candidates with a background in horticulture and a full driving licence are preferred."
+  },
+  {
+   "n": 16,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Episode forty-two looks at how honeybees survive the winter, with a beekeeper from the hills describing the cluster inside the hive and the stores it depends on."
+  },
+  {
+   "n": 17,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "Once the water reaches boiling point, the kettle switches itself off. A blue ring around the base stays lit while heating and fades once the element has cooled."
+  },
+  {
+   "n": 18,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "Rain delayed the start by an hour, but the visitors batted steadily to reach 212 for six. The hosts fell nineteen runs short in fading light."
+  },
+  {
+   "n": 19,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "Snow has cut off a mountain village in this quiet drama, which traces two estranged brothers as they repair their late father's sawmill over one long winter."
+  },
+  {
+   "n": 20,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "Bin collection on Maple Close moves to Thursday for the next two weeks because of the bank holiday. Garden waste sacks are collected on the usual fortnightly cycle."
+  },
+  {
+   "n": 21,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "After three attempts I have finally got the cable pattern on my fisherman sweater to sit flat. Blocking it overnight on a towel made far more difference than I expected."
+  },
+  {
+   "n": 22,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "This quarter's staff photo competition drew forty-one entries on the theme of morning light. The winning picture, a misty canal towpath, now hangs beside the reception desk."
+  },
+  {
+   "n": 23,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Soil cores from plot C were dried overnight and weighed at 09:40. Moisture loss averaged eleven percent, slightly lower than the figure recorded for plot B on Monday."
+  },
+  {
+   "n": 24,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "Lanterns return to the riverside on the first Saturday of December. Walkers gather at the boathouse at dusk, and the procession ends with hot chocolate on the green."
+  },
+  {
+   "n": 25,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "A small architecture practice is looking for a part-time bookkeeper to handle invoices and monthly reconciliations. Hours are flexible, with two days a week in the office."
+  },
+  {
+   "n": 26,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "This week's video tours a restored narrowboat from bow to stern. The owner explains how the galley was rebuilt and why the original engine was kept in place."
+  },
+  {
+   "n": 27,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "This washing machine weighs the load at the start of each cycle and adjusts the water level to match. The remaining time appears on the display after two minutes."
+  },
+  {
+   "n": 28,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "A late try in the corner sealed the match for the Harriers, who had trailed by eight points at the break. The conversion from the touchline hit the post."
+  },
+  {
+   "n": 29,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "A sweeping family saga spanning three generations of tea growers, from the first terraces carved into the hillside to the grandchildren who must decide what to keep."
+  },
+  {
+   "n": 30,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "Tuesday evenings at half past seven, the chess club gathers in the back room of the community centre. Boards and clocks are provided, and newcomers of any standard are welcome."
+  },
+  {
+   "n": 31,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Progress on the N gauge layout has been slow this month, though the station platform is now painted and the first stretch of track is ballasted along the back edge."
+  },
+  {
+   "n": 32,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "Our finance colleagues moved into the refurbished east wing last week. The new desks are height-adjustable, and the old filing room has become a quiet reading corner with armchairs."
+  },
+  {
+   "n": 33,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "The titration endpoint was reached at 23.4 millilitres on the first pass and 23.6 on the second. The indicator colour faded faster than in the previous session."
+  },
+  {
+   "n": 34,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "A weekend exhibition of local watercolours opens at the library gallery on Friday. More than sixty paintings are on show, many of them depicting the harbour in winter."
+  },
+  {
+   "n": 35,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "This position suits a qualified electrician with at least three years on commercial sites. The successful applicant joins a crew of six and works mainly within the county."
+  },
+  {
+   "n": 36,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Part two of the series on medieval bridges covers the stone arches of the river valley. Timestamps for each bridge are listed below, along with the music credits."
+  },
+  {
+   "n": 37,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "The oven fan continues to run for several minutes after cooking has finished, which cools the outer casing. The clock display dims automatically after ten minutes without use."
+  },
+  {
+   "n": 38,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "The under-fourteens netball team won their third game in a row on Saturday, finishing 31 to 24 after a strong final quarter and some sharp shooting from the circle."
+  },
+  {
+   "n": 39,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "In this warm-hearted comedy, a struggling brass band enters a national contest with a borrowed tuba, a missing conductor and only six weeks to rehearse."
+  },
+  {
+   "n": 40,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "Resurfacing of the footpath between Orchard Lane and the playground begins on Monday and is expected to last four days. The route through the churchyard remains open."
+  },
+  {
+   "n": 41,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Clear skies over the weekend meant I could set up the small refractor on the balcony. Saturn's rings were sharp for about twenty minutes before the haze drifted in."
+  },
+  {
+   "n": 42,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "Bike racks behind the loading bay have been doubled in number after the spring commuting survey. A covered shelter with a repair stand is planned for the autumn."
+  },
+  {
+   "n": 43,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Seedlings under the red lamp reached an average height of 48 millimetres by day nine, compared with 41 under white light. Two trays showed slight yellowing at the leaf tips."
+  },
+  {
+   "n": 44,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "Stargazers of all ages are welcome on the common next Thursday, weather permitting, when the astronomy society sets up its telescopes and members point out the winter constellations."
+  },
+  {
+   "n": 45,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "Our museum seeks a collections technician to catalogue ceramics and prepare objects for display. The contract runs for eighteen months and includes a thorough course in object handling."
+  },
+  {
+   "n": 46,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Today's conversation is with a mountain rescue volunteer who has spent thirty winters on the fells. Topics include weather reading, team dogs and the changing shape of the seasons."
+  },
+  {
+   "n": 47,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "When the vacuum cleaner's dust container is full, the indicator on the handle turns red. The filter beneath the lid is washable and dries fully within a day."
+  },
+  {
+   "n": 48,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "Both rinks were level going into the final end of the bowls match. A superb last wood from the skip gave the green team victory by a single shot."
+  },
+  {
+   "n": 49,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "Part memoir and part natural history, the book charts a year spent walking the tidal marshes of the east coast, where every season redraws the shoreline."
+  },
+  {
+   "n": 50,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "Repairs to the rowing club's boathouse roof continue this month, so the single sculls are stored in the marquee beside the slipway until the work is complete."
+  },
+  {
+   "n": 51,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "My cherry shrimp colony has roughly doubled since spring. They seem happiest among the moss in the planted tank, where the juveniles hide during the brighter part of the day."
+  },
+  {
+   "n": 52,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "Three colleagues from the design studio completed the city half marathon on Sunday, raising a generous sum for the children's hospice. Their finishing photos are pinned up in the canteen."
+  },
+  {
+   "n": 53,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Thermocouple readings drifted by about half a degree during the afternoon run. The water bath was topped up at 14:15, after which the trace settled back to baseline."
+  },
+  {
+   "n": 54,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "This year's charity quiz night is set for the second Wednesday of March in the cricket pavilion. Teams of up to six compete over eight rounds, with a raffle at half time."
+  },
+  {
+   "n": 55,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "Responsibilities include planning delivery routes, loading the van each morning and keeping the mileage log up to date. A clean licence and good local knowledge are essential."
+  },
+  {
+   "n": 56,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Pepper's long journey from distant ports to ordinary kitchens is the theme of the latest instalment of our cooking history show, recorded at a spice warehouse turned museum."
+  },
+  {
+   "n": 57,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "The bread maker pauses for twenty minutes before kneading so that the ingredients reach room temperature. A series of beeps signals the point at which seeds can be added."
+  },
+  {
+   "n": 58,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "Neither player could hold a lead in the second set, which went to a tiebreak. The top seed closed it out with two aces and took the final in straight sets."
+  },
+  {
+   "n": 59,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "A young cartographer is sent to map an island that appears on no chart. What she finds there changes her understanding of her own family's long voyages."
+  },
+  {
+   "n": 60,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "A tabby cat with a white bib has been seen several times near the canal bridge. The owners at number twelve have put a poster in the shop window."
+  },
+  {
+   "n": 61,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Picked up a secondhand hand plane at a car boot sale for a few coins. After flattening the sole and honing the blade, it takes shavings thin enough to read through."
+  },
+  {
+   "n": 62,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "Next month's canteen menu gains a soup of the day and two extra vegetarian mains. Feedback cards from the winter tasting sessions shaped most of the new dishes."
+  },
+  {
+   "n": 63,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Gel 3 ran for forty-five minutes at 100 volts. Bands in lanes two through five were clear, while lane six showed smearing, probably from an overloaded well."
+  },
+  {
+   "n": 64,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "More than fifty stalls fill the market square on Sunday for the autumn craft fair. Potters, weavers and woodturners will be demonstrating their work throughout the afternoon."
+  },
+  {
+   "n": 65,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "The veterinary practice has an opening for a receptionist who enjoys working with animals and their owners. Shifts rotate weekly, and uniform is supplied on the first day."
+  },
+  {
+   "n": 66,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Show notes for episode nine: a walk along the abandoned branch line with a railway historian, recorded on a windy afternoon, plus a short segment on station gardens."
+  },
+  {
+   "n": 67,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "The refrigerator's upper drawer keeps a slightly higher humidity for leafy vegetables. A chime sounds if the door stays open for more than two minutes."
+  },
+  {
+   "n": 68,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "Strong winds made passing difficult throughout the hockey fixture. The only goal came from a penalty corner just before half time, deflected in off a defender's stick."
+  },
+  {
+   "n": 69,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "This animated feature tells the story of a small fox who befriends a migrating crane and travels the length of a river to see the sea."
+  },
+  {
+   "n": 70,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "Forty spring bulbs now line the verge on Station Road, planted by the residents' association. Volunteers spent Saturday morning on the job, and the daffodils should show by February."
+  },
+  {
+   "n": 71,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Thread update on the old steel touring bike: the frame is back from the powder coater in dark green, and the rebuilt wheels went on last night without any trouble."
+  },
+  {
+   "n": 72,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "Twenty years of service were marked on Thursday for our longest-standing machine operator, who joined the plant when it still had a single production line and one delivery van."
+  },
+  {
+   "n": 73,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Wind tunnel test 12 used the shorter wing section at a speed of fifteen metres per second. Lift readings were steady, and the smoke trail stayed attached past mid-chord."
+  },
+  {
+   "n": 74,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "A free outdoor screening of a classic silent comedy is planned for the park bandstand on Saturday evening. A local pianist accompanies the film live from the first reel."
+  },
+  {
+   "n": 75,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "A seasonal gardener is needed at the estate from April to September. Duties cover mowing, hedge trimming and care of the walled kitchen garden, alongside two permanent staff."
+  },
+  {
+   "n": 76,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "On this edition the panel discusses the return of beavers to lowland rivers. The second half features field recordings made at dawn beside a newly built dam."
+  },
+  {
+   "n": 77,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "The tumble dryer senses moisture in the drum and ends the programme once the laundry is dry. Condensed water collects in a tank located behind the top-left panel."
+  },
+  {
+   "n": 78,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "The relay squad knocked almost two seconds off the club record at the county gala. Their final leg swimmer touched home a clear body length ahead of the field."
+  },
+  {
+   "n": 79,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "Spanning one summer in a provincial orchestra, the novel captures the rivalries and loyalties of the string section as a beloved concert hall faces closure."
+  },
+  {
+   "n": 80,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "The walking group's next outing is the eight-mile circuit over the ridge on the second Sunday of the month. The party leaves from the car park by the old mill at nine."
+  },
+  {
+   "n": 81,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Finished repotting my three bonsai junipers over the weekend. The oldest one had roots circling the pot twice, so I trimmed about a third and moved it into a shallower tray."
+  },
+  {
+   "n": 82,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "The third-floor kitchen has a new coffee machine as of Monday, and the facilities team reports that the old kettle has been donated to the charity shop next door."
+  },
+  {
+   "n": 83,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Batch 14 seedlings measured at day ten: mean height 6.2 cm under the red-blue lamp versus 4.9 cm under white, with no visible leaf curl in either tray."
+  },
+  {
+   "n": 84,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "The riverside lantern parade returns on the first Saturday of December, setting off from the old mill at dusk and finishing with hot cider in the market square."
+  },
+  {
+   "n": 85,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "The bakery is seeking an early-morning dough maker to join a team of five; shifts begin at four, and experience with laminated pastry is an advantage."
+  },
+  {
+   "n": 86,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Episode 42 covers the history of the pencil, from graphite mines in the hills to the factory lines that still paint most of them yellow, with a short detour into erasers."
+  },
+  {
+   "n": 87,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "The dishwasher's eco cycle heats water to a lower temperature and runs for a longer time, which reduces energy use for lightly soiled plates and glasses."
+  },
+  {
+   "n": 88,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "Harbour Rovers came from behind to beat Millfield United 2-1, with the winning goal arriving from a corner in the eighty-seventh minute on a rain-soaked pitch."
+  },
+  {
+   "n": 89,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "A lighthouse keeper's daughter discovers a sea chart hidden in her late father's coat, and sets out across a winter archipelago in this quiet, salt-stained adventure novel."
+  },
+  {
+   "n": 90,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "The allotment society's shed will be repainted on Saturday morning, and the committee has ordered two new wheelbarrows to replace the ones with broken handles."
+  },
+  {
+   "n": 91,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Hand-stitching a leather wallet for the first time left me with a slightly crooked seam, but the saddle stitch held up well and the edges burnished nicely with beeswax."
+  },
+  {
+   "n": 92,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "Congratulations to the logistics team, who shipped a record number of parcels in October while also moving the entire returns desk to the new warehouse annex."
+  },
+  {
+   "n": 93,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Buffers 4 and 7 were used to calibrate the pH meter before the morning run; readings drifted by 0.02 after an hour, within tolerance for the titration series."
+  },
+  {
+   "n": 94,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "Doors open at seven for the autumn jazz evening at the town hall, featuring a local quartet, a guest trumpeter and a late set of swing standards."
+  },
+  {
+   "n": 95,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "A family-run garden centre is looking for a part-time bookkeeper, working two days a week on invoices, payroll and monthly stock reconciliation."
+  },
+  {
+   "n": 96,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Stone-ground flour is the subject this week, as the hosts visit a working windmill, talk to the miller and record the creak of the sails turning in a stiff breeze."
+  },
+  {
+   "n": 97,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "Steam production stops when the iron's water tank is empty, and the indicator light on the handle changes from blue to amber."
+  },
+  {
+   "n": 98,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "The under-fourteens netball side won their third game in a row on Saturday, finishing 28-19 after a strong final quarter and tidy shooting from the goal attack."
+  },
+  {
+   "n": 99,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "Set in a mountain village cut off by snow, this gentle comedy tells the story of a retired clockmaker who agrees to repair the church bell before the spring festival."
+  },
+  {
+   "n": 100,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "Bin collection on Elm Crescent moves to Wednesday for the two weeks around the holiday, and the recycling lorry will come the day after as usual."
+  },
+  {
+   "n": 101,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Spotted a pair of goldcrests in the hedge behind the allotment this morning, the first I have logged there in four winters of keeping a garden bird list."
+  },
+  {
+   "n": 102,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "Staff portraits for the refreshed intranet pages were taken last week in the atrium; the finished pictures will appear by the end of the month, sorted by department."
+  },
+  {
+   "n": 103,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Centrifuge run finished at 10:40 and the supernatant from sample C came off clear; the pellet was resuspended in buffer and stored on ice for the afternoon assay."
+  },
+  {
+   "n": 104,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "Five kilometres around the reservoir await runners in this year's charity fun run on Sunday morning, with medals for every finisher and a pancake stall at the finish line."
+  },
+  {
+   "n": 105,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "Cataloguing textiles, preparing objects for loan and supporting the conservation team during exhibition changeovers make up most of this full-time role in the museum's collections department."
+  },
+  {
+   "n": 106,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Jukebox restoration is the theme of today's video, covering the cabinet veneer, the selector mechanism and the first record played after forty silent years."
+  },
+  {
+   "n": 107,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "The bread maker beeps three times during the kneading stage to mark the point at which nuts, seeds or dried fruit can be added to the dough."
+  },
+  {
+   "n": 108,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "A century from the opening batter carried the village eleven to 241 for six, and the visitors fell forty runs short despite a lively stand for the eighth wicket."
+  },
+  {
+   "n": 109,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "Three sisters inherit a failing vineyard and one stubborn donkey in this warm family saga, which spans forty harvests and two generations of old quarrels."
+  },
+  {
+   "n": 110,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "Chess club meets in the back room of the community centre every Monday at half past six, with boards and clocks supplied and tea available at the hatch."
+  },
+  {
+   "n": 111,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Got the old film camera back from the repair shop with a new light seal, and the test roll of black and white came out sharp with no leaks at all."
+  },
+  {
+   "n": 112,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "This quarter's volunteering day saw forty colleagues planting saplings along the canal path, and the finance group collected the most litter bags for the second year running."
+  },
+  {
+   "n": 113,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Third trial of the pendulum rig gave a period of 2.01 seconds at a length of one metre, consistent with the earlier two runs to within timing error."
+  },
+  {
+   "n": 114,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "Wheel demonstrations every hour and a kiln opening at four in the afternoon are planned for the pottery studio's open day on the last weekend of March."
+  },
+  {
+   "n": 115,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "Applicants for the trainee electrician post will spend the first year alongside a qualified engineer on domestic rewiring jobs, with college attendance one day each week."
+  },
+  {
+   "n": 116,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Anglerfish, bioluminescence and life aboard a research vessel fill part two of the deep-sea series, which features a long interview with a marine biologist."
+  },
+  {
+   "n": 117,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "A sensor inside the tumble dryer measures the moisture in the drum and ends the cycle automatically once the laundry reaches the selected dryness level."
+  },
+  {
+   "n": 118,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "Wind made life hard for both teams at the hockey ground, and a scrappy first half ended goalless before the hosts scored twice from penalty corners after the break."
+  },
+  {
+   "n": 119,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "When a travelling circus loses its only map, a young juggler and an elderly elephant keeper bring the troupe home in a film full of colour and brass band music."
+  },
+  {
+   "n": 120,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "The street's annual front garden competition was won this year by number 22, whose dahlias and sweet peas impressed the visiting judges from the horticultural society."
+  },
+  {
+   "n": 121,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Our crochet circle swapped yarn stashes last night, and I came home with six skeins of teal merino that will become a striped blanket for my nephew."
+  },
+  {
+   "n": 122,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "The cycle shelter behind building C now has twelve extra racks and a repair stand with a pump, funded by last year's green commuting grant."
+  },
+  {
+   "n": 123,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Agar plates from Tuesday showed colonies after 36 hours of incubation; plate 3 had roughly twice the count of plate 1, and plate 5 remained blank as the control."
+  },
+  {
+   "n": 124,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "Seedlings, cuttings and spare pots will fill the tables at the spring plant swap in the village hall on Saturday from ten until noon, with tea served by the scout group."
+  },
+  {
+   "n": 125,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "From May to September the lakeside boat hire kiosk has a seasonal position covering ticket sales, life jacket fitting and tidying the jetty at closing time."
+  },
+  {
+   "n": 126,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Timestamps: introduction at the start, the beekeeper interview at six minutes, listener letters at twenty-four, and a closing segment on heather honey at thirty-one."
+  },
+  {
+   "n": 127,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "The vacuum cleaner's dust container holds 0.8 litres, and a red marker appears in the window on the lid when the container is full."
+  },
+  {
+   "n": 128,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "Saturday's rugby fixture finished 17-17 after the home fly-half landed a late penalty from wide on the left, levelling a match the visitors had led since the opening quarter."
+  },
+  {
+   "n": 129,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "This illustrated history traces the humble teapot from early porcelain workshops to the modern kitchen shelf, with more than two hundred photographs and a foldout timeline."
+  },
+  {
+   "n": 130,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "Resurfacing work on the tennis courts begins next Tuesday and is expected to last ten days, during which the club's evening ladder matches move to the school courts."
+  },
+  {
+   "n": 131,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Restoring a 1970s road bike has taken longer than expected; the seat post was seized, but after soaking overnight it came loose and the frame is now ready for paint."
+  },
+  {
+   "n": 132,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "Welcome to the four new starters in the design studio, who joined from the regional office and have already begun work on the spring catalogue layout."
+  },
+  {
+   "n": 133,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Tensile test on specimen 7 ended at 412 newtons with a clean break near the midpoint; the extensometer trace was saved alongside the earlier aluminium runs."
+  },
+  {
+   "n": 134,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "Stargazing night at the hilltop car park begins at nine on Friday, weather permitting, with three telescopes set up by the astronomy society and blankets available to borrow."
+  },
+  {
+   "n": 135,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "The veterinary practice has an opening for a receptionist who enjoys working with animals and their owners, handling appointment bookings and the front desk five mornings a week."
+  },
+  {
+   "n": 136,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Bus maps get the spotlight in this instalment, with a cartographer explaining colour choices, stop spacing and the redesign that shortened the legend by half."
+  },
+  {
+   "n": 137,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "Freezer fans pause for about twenty minutes during the defrost cycle, and a faint crackling sound from the rear panel is a normal part of operation."
+  },
+  {
+   "n": 138,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "In the table tennis league, the Thursday squad took the deciding doubles rubber in five games to edge the match 6-4 and move up to second place."
+  },
+  {
+   "n": 139,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "Winner of a regional first-novel prize, the book charts one summer on a canal boat, where a reluctant teenager learns to steer through the long tunnels beside her grandfather."
+  },
+  {
+   "n": 140,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "Jars donated for the summer fete jam stall brought in enough to pay for new curtains in the scout hut and a second tea urn, the organisers report."
+  },
+  {
+   "n": 141,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Dry brushing the armour highlights finished off my miniature cavalry squad last night, and the bases now have static grass and tiny gravel."
+  },
+  {
+   "n": 142,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "Lunchtime language tables return in January, with Spanish on Tuesdays and Korean on Thursdays, hosted in the canteen corner by colleagues from the translation desk."
+  },
+  {
+   "n": 143,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Water bath held at 37 degrees for the full two hours; enzyme activity in tube B dropped to half by the ninety minute mark, while tube A stayed flat."
+  },
+  {
+   "n": 144,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "A screening of classic silent comedies with live piano accompaniment will be held in the library reading room on Thursday evening, and seating is limited to sixty."
+  },
+  {
+   "n": 145,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "Our small publishing house needs a freelance proofreader for a series of regional walking books, with roughly forty pages to check each fortnight through the summer."
+  },
+  {
+   "n": 146,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Recorded live at the folk festival, this session includes three fiddle tunes, a conversation with the luthier who built the instruments and a rowdy audience singalong."
+  },
+  {
+   "n": 147,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "Once the inner pot reaches the set temperature, the rice cooker changes from cooking to its keep-warm setting and holds that warmth for up to twelve hours."
+  },
+  {
+   "n": 148,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "The relay quartet set a new club record at the county meet, clocking 3 minutes 41 seconds and overtaking two rival teams on the final lap."
+  },
+  {
+   "n": 149,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "A shy cartographer and a talkative mule cross a desert of shifting dunes in this animated feature, charting wells and making an unlikely friendship along the way."
+  },
+  {
+   "n": 150,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "The walking group's next outing is a six mile loop over the common on Sunday, leaving from the church gate at nine and stopping at the tea room on the return leg."
+  },
+  {
+   "n": 151,
+   "length": "short",
+   "kind": "hobby forum post",
+   "text": "Night sky was unusually clear on Tuesday, so the small refractor came out and I managed a steady view of Saturn's rings for almost twenty minutes before clouds rolled in."
+  },
+  {
+   "n": 152,
+   "length": "short",
+   "kind": "internal newsletter item",
+   "text": "Friday's bake sale in reception raised a little over three hundred pounds for the local hospice, with the lemon drizzle selling out before ten o'clock."
+  },
+  {
+   "n": 153,
+   "length": "short",
+   "kind": "lab or experiment log entry",
+   "text": "Soil cores from plot 4 were dried overnight and weighed this morning, giving a moisture content of eighteen percent, slightly lower than the cores taken after last week's rain."
+  },
+  {
+   "n": 154,
+   "length": "short",
+   "kind": "event announcement",
+   "text": "Next month's craft market fills the covered arcade with more than forty stalls, including woodturners, candle makers and a printmaker demonstrating linocut techniques throughout the day."
+  },
+  {
+   "n": 155,
+   "length": "short",
+   "kind": "job posting excerpt",
+   "text": "Duties for the grounds keeper include mowing the cricket square, maintaining the hedges and preparing the pavilion before weekend fixtures, with a van provided for the season."
+  },
+  {
+   "n": 156,
+   "length": "short",
+   "kind": "podcast or video show notes",
+   "text": "Season finale: the hosts rank their favourite board games of the year, revisit an early episode on dice design and share a few listener stories."
+  },
+  {
+   "n": 157,
+   "length": "short",
+   "kind": "appliance manual excerpt",
+   "text": "This kettle has a removable limescale filter in the spout and a concealed heating element, and it switches itself off within seconds of the water boiling."
+  },
+  {
+   "n": 158,
+   "length": "short",
+   "kind": "sports match report",
+   "text": "Last night's basketball game went to overtime, where the Kestrels pulled away with three straight baskets and a pair of free throws to win 78-71."
+  },
+  {
+   "n": 159,
+   "length": "short",
+   "kind": "book or film blurb",
+   "text": "Told through letters between two rival gardeners, this short novel unfolds over a single growing season and ends with a flower show that neither of them expected to share."
+  },
+  {
+   "n": 160,
+   "length": "short",
+   "kind": "neighbourhood or club notice",
+   "text": "Lost near the playground on Friday afternoon: a child's red knitted mitten with a white snowflake pattern, now hanging on the railings beside the park noticeboard."
+  },
+  {
+   "n": 161,
+   "length": "long",
+   "kind": "hobby forum post",
+   "text": "Finally finished the cedar strip canoe after fourteen months in the garage. The hull took three coats of epoxy and more sanding than I care to remember, but the grain came out a warm honey colour under the varnish. The seats are woven cane on ash frames, and the whole boat weighs just under sixty pounds. First launch was on the reservoir last Sunday, and she tracked straight even with a light crosswind pushing at the bow."
+  },
+  {
+   "n": 162,
+   "length": "long",
+   "kind": "internal newsletter item",
+   "text": "The third floor kitchen renovation wrapped up on Friday, two days ahead of schedule. The new layout adds a second refrigerator, a longer counter by the window and twelve extra seats along the east wall. Facilities reports that the old coffee machine has moved to the mailroom, where the night shift had been hoping for one since spring. A small opening lunch is planned for Wednesday, with sandwiches supplied by the bakery across the street."
+  },
+  {
+   "n": 163,
+   "length": "long",
+   "kind": "lab or experiment log entry",
+   "text": "Run 14, started 09:20. Three beakers of tap water at 20, 40 and 60 degrees Celsius, each with one effervescent tablet dropped in at the same moment. Dissolving times were 71, 38 and 19 seconds, measured by stopwatch from first contact until the last visible fragment disappeared. The warm beaker foamed over the rim slightly, so about 5 ml was lost. A repeat is planned for tomorrow with taller beakers and a second timer to reduce reaction lag."
+  },
+  {
+   "n": 164,
+   "length": "long",
+   "kind": "event announcement",
+   "text": "The Riverside Lantern Walk returns on Saturday the ninth of November, setting off from the old boathouse at half past five. The route runs along the towpath to the stone bridge and back, a little over two kilometres on level ground. Paper lanterns made by pupils at the primary school will line the first stretch, and the brass band plays at the turning point. Hot chocolate and roasted chestnuts are on sale beside the boathouse from five o'clock."
+  },
+  {
+   "n": 165,
+   "length": "long",
+   "kind": "job posting excerpt",
+   "text": "The garden centre is hiring a seasonal nursery hand for the spring rush, from early March to the end of June. The work covers watering and potting on, unloading deliveries, keeping the display benches stocked and helping customers carry heavy items to their cars. Shifts are five days a week including one weekend day, starting at seven. Experience with bedding plants is welcome but not essential, since the head grower trains every new starter during the first fortnight."
+  },
+  {
+   "n": 166,
+   "length": "long",
+   "kind": "podcast or video show notes",
+   "text": "Episode 58 looks at the surprising history of the pencil. The hosts trace it from a graphite deposit found in the English hills to the cedar forests that supplied the first factories, and then on to the yellow paint that became a mark of quality. In the second half a retired draughtsman describes sharpening leads by hand on a sandpaper block. Running time is forty-six minutes, with a short musical break at the midpoint."
+  },
+  {
+   "n": 167,
+   "length": "long",
+   "kind": "appliance manual excerpt",
+   "text": "The dehumidifier draws damp air across a chilled coil, where moisture condenses and drips into the four litre tank at the base. A float switch stops the compressor when the tank is full, and the amber light on the top panel stays lit until the tank has been emptied and returned. In laundry mode the fan runs at its highest speed for six hours. The washable mesh filter behind the rear grille traps dust before it reaches the coil."
+  },
+  {
+   "n": 168,
+   "length": "long",
+   "kind": "sports match report",
+   "text": "Hollybrook Under 14s came from two goals down to draw 3-3 with Marsh Lane on a heavy pitch on Saturday morning. The visitors scored twice inside ten minutes, both from corners, before a deflected free kick brought Hollybrook back into the game just before the break. The second half was end to end, and the equaliser arrived in the final minute when the left back volleyed in from the edge of the area. The goalkeeper's late penalty save earned the loudest cheer."
+  },
+  {
+   "n": 169,
+   "length": "long",
+   "kind": "book or film blurb",
+   "text": "When her grandfather's clock shop is left to her in a will, Ines expects to sell it within a month and return to the city. Instead she finds a drawer of unfinished repairs, each tagged with a name and a promise, and a town that has been keeping time by one man's hands for fifty years. The Mender of Small Hours is a gentle novel about inheritance, patience and the things people leave half done."
+  },
+  {
+   "n": 170,
+   "length": "long",
+   "kind": "neighbourhood or club notice",
+   "text": "The Elm Court residents' garden group has finished planting the raised beds behind the bicycle shed. Runner beans, chard and two rows of early potatoes went in last weekend, and the compost bins have been moved next to the water butt. The watering rota for June is pinned inside the shed door, with one household covering each week. Spare seedlings, mostly tomatoes and marigolds, are on the table by the gate for anyone with room on a balcony."
+  },
+  {
+   "n": 171,
+   "length": "long",
+   "kind": "hobby forum post",
+   "text": "Clear skies at last on Thursday, so the eight inch reflector finally came out of the shed. Saturn was low but steady, with the ring gap showing at 150 times magnification, and two moons were easy to pick out beside it. Later the double cluster filled the whole eyepiece. Dew started forming on the finder scope around midnight, which ended the session earlier than planned. The homemade dew shield is clearly too short and will get an extension before the next outing."
+  },
+  {
+   "n": 172,
+   "length": "long",
+   "kind": "internal newsletter item",
+   "text": "The warehouse team in Dunmore passed one thousand days without a lost time injury on Tuesday. The milestone was marked with a breakfast for both shifts and a new banner above the loading dock. Site manager Priya credits the daily walk round, where forklift drivers and pickers swap places for ten minutes to see the aisles from the other side. The next target is the regional record, which stands at fourteen hundred days and belongs to the Carrow depot."
+  },
+  {
+   "n": 173,
+   "length": "long",
+   "kind": "lab or experiment log entry",
+   "text": "Seed germination trial, day 6. Tray A, kept on the windowsill, shows 22 of 30 cress seeds sprouted with an average shoot height of 14 mm. Tray B, in the cupboard, has 25 of 30 sprouted, but the shoots are pale yellow and nearly twice as tall at 26 mm. Both trays received 10 ml of water at 08:15. Room temperature was 19 degrees. Photographs were taken from above and from the side, with a ruler placed against the front row."
+  },
+  {
+   "n": 174,
+   "length": "long",
+   "kind": "event announcement",
+   "text": "The annual Harvest Quilt Show opens at the Wesley Hall on Friday the fourth of October and runs through Sunday afternoon. More than ninety quilts are on display this year, including a set of miniature pieces no larger than a postcard and a wedding quilt stitched in 1912. Members of the guild demonstrate hand piecing each day at eleven and two. Tea and homemade cake are served in the side room, and all takings go to the hall roof fund."
+  },
+  {
+   "n": 175,
+   "length": "long",
+   "kind": "job posting excerpt",
+   "text": "Tidewater Books is looking for a part-time bookseller to cover Thursday evenings and alternate Saturdays. The position involves serving at the till, shelving new stock, wrapping mail orders and helping to host the monthly author readings. A wide reading habit matters more than retail experience, and knowledge of children's titles would be a real advantage. The shop offers a staff discount, a paid break on long shifts and first pick of the advance copies that arrive from publishers."
+  },
+  {
+   "n": 176,
+   "length": "long",
+   "kind": "podcast or video show notes",
+   "text": "This week on Second Gear the team visits a volunteer workshop that restores vintage bicycles for local schoolchildren. The first segment covers how donated frames are stripped, checked for cracks and repainted. After that, the workshop's founder talks about the oddest machine ever handed in, a 1930s tandem with wooden rims. The closing segment answers listener mail about hub gears. The episode was recorded on location, so there is some background noise from the truing stand."
+  },
+  {
+   "n": 177,
+   "length": "long",
+   "kind": "appliance manual excerpt",
+   "text": "The bread maker has three crust settings and a delay timer of up to thirteen hours. During the kneading stage the paddle turns in short bursts, then rests so the dough can relax before the first rise. A viewing window in the lid shows progress without letting heat escape. At the end of the bake the machine sounds five beeps and switches to a keep warm mode for one hour. The pan and paddle have a non-stick coating and lift out for washing."
+  },
+  {
+   "n": 178,
+   "length": "long",
+   "kind": "sports match report",
+   "text": "Stonefield won the district netball final 41-37 on Thursday evening after trailing for most of the first three quarters. Ridgeway's shooters were accurate early on and led by six at half time, but a switch at centre gave Stonefield quicker ball into the circle. The goal attack scored eleven without a miss in the last quarter. Ridgeway had the final centre pass with thirty seconds left, yet a clean interception at the top of the circle settled it."
+  },
+  {
+   "n": 179,
+   "length": "long",
+   "kind": "book or film blurb",
+   "text": "Set on a cargo barge drifting down a wide brown river, The Drifting Mile is a film about two brothers who have not spoken in a decade and the engine that refuses to start. Over four days they trade the wheel, share tinned peaches and circle the argument that drove them apart. Shot almost entirely at dawn and dusk, it is quiet, funny in unexpected places and carried by two unhurried performances."
+  },
+  {
+   "n": 180,
+   "length": "long",
+   "kind": "neighbourhood or club notice",
+   "text": "The Thursday walking group now meets at the war memorial instead of the library steps, because of the paving work on Church Street. Walks still set off at ten and last about ninety minutes, finishing at the cafe by the green. This month's routes take in the canal locks, the old orchard and the ridge path above the quarry. The group has around twenty regulars, and the pace is set by whoever is at the back."
+  },
+  {
+   "n": 181,
+   "length": "long",
+   "kind": "hobby forum post",
+   "text": "Sharing a few photos of the N gauge layout now that the harbour section has scenery. The water is three thin pours of tinted resin over a painted board, with ripples stippled in while the last layer was tacky. The quay walls are cast plaster, scribed by hand and washed with diluted grey. Two fishing boats came from a kit and the third is scratch built from balsa. Next on the list are the goods shed and a working crane."
+  },
+  {
+   "n": 182,
+   "length": "long",
+   "kind": "internal newsletter item",
+   "text": "Congratulations to the finance team, who took first place in the charity pub quiz held at the Anchor last Thursday. Fourteen teams from across the company took part, raising just over nine hundred pounds for the children's hospice. The winning margin was a single point, decided by a round on national flags. The wooden spoon went to the directors' table, who blamed a poor showing in the music round. The next quiz is pencilled in for early March."
+  },
+  {
+   "n": 183,
+   "length": "long",
+   "kind": "lab or experiment log entry",
+   "text": "Pendulum timing, session 3. String lengths of 20, 40, 60 and 80 cm were tested with the same 50 g brass bob released from roughly ten degrees. Ten full swings were timed for each length and the total divided by ten. Periods came out at 0.91, 1.27, 1.56 and 1.80 seconds. The 60 cm run was repeated because the clamp slipped on the first attempt. Plotting period squared against length gives a straight line through the origin, as expected."
+  },
+  {
+   "n": 184,
+   "length": "long",
+   "kind": "event announcement",
+   "text": "Open Studios weekend takes place across the old tannery on the twenty-first and twenty-second of June. Twenty-six artists and makers open their doors from ten until five, among them a letterpress printer, two potters, a violin maker and a weaver working on a floor loom. A printed map is available at the gatehouse, and the courtyard cafe serves lunch both days. Live music starts at three on Sunday, weather permitting, under the big chestnut tree."
+  },
+  {
+   "n": 185,
+   "length": "long",
+   "kind": "job posting excerpt",
+   "text": "Northgate Veterinary Practice has an opening for a full-time receptionist at its main surgery. Duties include booking appointments, greeting clients and their animals, handling payments, ordering food and flea treatments and keeping the waiting room tidy. The ideal candidate is calm under pressure, comfortable around nervous dogs and happy to work one Saturday morning in three. The practice has six vets and four nurses, and the front desk is shared with one other receptionist."
+  },
+  {
+   "n": 186,
+   "length": "long",
+   "kind": "podcast or video show notes",
+   "text": "In part two of the lighthouse series, the presenters travel to a rock station eleven miles offshore that was staffed until 1988. A former keeper recalls the three week shifts, the winter relief boats that could not land and the unusual routine of winding the lens clockwork every half hour. There is also a short segment on how the lamp was converted to solar power. Archive recordings of the fog signal open and close the episode."
+  },
+  {
+   "n": 187,
+   "length": "long",
+   "kind": "appliance manual excerpt",
+   "text": "The slow cooker has a removable stoneware pot and a glass lid with a steam vent. On the low setting the contents reach a gentle simmer after about four hours, while the high setting takes roughly half that time. Once the programmed time ends, the unit switches itself to a warm setting and the display counts upward to show how long the food has been held. The outer casing becomes hot during use, and the handles stay cool to the touch."
+  },
+  {
+   "n": 188,
+   "length": "long",
+   "kind": "sports match report",
+   "text": "A wet outfield delayed the start at Fernhill, and the match was reduced to thirty overs a side. Batting first, the home team reached 164 for 7, built around a patient 58 from the opener and some late hitting from the number eight. Ashby's reply began briskly, but three wickets fell for four runs in the twelfth over. The last pair needed nineteen from the final two overs and fell six short. Fernhill move up to third in the table."
+  },
+  {
+   "n": 189,
+   "length": "long",
+   "kind": "book or film blurb",
+   "text": "The Salt Haulers traces three generations of a family who carry sea salt inland by mule, from the last years of the trade to the day the railway arrives. Told through letters, ledgers and one very opinionated grandmother, it is a story of weather, debt and stubborn affection. Readers who enjoy sweeping historical fiction with a strong sense of place will find plenty to savour in these four hundred pages."
+  },
+  {
+   "n": 190,
+   "length": "long",
+   "kind": "neighbourhood or club notice",
+   "text": "The chess club has moved its Monday sessions to the back room of the community centre, which has better lighting and a kettle. Play runs from seven until half past nine, with boards and clocks provided. The autumn ladder begins on the second Monday in September and currently has eighteen names on it, ranging from complete beginners to two county players. Juniors meet separately on Saturday mornings at ten, coached by a former league captain."
+  },
+  {
+   "n": 191,
+   "length": "long",
+   "kind": "hobby forum post",
+   "text": "After two seasons of failures the dahlias have finally come good. The trick seems to have been lifting the tubers in November, drying them upside down for a week and storing them in barely damp sand in the cellar. Fourteen of sixteen survived the winter. The dark red cactus type is now shoulder high and covered in buds, and the pale apricot one beside it opened its first flower this morning. Earwigs remain the main nuisance."
+  },
+  {
+   "n": 192,
+   "length": "long",
+   "kind": "internal newsletter item",
+   "text": "The Northfield office welcomed eleven summer interns on Monday, the largest group since the scheme began. They are spread across design, logistics and customer research, and each has been paired with a buddy from a different department. Their first week included a tour of the print floor and a lunch with the founders. A showcase of their projects is scheduled for the last Friday in August, in the atrium, with pizza afterwards."
+  },
+  {
+   "n": 193,
+   "length": "long",
+   "kind": "lab or experiment log entry",
+   "text": "Soil pH survey, plot C. Six samples were taken at 10 cm depth along the north fence at two metre intervals. Each was mixed with distilled water at a ratio of one to two, stirred for a minute and left to settle for half an hour before reading. Values were 6.4, 6.3, 6.6, 5.9, 6.1 and 6.5. The low reading came from the spot beneath the pine, where needles have collected. Meter calibrated at 08:40 with buffer solutions of 4 and 7."
+  },
+  {
+   "n": 194,
+   "length": "long",
+   "kind": "event announcement",
+   "text": "The Midsummer Brass Concert will be held in the Victoria Park bandstand on Sunday the twenty-third at three in the afternoon. The town band is joined this year by the youth ensemble for a programme of marches, film themes and two pieces written by local composers. Deck chairs are available beside the rose garden for a small hire charge. If it rains, the concert moves to the Methodist church hall on Park Road at the same time."
+  },
+  {
+   "n": 195,
+   "length": "long",
+   "kind": "job posting excerpt",
+   "text": "The county museum seeks a collections technician on a twelve month contract. The post holder will pack, move and install objects for two temporary exhibitions, build simple mounts and help the registrar with condition checks and location records. Practical skills with hand tools are essential, along with careful handling and a steady head on a ladder. The team is small, and the work is split between the main galleries and an offsite store about four miles away."
+  },
+  {
+   "n": 196,
+   "length": "long",
+   "kind": "podcast or video show notes",
+   "text": "Today the show heads underground. A cave surveyor explains how a new chamber was mapped using nothing more than tape, compass and a waterproof notebook, and why the passage leading to it stayed hidden for so long. Later, a biologist describes the pale shrimp and blind beetles that live in total darkness. The episode ends with a field recording of dripping water made nearly two hundred metres below the surface. Length is fifty-two minutes."
+  },
+  {
+   "n": 197,
+   "length": "long",
+   "kind": "appliance manual excerpt",
+   "text": "The robot vacuum maps each room with a spinning laser sensor on its top cover and stores up to three floor plans. When the battery falls below fifteen percent it returns to the charging dock, then resumes from the point where it stopped. The side brush sweeps debris from edges toward the main roller, and cliff sensors underneath keep the unit from tipping down stairs. The dustbin holds 400 ml and a red indicator shows when it is full."
+  },
+  {
+   "n": 198,
+   "length": "long",
+   "kind": "sports match report",
+   "text": "Lakeside Rowing Club's senior eight won the autumn head race on Sunday in a time of 17 minutes 42 seconds, eleven seconds clear of the field. Conditions were calm at the start, though a headwind picked up over the final kilometre. The crew held a steady rate of 32 through the bends and pushed hard past the island. The women's four finished second in their division, and the novice quad completed the full course for the first time."
+  },
+  {
+   "n": 199,
+   "length": "long",
+   "kind": "book or film blurb",
+   "text": "In a seaside town out of season, a retired cartographer begins drawing a map of every place his late wife ever mentioned. The Unfolded Coast is a tender, slyly comic novel about memory and the stubborn pleasure of getting the details right. As the map spreads across the kitchen wall, neighbours start bringing their own corrections, and a solitary project turns into a shared one. A warm book for a cold afternoon."
+  },
+  {
+   "n": 200,
+   "length": "long",
+   "kind": "neighbourhood or club notice",
+   "text": "The street's annual plant swap takes place on the green outside number twelve on Saturday morning, from nine until noon. Last year more than two hundred pots changed hands, from tomato seedlings and herbs to a six foot fig tree. Tables are provided by the scout hut, and any plants left over at the end go to the school garden. Tea is served from the porch of number fourteen, with donations going toward new bulbs for the verge."
+  },
+  {
+   "n": 201,
+   "length": "long",
+   "kind": "hobby forum post",
+   "text": "Just back from the weekend meet with the restored 1961 valve radio, which drew more interest than expected. The cabinet needed new veneer on one side and the dial glass was a reproduction, but the chassis is original apart from the capacitors. It pulls in medium wave stations clearly after dark and has that soft, rounded tone on speech. Total cost came to less than a tank of fuel, most of it spent on the speaker cloth."
+  },
+  {
+   "n": 202,
+   "length": "long",
+   "kind": "internal newsletter item",
+   "text": "From next month the staff canteen will offer a soup and bread option every weekday, priced at two pounds fifty. The idea came from the suggestion box on the second floor, where it received more votes than any other entry this year. The kitchen team trialled six soups during October, and leek and potato proved the clear favourite. The salad bar stays as it is, and the Friday curry continues by popular demand."
+  },
+  {
+   "n": 203,
+   "length": "long",
+   "kind": "lab or experiment log entry",
+   "text": "Yeast balloon test, trial 2. Four bottles each held 100 ml of warm water and one teaspoon of dried yeast, with 0, 1, 2 and 3 teaspoons of sugar added. A balloon was stretched over each neck at 13:05. After forty minutes the balloon circumferences measured 0, 14, 21 and 23 cm using a strip of paper and a ruler. The bottle without sugar showed no froth at all. Water temperature at the start was 37 degrees in all four."
+  },
+  {
+   "n": 204,
+   "length": "long",
+   "kind": "event announcement",
+   "text": "The Coastal Kite Festival flies again on the last weekend of May at Sandy Point beach. Displays run from eleven each day and include giant inflatable sea creatures, synchronised stunt teams and a mass launch of homemade kites at two o'clock on Sunday. A making tent for children sits beside the lifeguard hut, with paper, cane and string supplied. Parking is in the field behind the dunes, and a shuttle bus runs from the railway station every twenty minutes."
+  },
+  {
+   "n": 205,
+   "length": "long",
+   "kind": "job posting excerpt",
+   "text": "Brightside Bakery needs an early morning baker to join a team of four. The shift runs from four until noon, Tuesday to Saturday, and covers mixing, shaping and baking the daily range of loaves, rolls and pastries. The successful applicant will have at least a year in a production bakery and be comfortable lifting sacks of flour. Pay is above the local average, with a loaf to take home each day and four weeks of paid holiday."
+  },
+  {
+   "n": 206,
+   "length": "long",
+   "kind": "podcast or video show notes",
+   "text": "Episode 112 is all about board games from before 1900. The guest, a collector with more than three hundred boxes in her attic, brings along a Victorian race game with lead horses and a geography game printed on linen. The conversation covers how games were sold, why so many were about moral improvement and which ones still play well. The final ten minutes feature a live round, complete with arguments over the scoring."
+  },
+  {
+   "n": 207,
+   "length": "long",
+   "kind": "appliance manual excerpt",
+   "text": "The washing machine weighs each load during the first minute and adjusts water level and cycle length to match. The display shows the remaining time, which may change once the weighing is complete. A door catch engages when the programme starts and releases about two minutes after the drum stops. The quick wash handles up to two kilograms in thirty minutes at a low temperature, while the cotton cycle takes the full eight kilograms and lasts a little over three hours."
+  },
+  {
+   "n": 208,
+   "length": "long",
+   "kind": "sports match report",
+   "text": "The Harriers took the team prize at the county cross country relays, held over a muddy three lap course at Abbots Wood. Their first leg runner came in fourth, but a storming second leg moved them into the lead by the top of the hill. The anchor held off a late challenge from Valley Striders to finish nine seconds ahead. The under 15 girls also medalled, taking bronze behind two much larger clubs. Around four hundred runners took part."
+  },
+  {
+   "n": 209,
+   "length": "long",
+   "kind": "book or film blurb",
+   "text": "Orchard Year is a documentary that spends twelve months in a single apple orchard, from bare winter pruning to the last crates of the harvest. There is no narrator, only the sounds of ladders, bees, rain on leaves and the people who work the rows. The photography lingers on small changes, a bud splitting or frost melting from a branch. At eighty minutes it is brief, patient and unexpectedly moving."
+  },
+  {
+   "n": 210,
+   "length": "long",
+   "kind": "neighbourhood or club notice",
+   "text": "The repair cafe returns to the village hall on the first Saturday of the month, between ten and one. Volunteers will be on hand with soldering irons, sewing machines and a well stocked box of spare screws to look at lamps, toasters, zips, toys and wobbly chairs. Last month thirty-one items were brought in and twenty-four went home working. Cake and coffee are available throughout, and there is no charge beyond the cost of any parts used."
+  },
+  {
+   "n": 211,
+   "length": "long",
+   "kind": "hobby forum post",
+   "text": "Third attempt at dyeing wool with onion skins, and this time the colour took evenly. The skeins soaked overnight in an alum bath, then simmered for an hour with a carrier bag's worth of brown skins saved up since Christmas. The result is a deep, slightly coppery gold that barely faded after a week on the sunny windowsill. Adding a rusty nail to a second pot shifted it toward olive green. Both skeins are earmarked for a striped hat."
+  },
+  {
+   "n": 212,
+   "length": "long",
+   "kind": "internal newsletter item",
+   "text": "The cycle shelter behind building two has been extended and now holds sixty bicycles, up from thirty-five. There are also four new charging points for electric bikes and a repair stand with a pump and basic tools. According to the travel survey, one in five colleagues now cycles in at least once a week, twice the figure from three years ago. Showers and lockers are on the ground floor beside the gym entrance."
+  },
+  {
+   "n": 213,
+   "length": "long",
+   "kind": "lab or experiment log entry",
+   "text": "Paper bridge loading, 14:30. Three bridges were made from single sheets of A4 spanning a 20 cm gap between two stacks of books. The flat sheet held 4 coins before sagging onto the bench. The sheet folded into a channel held 31. The pleated sheet, with eight folds along its length, held 112 coins and then buckled at the centre. All coins were of the same type, 3.6 g each, and were added one at a time at mid span."
+  },
+  {
+   "n": 214,
+   "length": "long",
+   "kind": "event announcement",
+   "text": "The Old Mill Folk Night takes place on the second Friday of each month in the upstairs room at the Miller's Arms. The evening begins at eight with a guest set, this time a fiddle and concertina duo from the islands, and is rounded off by an open session where anyone with an instrument or a song is welcome. Seating is limited to about sixty. Admission is by donation at the door, and the kitchen serves food until nine."
+  },
+  {
+   "n": 215,
+   "length": "long",
+   "kind": "job posting excerpt",
+   "text": "The harbour authority is recruiting a seasonal ferry deckhand for the summer timetable. The job includes handling mooring lines, lowering the ramp, collecting fares, counting passengers aboard and washing down the deck at the end of each day. Crossings take twelve minutes and run every half hour from seven in the morning. A good head for heights is not required, but sea legs and a friendly manner with visitors certainly are. Waterproofs and boots are supplied."
+  },
+  {
+   "n": 216,
+   "length": "long",
+   "kind": "podcast or video show notes",
+   "text": "This instalment of Kitchen Table Histories tells the story of the humble teapot. The hosts handle examples from a museum store, including a tiny red clay pot made for a single cup and a huge two spouted urn built for a railway buffet. A potter then explains why spouts dribble and how a well cut lip prevents it. The episode closes with a blind tasting of the same tea brewed in three different pots."
+  },
+  {
+   "n": 217,
+   "length": "long",
+   "kind": "appliance manual excerpt",
+   "text": "The electric kettle has a concealed element beneath a stainless steel base and a water window marked from 0.5 to 1.7 litres. A thermostat cuts the power a few seconds after the water boils, and a second cut-out operates if the kettle is switched on empty. The limescale filter sits behind the spout and slides upward for cleaning. The round base allows the kettle to be set down at any angle, and the cord wraps around a spool underneath."
+  },
+  {
+   "n": 218,
+   "length": "long",
+   "kind": "sports match report",
+   "text": "Castle Park edged the hockey derby 2-1 on Saturday in front of a noisy crowd at the school astro. The opening goal came from a penalty corner, swept low inside the left post after eight minutes. Greenbank levelled early in the second half with a reverse stick shot that surprised everyone, including the scorer. The winner arrived six minutes from time, a tap in at the far post after good work down the right. Castle Park stay unbeaten at home."
+  },
+  {
+   "n": 219,
+   "length": "long",
+   "kind": "book or film blurb",
+   "text": "A night train, a missing cello and a conductor who has seen it all before. Sleeper to the Coast is a brisk comic mystery set aboard an overnight express, where every passenger has a reason to be travelling under a different name. Light on its feet and full of small surprises, it keeps its best joke for the final page. Ideal reading for a long journey or a rainy weekend indoors."
+  },
+  {
+   "n": 220,
+   "length": "long",
+   "kind": "neighbourhood or club notice",
+   "text": "The allotment society's annual show is set for the last Sunday in August in the marquee beside the main gate. Classes this year include longest runner bean, heaviest marrow, three matching onions and a new category for the oddest shaped vegetable. Entries are staged between eight and ten, judging begins at half past ten and the tent reopens to visitors at noon. Trophies are presented at three, and the auction of produce comes straight afterwards."
+  },
+  {
+   "n": 221,
+   "length": "long",
+   "kind": "hobby forum post",
+   "text": "Spent the long weekend re-stringing and setting up a secondhand mandolin picked up at a car boot sale. The bridge had drifted nearly a centimetre toward the neck, which explained why nothing above the fifth fret sounded in tune. With the bridge moved back, fresh strings and a drop of oil on the tuners, it now rings beautifully. The top has a small crack near the tailpiece, stable for now. A couple of simple reels are slowly coming together on it."
+  },
+  {
+   "n": 222,
+   "length": "long",
+   "kind": "internal newsletter item",
+   "text": "The design team in Ashford has adopted a retired racing greyhound named Biscuit as its unofficial office mascot. He visits on Tuesdays and Thursdays with his owner from accounts and spends most of the day asleep beneath the window. Since his arrival the team reports longer lunchtime walks and a sharp rise in visitors from other floors. A collection for the rehoming charity has raised three hundred and forty pounds so far."
+  },
+  {
+   "n": 223,
+   "length": "long",
+   "kind": "lab or experiment log entry",
+   "text": "Evaporation test, day 4, read at 16:00. Dish 1, on the bench, has lost 18 ml of the original 100 ml. Dish 2, beside the radiator, has lost 41 ml. Dish 3, in front of the small fan, has lost 55 ml, and salt crystals are now visible around its rim. Dish 4, covered with film, has lost less than 1 ml. Levels were measured by pouring into the same graduated cylinder and returning the water afterwards. Room humidity read 48 percent."
+  },
+  {
+   "n": 224,
+   "length": "long",
+   "kind": "event announcement",
+   "text": "The Winter Night Market sets up in Corn Exchange Square on each of the four Thursdays before Christmas, from five until nine. Around fifty stalls offer hand poured candles, knitwear, wooden toys, cheese, spiced cider and plenty more, and a choir sings on the town hall steps at seven. The carousel beside the fountain runs all evening. Late buses on routes two and nine have been added for the occasion, leaving from the square at half past nine."
+  },
+  {
+   "n": 225,
+   "length": "long",
+   "kind": "job posting excerpt",
+   "text": "Pinecrest Outdoor Centre is looking for two activity leaders for the summer season, from late May to early September. Leaders run sessions in canoeing, archery, orienteering and low ropes for school groups of up to twelve children. A first aid certificate is needed before the start date, and a paddling qualification would be helpful. Accommodation in shared cabins and all meals are included, and there is one full day off each week plus the use of the boats."
+  },
+  {
+   "n": 226,
+   "length": "long",
+   "kind": "podcast or video show notes",
+   "text": "The season finale visits a family-run clog workshop in a mill town where the same wooden lasts have been in use since the 1920s. The maker talks through choosing alder for the soles, cutting the leather uppers and fitting the irons underneath. The hosts each try a pair and report mixed results on the cobbles outside. There is also a look back at the year's most popular episodes and a preview of the autumn series."
+  },
+  {
+   "n": 227,
+   "length": "long",
+   "kind": "appliance manual excerpt",
+   "text": "The ceiling fan has three speeds and a reversing switch on the motor housing. In summer mode the blades turn anticlockwise and push air downward to create a cooling breeze. In winter mode they turn clockwise at low speed, drawing air up and moving warm air from the ceiling back toward the walls. The remote handset operates the fan and the dimmable lamp separately, and a timer switches the fan off after one, two, four or eight hours."
+  },
+  {
+   "n": 228,
+   "length": "long",
+   "kind": "sports match report",
+   "text": "The Otters swimming team finished second overall at the spring gala, their best result in six years. The relay squads provided the highlights, with the girls' medley team winning by half a length and the mixed freestyle quartet setting a new club record. Individual wins came in the 100 metre backstroke and the 50 metre butterfly. Twenty-two swimmers recorded personal bests across the afternoon, and the youngest competitor, aged eight, completed her first 200 metres."
+  },
+  {
+   "n": 229,
+   "length": "long",
+   "kind": "book or film blurb",
+   "text": "Beneath the Tin Roof gathers twelve linked stories from a single monsoon season in a hill town. A tailor waits for a customer who never returns, two schoolgirls run a lending library from a biscuit tin, and a bus driver decides the road has had enough of him. The stories overlap in passing glances and borrowed umbrellas, building a portrait of a place where everyone is known and nothing is quite said aloud."
+  },
+  {
+   "n": 230,
+   "length": "long",
+   "kind": "neighbourhood or club notice",
+   "text": "The community orchard's apple pressing day is on Sunday the twelfth of October, starting at eleven. The hand press and the scratter will be set up beside the tool store, and juice is poured straight into whatever bottles and jugs people have brought along. Last autumn the orchard produced nearly four hundred litres from its forty trees. Windfalls from home gardens are welcome too, and the leftover pulp goes to a nearby pig farm."
+  },
+  {
+   "n": 231,
+   "length": "long",
+   "kind": "hobby forum post",
+   "text": "Progress report on the cross stitch sampler, now about two thirds done. The border of acorns and oak leaves took most of the winter because the brown threads are so close in shade that they are hard to tell apart under a lamp. Daylight and a magnifier on a stand made a huge difference. The alphabet rows went quickly by comparison. Only the house, the two trees and the date remain, so it may be framed by midsummer."
+  },
+  {
+   "n": 232,
+   "length": "long",
+   "kind": "internal newsletter item",
+   "text": "The reprographics room on the ground floor has a new large format printer, capable of posters up to A0 in full colour. It replaces the old plotter, which had been in service for eleven years and has been donated to a local college. The first job off the new machine was the site plan for the summer fair. Poster jobs are handled by Marek and Dawn, who are at the desk between nine and four each weekday."
+  },
+  {
+   "n": 233,
+   "length": "long",
+   "kind": "lab or experiment log entry",
+   "text": "Magnet strength comparison, bench 2. Each magnet was lowered into a tray of steel paper clips, lifted clear and the clips hanging from it were counted. Three lifts per magnet. The bar magnet picked up 9, 11 and 10. The horseshoe picked up 23, 21 and 24. The small disc from the fridge door managed 3 each time. The ring magnet from the old speaker held 37, 35 and 38, with clips clustering on both flat faces."
+  },
+  {
+   "n": 234,
+   "length": "long",
+   "kind": "event announcement",
+   "text": "The Brookside Scarecrow Trail runs from the first to the ninth of August, with more than forty straw figures placed in front gardens around the village. This year's theme is characters from nursery rhymes. Trail sheets are sold at the post office and the farm shop for one pound, and the proceeds go to the playground fund. Winners of the best scarecrow prize, chosen by public vote, are announced at the fete on the final afternoon."
+  },
+  {
+   "n": 235,
+   "length": "long",
+   "kind": "job posting excerpt",
+   "text": "The Orchard Theatre has a vacancy for a dresser during its winter pantomime run. The work involves laundering and pressing costumes, making quick repairs between shows, helping performers with fast changes in the wings and keeping the dressing rooms tidy. There are eleven performances a week over six weeks. Sewing skills by hand and machine are essential, and a tolerance for glitter in unexpected places is strongly recommended."
+  },
+  {
+   "n": 236,
+   "length": "long",
+   "kind": "podcast or video show notes",
+   "text": "For this episode the microphones go to a dawn chorus walk in an ancient oak wood. A warden identifies each singer as it joins in, beginning with a robin in near darkness and ending with a chiffchaff after sunrise. Between recordings she describes how the wood is coppiced on a fifteen year cycle. Headphones bring out the detail, especially the woodpecker drumming at around the eighteen minute mark. No music is used anywhere in the programme."
+  },
+  {
+   "n": 237,
+   "length": "long",
+   "kind": "appliance manual excerpt",
+   "text": "The steam iron heats up in about forty seconds, and the indicator lamp goes out once the soleplate has reached the selected temperature. Water from the 300 ml tank passes through an anti-scale cartridge before it reaches the steam chamber. A motion sensor switches the heating element off after thirty seconds lying flat or eight minutes standing on its heel. The vertical steam function works on hanging garments and curtains, and the tapered tip reaches between buttons."
+  },
+  {
+   "n": 238,
+   "length": "long",
+   "kind": "sports match report",
+   "text": "Queensbury's table tennis first team beat Mill Road 7-3 on Wednesday night to go top of the second division. The evening turned on two five game matches, both of which went Queensbury's way after long rallies at deuce. Their number two won all three of his singles without dropping a game. Mill Road took the doubles comfortably and had their moments, yet could not cope with the heavy backspin served up on table one."
+  },
+  {
+   "n": 239,
+   "length": "long",
+   "kind": "book or film blurb",
+   "text": "Twelve-year-old Tomas wants only one thing from the summer, to finish building a raft before his cousins arrive. Then a heron with a damaged wing turns up on the riverbank, and plans change. Reed Summer is a family film about patience, small rescues and learning when to let go. Beautifully photographed along a real stretch of wetland, it is suitable for all ages and runs for ninety-four minutes."
+  },
+  {
+   "n": 240,
+   "length": "long",
+   "kind": "neighbourhood or club notice",
+   "text": "The knitting circle at St Anne's hall has completed its winter project, sixty-three blankets for the animal shelter, each made from squares contributed by different members. The blankets were handed over last Friday along with a box of small jumpers for the puppies. The circle meets on Wednesday afternoons from two until four and has needles and yarn to lend. Its spring project, bunting for the summer fete, begins after the Easter break."
+  }
+ ]
+}

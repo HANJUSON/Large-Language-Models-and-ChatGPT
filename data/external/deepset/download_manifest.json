@@ -1,0 +1,43 @@
+{
+  "dataset": "deepset/prompt-injections",
+  "dataset_url": "https://huggingface.co/datasets/deepset/prompt-injections",
+  "revision": "4f61ecb038e9c3fb77e21034b22511b523772cdd",
+  "license": "apache-2.0",
+  "license_note": "data card metadata at the revision: license apache-2.0; the dataset_info block of the same card names cc-by-4.0 (README 3.4)",
+  "download_method": "urllib from Hugging Face resolve URLs pinned to revision (scripts/fetch_external.py --download)",
+  "excluded_from_download": [
+    ".gitattributes (Hub LFS config, not data)",
+    "gitattributes.txt (same git blob as .gitattributes, not data)"
+  ],
+  "verification": "size and SHA-256 compared with the values pinned in scripts/fetch_external.py; git blob SHA-1 (for LFS files: LFS SHA-256, LFS size and the git blob SHA-1 of the LFS pointer) and the file set of the revision compared with the Hugging Face tree API at revision; rows not parsed (parquet is not parsed in this environment)",
+  "all_checks_passed": true,
+  "files": [
+    {
+      "path": "README.md",
+      "source_url": "https://huggingface.co/datasets/deepset/prompt-injections/resolve/4f61ecb038e9c3fb77e21034b22511b523772cdd/README.md",
+      "size_bytes": 500,
+      "sha256": "d90b4518dfe06154deeec938243d1ec9119bdfbfd2105aee9cf1567999764b94",
+      "git_blob_sha1": "d3a63fc0a09231cd1563afb14facfd9d55adcd03",
+      "matches_hub_blob": true
+    },
+    {
+      "path": "data/test-00000-of-00001-701d16158af87368.parquet",
+      "source_url": "https://huggingface.co/datasets/deepset/prompt-injections/resolve/4f61ecb038e9c3fb77e21034b22511b523772cdd/data/test-00000-of-00001-701d16158af87368.parquet",
+      "size_bytes": 10892,
+      "sha256": "39ac797cabc157eeed58435a08593b2952bb6cb16fc394a2d383f447cc7b246e",
+      "lfs_pointer_git_blob_sha1": "8bf9d00201127a68fc3b0cf1e8da9ecff8b221e7",
+      "matches_hub_lfs": true,
+      "matches_hub_blob": true
+    },
+    {
+      "path": "data/train-00000-of-00001-9564e8b05b4757ab.parquet",
+      "source_url": "https://huggingface.co/datasets/deepset/prompt-injections/resolve/4f61ecb038e9c3fb77e21034b22511b523772cdd/data/train-00000-of-00001-9564e8b05b4757ab.parquet",
+      "size_bytes": 40323,
+      "sha256": "2e10bc7ab30f542c97e4e83e2a5683000b5057d25ec10908784c631d44124c04",
+      "lfs_pointer_git_blob_sha1": "551b244bd3dc2e271865caf32d209bb7f6e249ba",
+      "matches_hub_lfs": true,
+      "matches_hub_blob": true
+    }
+  ],
+  "note": "Raw files are byte-identical to the Hub. Do not edit them; write converted or processed data elsewhere. External rows are used for the final evaluation only (README 3.4, EXT-02)."
+}

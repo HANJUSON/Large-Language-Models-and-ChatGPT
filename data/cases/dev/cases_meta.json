@@ -2693,11 +2693,11 @@
     },
     "lists_meta.json": {
       "path": "data/processed/lists_meta.json",
-      "sha256": "7d4dee90483969ab94b78e23ffe4bc524aa072d472eb65a25e1cc7c80dcfb28a"
+      "sha256": "ee6608111be35f096da6ace6ed4add8b06b46f70a64fa90706ef979d7a54447e"
     },
     "scripts/build_lists.py": {
       "path": "scripts/build_lists.py",
-      "sha256_lf": "0986fc648f0b47b4293a22cf788734938820de10e12633ebd8e1c9d29087d028"
+      "sha256_lf": "e4ed79f2ef5aabd6017bac4b64a6346f9ae3d9c8d927a8301bdc6369664b5958"
     },
     "scripts/data_lists.py": {
       "path": "scripts/data_lists.py",

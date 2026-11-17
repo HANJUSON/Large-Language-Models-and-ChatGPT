@@ -33,3 +33,6 @@ data/cases/**/*.md text eol=lf
 # Keep the EXP-02 review prompt LF like the other review records.
 data/error_review/**/*.md text eol=lf
 data/error_review/**/*.csv text eol=lf
+
+# Keep downloaded external evaluation datasets and their records byte-identical (hashes in download_manifest.json and external_rules.json).
+data/external/** -text

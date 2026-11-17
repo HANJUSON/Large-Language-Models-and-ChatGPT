@@ -1,0 +1,81 @@
+{
+  "build_lists_sha256_lf": "e4ed79f2ef5aabd6017bac4b64a6346f9ae3d9c8d927a8301bdc6369664b5958",
+  "cases_file": "data/cases/dev/cases.csv",
+  "counts": {
+    "exact": 0,
+    "normalised_key": 7,
+    "one_word_edit_cases": 18,
+    "one_word_edit_pairs": 24,
+    "punct_key": 0
+  },
+  "matches": [
+    {
+      "case_id": "dev-rob01-case-000138",
+      "level": "normalised_key",
+      "test_ids": [
+        "test:001030"
+      ],
+      "text_sha256_12": "bb40d0961c03"
+    },
+    {
+      "case_id": "dev-rob01-case-000410",
+      "level": "normalised_key",
+      "test_ids": [
+        "test:001686"
+      ],
+      "text_sha256_12": "2986ae4e4bf2"
+    },
+    {
+      "case_id": "dev-rob01-case-000454",
+      "level": "normalised_key",
+      "test_ids": [
+        "test:000215"
+      ],
+      "text_sha256_12": "8b5f0e8b2819"
+    },
+    {
+      "case_id": "dev-rob01-case-000636",
+      "level": "normalised_key",
+      "test_ids": [
+        "test:001151"
+      ],
+      "text_sha256_12": "ecef167517df"
+    },
+    {
+      "case_id": "dev-rob01-case-001643",
+      "level": "normalised_key",
+      "test_ids": [
+        "test:001104"
+      ],
+      "text_sha256_12": "b8e19fae8480"
+    },
+    {
+      "case_id": "dev-rob01-case-001758",
+      "level": "normalised_key",
+      "test_ids": [
+        "test:001304"
+      ],
+      "text_sha256_12": "9148b224a05c"
+    },
+    {
+      "case_id": "dev-rob01-case-001800",
+      "level": "normalised_key",
+      "test_ids": [
+        "test:001943"
+      ],
+      "text_sha256_12": "fe29f8550ff1"
+    }
+  ],
+  "n_cases": 845,
+  "pool_sha256": "507dfb8f959de0f2c20dc3f102ee5efec45ff3762b4b489811b2b2fd38c6b1d6",
+  "schema": 1,
+  "test": {
+    "revision": "002a9dd18514abd021869823d6b0429b38606d99",
+    "rows": 2101,
+    "sha256": "4c7a9f0fff2bf7d3f6d3e7b84863a8f5d6c48c70c3ac7fe874917074c8f27853"
+  },
+  "tool": {
+    "path": "scripts/check_cases_vs_test.py",
+    "sha256_lf": "b58ac1bcdff0641acc59fc86b9c1d034c133c113ca5e9573450b72c1514d389c"
+  }
+}

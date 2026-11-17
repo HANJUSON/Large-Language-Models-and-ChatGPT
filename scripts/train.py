@@ -1,10 +1,13 @@
-"""Fine-tune one model on the common lists: stage-1 smoke runs and stage-2 runs (README 4.2, 6.1, 7.1).
+"""Fine-tune one model on the common lists: stage-1 smoke runs, stage-2 runs (condition A) and stage-4
+runs (condition C: train_clean + augmentation) (README 4.2, 5.3, 6.1, 7.1).
 
 Run from Git Bash at the repo root:
     PYTHONUTF8=1 HF_HUB_OFFLINE=1 .venv/Scripts/python.exe scripts/train.py --model bert --smoke --lists trial
         -> runs/s1-bert-smoke-s0/ (first 100 updates of the N schedule, no kept checkpoint)
     PYTHONUTF8=1 HF_HUB_OFFLINE=1 .venv/Scripts/python.exe scripts/train.py --model roberta --seed 42
         -> runs/s2-roberta-A-s42/ (official lists only)
+    PYTHONUTF8=1 HF_HUB_OFFLINE=1 .venv/Scripts/python.exe scripts/train.py --model roberta --seed 42 --condition C
+        -> runs/s4-roberta-C-s42/ (official lists + data/cases/train/train_aug.csv, same N)
     PYTHONUTF8=1 .venv/Scripts/python.exe scripts/train.py --smoke-summary
 Add --rerun to repeat a run: the previous small files move to runs/<id>/attempts/<k>/,
 its checkpoint is deleted (the archived run.json then says checkpoint.kept false,
@@ -71,9 +74,54 @@ Settings come from configs/train.json only (no CLI overrides). Rules:
     JSON files are written to <name>.tmp, then os.replace.
     IDs, labels and numbers only, never sentence text; repo-relative POSIX
     paths; LF; stdout ASCII.
+  - Condition C (--condition C; stage s4, run ID s4-<model>-C-s<seed>;
+    README 5.3, IMP-02): a new run from the pretrained weights on train_clean
+    plus the augmentation rows; never with --smoke. Everything stage 2 checks
+    (official lists, the git checks P08 and P09) applies, plus P13 on the
+    augmentation set data/cases/train/: cases.csv, review.csv, train_aug.csv,
+    cases_meta.json, test_overlap.json and scripts/build_train_aug.py exist,
+    are git-tracked and unmodified; cases_meta.json has ready_for_training
+    true, review.pending 0 and test_overlap.status "applied"; the SHA-256 of
+    cases.csv, review.csv and train_aug.csv equal its "outputs" and the
+    LF-normalised SHA-256 of build_train_aug.py equals its "script"; the
+    augmentation rows join; `build_train_aug.py --check` as a subprocess exits
+    0 (run last, only when nothing else failed). An "outputs" entry that is
+    missing or has no SHA-256 is reported by file name, next to the state of
+    the set: the builder records train_aug.csv only for a set that is ready.
+    A refusal is bounded: the first ten per-row join errors, then one count
+    per code; the first five FAIL lines of --check; a line that carries an ID
+    or a FAIL line is cut at 300 characters.
+    Augmentation rows: train_aug.csv (data_lists.read_list) joined with the
+    case texts of cases.csv (csv module) by data_lists.join: IDs strictly
+    ascending, label and text_sha256_12 equal. Every row must be a case with
+    status assigned, purpose train, a non-empty text and not the held-out
+    subtype homoglyph; an empty train_aug.csv is refused. The same bytes are
+    hashed and parsed; the run rereads the files and fails (FAIL J.. lines in
+    log.txt, no data block in run.json) when a SHA-256 differs from the
+    preflight's. Loading draws no random number.
+    N stays epochs * ceil(train_clean rows / 16) and the eval steps stay the
+    same: the rows are appended after the train_clean rows, in train_aug.csv
+    order, once the budget recheck on train_clean is done, so the epoch plan
+    permutes train_clean + augmentation and stops at N updates.
+    run.json data then has train_clean_rows, augmentation_rows, augmentation
+    {dir, files_sha256, label_counts, build_train_aug_sha256_lf} and
+    train_rows = all rows trained on; condition A and smoke records have none
+    of these keys. A rerun is comparable only when the augmentation files
+    SHA-256 are also equal.
+  - Refusal codes (FAIL <code> ..., exit 1, nothing created): P01 config,
+    P02 model, P03 seed, --lists or --condition, P04 offline flag, P05 CUBLAS
+    variable, P06 run folder, P07 lists (carries L01-L08 of data_lists), P08
+    project files untracked or modified, P09 other modified tracked files,
+    P10 N, P11 CUDA, P12 lock, P13 augmentation set (condition C only; may
+    carry a join code). Join codes (data_lists.ListError): J00-J05 of
+    data_lists, J06 augmentation file unreadable or malformed, J07 a
+    train_aug.csv row is not a usable train case, J08 train_aug.csv has no
+    rows, J09 an augmentation file changed after the preflight.
 """
 import argparse
+import csv
 import gc
+import io
 import json
 import math
 import os
@@ -123,6 +171,17 @@ T_FORMULA = "T = N*t + 4*t_eval + t_load + 3*t_save + t_reload (estimate; exclud
 FIXED_CONFIG = {"padding": "dynamic", "inputs": ["input_ids", "attention_mask"],
                 "schedule": "linear decay to 0 over N updates, no warmup: LambdaLR max(0, (N - d) / N)"}
 EPOCHS = 3  # README 4.2: eval_steps are ceil(N/3), ceil(2N/3), N, i.e. the ends of 3 epochs
+# Trained conditions and their stage (README 5.3): B and D reuse the A and C checkpoints with another threshold.
+STAGE_OF = {"A": "s2", "C": "s4"}
+CONDITIONS = tuple(STAGE_OF)
+# Condition C augmentation set (README 7.1), built by scripts/build_train_aug.py.
+AUG_DIR_REL = "data/cases/train"
+AUG_CASES, AUG_LIST, AUG_META = "cases.csv", "train_aug.csv", "cases_meta.json"
+AUG_FILES = (AUG_CASES, "review.csv", AUG_LIST, AUG_META, "test_overlap.json")
+AUG_PINNED = (AUG_CASES, "review.csv", AUG_LIST)  # SHA-256 recorded in cases_meta.json "outputs"
+AUG_CASE_COLUMNS = ("case_id", "purpose", "subtype", "label", "status", "text")  # cases.csv columns read here
+AUG_HELD_OUT = ("homoglyph",)  # README 5.2: the held-out ROB-01 method is never trained on
+BUILD_TRAIN_AUG = "scripts/build_train_aug.py"
 
 NonFiniteError = eval_lib.NonFiniteError
 
@@ -402,8 +461,216 @@ def check_config(cfg):
 
 
 def run_identity(args, cfg):
-    stage, cond, seed = ("s1", "smoke", cfg["smoke"]["seed"]) if args.smoke else ("s2", "A", args.seed)
+    """(stage, condition, seed, run ID): --smoke -> s1 / smoke / the config's smoke seed; otherwise the
+    stage of the condition (A -> s2, C -> s4; A when args has no condition) with --seed.
+
+    Raises ValueError for an unknown condition and for a condition other than A with --smoke.
+    """
+    cond = getattr(args, "condition", "A")
+    if cond not in STAGE_OF or (args.smoke and cond != "A"):
+        raise ValueError(f"no run identity for condition {cond!r}" + (" with --smoke" if args.smoke else ""))
+    stage, cond, seed = ("s1", "smoke", cfg["smoke"]["seed"]) if args.smoke else (STAGE_OF[cond], cond, args.seed)
     return stage, cond, seed, f"{stage}-{args.model}-{cond}-s{seed}"
+
+
+# ---------------------------------------------------------------- augmentation (condition C)
+
+class _Blob:
+    """Path stand-in: lets data_lists.read_list parse bytes that were already read and hashed."""
+
+    def __init__(self, name, data):
+        self.name, self._data = name, data
+
+    def read_bytes(self):
+        return self._data
+
+
+def _clip(line, limit=300):
+    """line as ASCII, at most limit characters (a cut line ends in "..."): bounds a refusal line that carries
+    file content (an ID of train_aug.csv, a FAIL line of --check)."""
+    line = _ascii(line)
+    return line if len(line) <= limit else line[:limit - 3] + "..."
+
+
+def parse_cases(data):
+    """{case_id: {column: value}} from cases.csv bytes (UTF-8, csv module; line breaks inside a text are kept).
+
+    Raises data_lists.ListError (J06). Messages carry record numbers and counts only.
+    """
+    try:
+        recs = list(csv.reader(io.StringIO(data.decode("utf-8"), newline=""), strict=True))
+    except (UnicodeDecodeError, csv.Error) as exc:
+        raise data_lists.ListError([f"J06 {AUG_CASES}: {build_lists.exc_name(exc)} (not UTF-8 csv)"]) from None
+    head = recs[0] if recs else []
+    if len(set(head)) != len(head) or not set(AUG_CASE_COLUMNS) <= set(head):
+        raise data_lists.ListError([f"J06 {AUG_CASES}: the header repeats a column or lacks one of "
+                                    f"{', '.join(AUG_CASE_COLUMNS)}"])
+    cases, errors = {}, []
+    for n, rec in enumerate(recs[1:], start=1):
+        if len(rec) != len(head):
+            errors.append(f"J06 {AUG_CASES} data record {n}: {len(rec)} fields, the header has {len(head)}")
+            continue
+        r = dict(zip(head, rec))
+        if r["case_id"] in cases:
+            errors.append(f"J06 {AUG_CASES} data record {n}: duplicate case_id")
+        elif r["label"] not in ("0", "1"):
+            errors.append(f"J06 {AUG_CASES} data record {n}: label is not 0 or 1")
+        else:
+            cases[r["case_id"]] = r
+    if errors:
+        more = [f"J06 {AUG_CASES}: {len(errors) - 10} more malformed record(s)"] if len(errors) > 10 else []
+        raise data_lists.ListError(errors[:10] + more)
+    return cases
+
+
+def join_augmentation(cases_bytes, list_bytes):
+    """[(case_id, label int, text)] in train_aug.csv order from the bytes of cases.csv and train_aug.csv.
+
+    Raises data_lists.ListError: J00-J04 (data_lists.read_list / join), J06 malformed file, J07 a row that
+    is not a usable train case, J08 no rows. The refusal is bounded: the first ten J01-J04 errors (one per
+    row), then one count per code; one J07 line per rule; every line at most 300 characters.
+    """
+    cases = parse_cases(cases_bytes)
+    try:
+        listed = data_lists.read_list(_Blob(AUG_LIST, list_bytes))
+    except UnicodeDecodeError:
+        raise data_lists.ListError([f"J06 {AUG_LIST}: not ASCII"]) from None
+    raw = list_bytes.split(b"\n")
+    if raw[0] != data_lists.TRAIN_VAL_HEADER.encode("ascii") or any(ln.count(b",") != 2 for ln in raw[1:-1]):
+        raise data_lists.ListError([f"J06 {AUG_LIST}: the header is not {data_lists.TRAIN_VAL_HEADER} or a row "
+                                    "does not have 3 fields"])
+    if not listed:
+        raise data_lists.ListError([f"J08 {AUG_LIST}: no rows (condition C needs augmentation rows)"])
+    joined, errors = data_lists.join(listed, {cid: (c["label"], c["text"]) for cid, c in cases.items()}, AUG_LIST)
+    if len(errors) > 10:  # as parse_cases: a list of 10,000 wrong rows must not give 10,000 lines
+        codes = [e.split(" ", 1)[0] for e in errors[10:]]
+        errors = errors[:10] + [f"{code} {AUG_LIST}: {codes.count(code)} more error(s) of this kind"
+                                for code in sorted(set(codes))]
+    for what, wrong in (("status is not assigned", lambda c: c["status"] != "assigned"),
+                        ("purpose is not train", lambda c: c["purpose"] != "train"),
+                        ("held-out subtype " + "/".join(AUG_HELD_OUT), lambda c: c["subtype"] in AUG_HELD_OUT),
+                        ("empty text", lambda c: c["text"] == "")):
+        bad = [cid for cid, _, _ in listed if cid in cases and wrong(cases[cid])]
+        if bad:
+            errors.append(f"J07 {AUG_LIST}: {what} in {AUG_CASES}: {len(bad)} row(s) "
+                          f"({', '.join(bad[:5])}{', ...' if len(bad) > 5 else ''})")
+    if errors:
+        raise data_lists.ListError([_clip(e) for e in errors])
+    return joined
+
+
+def label_counts(rows):
+    """{"0": n, "1": n} for rows shaped (id, label int, text)."""
+    return {str(y): sum(r[1] == y for r in rows) for y in (0, 1)}
+
+
+def load_augmentation(directory, files_sha256):
+    """Augmentation rows [(case_id, label int, text)] in train_aug.csv order for a condition C run.
+
+    Every AUG_FILES file is read once; a SHA-256 that differs from files_sha256 (the preflight's) raises
+    data_lists.ListError J09 before anything is parsed; then join_augmentation. No random number is drawn.
+    """
+    try:
+        blobs = {n: (Path(directory) / n).read_bytes() for n in AUG_FILES}
+    except OSError as exc:
+        raise data_lists.ListError([f"J06 {AUG_DIR_REL}: cannot read ({build_lists.exc_name(exc)})"]) from None
+    changed = [n for n in AUG_FILES if data_lists.sha256_bytes(blobs[n]) != files_sha256.get(n)]
+    if changed:
+        raise data_lists.ListError([f"J09 {AUG_DIR_REL}: changed after the preflight: {', '.join(changed)}"])
+    return join_augmentation(blobs[AUG_CASES], blobs[AUG_LIST])
+
+
+def _brief(value):
+    return _ascii(json.dumps(value))[:40]
+
+
+def verify_augmentation(root=ROOT):
+    """P13 (condition C). Return (errors, info); info is the run.json data.augmentation block (None on errors).
+
+    Reads only. Each file is read once and the same bytes are hashed, compared with cases_meta.json and
+    joined. `build_train_aug.py --check` runs last, as a subprocess, only when nothing else failed.
+    The state of the set (ready_for_training, review.pending, test_overlap.status) is reported before the
+    pins, and a missing "outputs" entry by file name: a train_aug.csv left next to the meta of a set that
+    is not ready is refused with both.
+    """
+    d = root / AUG_DIR_REL
+    rels = [f"{AUG_DIR_REL}/{n}" for n in AUG_FILES] + [BUILD_TRAIN_AUG]
+    missing = [p for p in rels if not (root / p).is_file()]
+    if missing:
+        return [f"P13 augmentation: missing: {', '.join(missing)} ({BUILD_TRAIN_AUG} writes {AUG_LIST} only when "
+                "the review is complete and the test overlap is applied)"], None
+    errors = []
+    untracked = sorted(set(rels) - data_lists.git_tracked(root, rels))
+    if untracked:
+        errors.append(f"P13 augmentation: not tracked by git: {', '.join(untracked)}")
+    dirty = data_lists.git_status(root, rels)
+    if dirty is None:
+        errors.append("P13 augmentation: git status failed")
+    elif dirty:
+        errors.append(f"P13 augmentation: modified in the working tree or index: {', '.join(p for _, p in dirty)}")
+    try:
+        blobs = {n: (d / n).read_bytes() for n in AUG_FILES}
+        script_sha = data_lists.sha256_lf(root / BUILD_TRAIN_AUG)
+    except OSError as exc:
+        return errors + [f"P13 augmentation: cannot read ({build_lists.exc_name(exc)})"], None
+    files = {n: data_lists.sha256_bytes(b) for n, b in blobs.items()}
+    meta_rel = f"{AUG_DIR_REL}/{AUG_META}"
+    try:
+        meta = json.loads(blobs[AUG_META].decode("utf-8"))
+        ready, pending = meta["ready_for_training"], meta["review"]["pending"]
+        overlap = meta["test_overlap"]["status"]
+        outputs, meta_script = meta["outputs"], meta["script"]["sha256_lf"]
+        if not isinstance(outputs, dict) or not isinstance(meta_script, str):
+            raise TypeError
+    except (ValueError, KeyError, TypeError):
+        return errors + [f"P13 {meta_rel}: unreadable or missing keys"], None
+    if ready is not True:
+        errors.append(f"P13 {meta_rel}: ready_for_training is {_brief(ready)}, condition C needs true")
+    if type(pending) is not int or pending != 0:
+        errors.append(f"P13 {meta_rel}: review.pending is {_brief(pending)}, condition C needs 0 "
+                      f"(decide every case in {AUG_DIR_REL}/review.csv, then rebuild)")
+    if overlap != "applied":
+        errors.append(f"P13 {meta_rel}: test_overlap.status is {_brief(overlap)}, condition C needs \"applied\" "
+                      f"(run scripts/check_cases_vs_test.py, then {BUILD_TRAIN_AUG})")
+    # The pins, one file at a time: the builder writes no train_aug.csv entry for a set that is not ready, and
+    # the state errors above must be reported next to that, not hidden by it.
+    for n in AUG_PINNED:
+        entry = outputs.get(n)
+        want = entry.get("sha256") if isinstance(entry, dict) else None
+        if entry is None:
+            errors.append(f"P13 {meta_rel}: outputs has no {n} entry" + (
+                f" ({BUILD_TRAIN_AUG} records it only for a set that is ready for training)" if n == AUG_LIST
+                else ""))
+        elif not isinstance(want, str):
+            errors.append(f"P13 {meta_rel}: outputs {n} has no sha256 string")
+        elif files[n] != want:
+            errors.append(f"P13 {AUG_DIR_REL}/{n}: sha256 {files[n][:12]} != cases_meta {_ascii(want)[:12]}")
+    if script_sha != meta_script:
+        errors.append(f"P13 {BUILD_TRAIN_AUG}: sha256_lf {script_sha[:12]} != cases_meta script "
+                      f"{_ascii(meta_script)[:12]} (script changed after the augmentation set was built: "
+                      "rebuild it)")
+    rows = None
+    if not errors:
+        try:
+            rows = join_augmentation(blobs[AUG_CASES], blobs[AUG_LIST])
+        except data_lists.ListError as exc:
+            errors += [f"P13 {e}" for e in exc.errors]
+    if not errors:
+        try:
+            r = subprocess.run([sys.executable, str(root / BUILD_TRAIN_AUG), "--check"], cwd=str(root),
+                               capture_output=True, timeout=data_lists.CHECK_TIMEOUT_S,
+                               env={**os.environ, "PYTHONUTF8": "1"})
+        except subprocess.TimeoutExpired:
+            errors.append(f"P13 {BUILD_TRAIN_AUG} --check: no result within {data_lists.CHECK_TIMEOUT_S} s")
+        else:
+            if r.returncode != 0:
+                fails = [ln for ln in r.stdout.decode("ascii", "replace").splitlines() if ln.startswith("FAIL")]
+                errors.append(f"P13 {BUILD_TRAIN_AUG} --check exit {r.returncode}: "
+                              + " | ".join(_clip(ln) for ln in fails[:5]))
+    if errors:
+        return errors, None
+    return [], {"dir": AUG_DIR_REL, "files_sha256": files, "label_counts": label_counts(rows),
+                "build_train_aug_sha256_lf": script_sha}
 
 
 def preflight(args, cfg, root=ROOT):
@@ -411,10 +678,19 @@ def preflight(args, cfg, root=ROOT):
     errors = check_config(cfg)
     if errors:
         return errors, None
+    condition = getattr(args, "condition", "A")
+    if condition not in CONDITIONS:
+        return [f"P03 condition {_ascii(repr(condition))[:40]} is not one of {', '.join(CONDITIONS)} (README 5.3: "
+                "B and D reuse the A and C checkpoints)"], None
+    if args.smoke and condition != "A":
+        return [f"P03 --condition {condition} is not allowed with --smoke (a smoke run is stage 1 on the "
+                "common lists only)"], None
+    official = f"stage {STAGE_OF[condition][1:]}"  # "stage 2" (A) or "stage 4" (C) in the messages below
     if args.model not in model_specs.WEIGHTS:
         errors.append(f"P02 model {args.model!r} has no pinned weights in model_specs.WEIGHTS")
     if args.lists == "trial" and not args.smoke:
-        errors.append("P03 --lists trial is allowed only with --smoke (README 7.1: stage 2 uses the official lists)")
+        errors.append(f"P03 --lists trial is allowed only with --smoke (README 7.1: {official} uses the official "
+                      "lists)")
     if not args.smoke and args.seed not in cfg["seeds"]:
         errors.append(f"P03 seed {args.seed} is not in {CONFIG_REL} seeds {cfg['seeds']}")
     stage, cond, seed, run_id = run_identity(args, cfg)
@@ -438,22 +714,26 @@ def preflight(args, cfg, root=ROOT):
                       f"(with --rerun if runs/{run_id}/ exists)")
     lerrs, lists = data_lists.verify_lists(args.lists, root, require_tracked=not args.smoke)
     errors += [f"P07 {e}" for e in lerrs]
-    if stage == "s2":
+    if stage in STAGE_OF.values():  # s2 and s4; smoke runs record the dirty state instead
         rels = list(CODE_FILES) + [CONFIG_REL]
         untracked = sorted(set(rels) - data_lists.git_tracked(root, rels))
         if untracked:
-            errors.append(f"P08 stage 2 needs git-tracked project files; untracked: {', '.join(untracked)}")
+            errors.append(f"P08 {official} needs git-tracked project files; untracked: {', '.join(untracked)}")
         st = data_lists.git_status(root)
         if st is None:
             errors.append("P08 git status failed")
         else:
             mod = sorted(p for _, p in st if p in rels)
             if mod:
-                errors.append(f"P08 stage 2 needs unmodified project files; modified: {', '.join(mod)}")
+                errors.append(f"P08 {official} needs unmodified project files; modified: {', '.join(mod)}")
             other = sorted(p for _, p in st if p not in rels and not p.startswith("runs/"))
             if other:
-                errors.append(f"P09 stage 2 refuses modified tracked files outside runs/: {len(other)} "
+                errors.append(f"P09 {official} refuses modified tracked files outside runs/: {len(other)} "
                               f"({', '.join(_ascii(p) for p in other[:5])}{', ...' if len(other) > 5 else ''})")
+    augmentation = None
+    if cond == "C":
+        aerrs, augmentation = verify_augmentation(root)
+        errors += aerrs
     n_total = None
     if lists is not None:
         n_total = budget(lists["train_clean_rows"], cfg["epochs"])
@@ -465,10 +745,13 @@ def preflight(args, cfg, root=ROOT):
     if errors:
         return errors, None
     smoke = cfg["smoke"]
-    return [], {"stage": stage, "condition": cond, "seed": seed, "run_id": run_id, "run_dir": run_dir,
-                "lists": lists, "list_dir": data_lists.list_dir(args.lists, root), "n_total": n_total,
-                "eval_at": smoke["eval_at"] if args.smoke else eval_steps(n_total),
-                "n_run": smoke["updates"] if args.smoke else n_total}
+    ctx = {"stage": stage, "condition": cond, "seed": seed, "run_id": run_id, "run_dir": run_dir,
+           "lists": lists, "list_dir": data_lists.list_dir(args.lists, root), "n_total": n_total,
+           "eval_at": smoke["eval_at"] if args.smoke else eval_steps(n_total),
+           "n_run": smoke["updates"] if args.smoke else n_total}
+    if cond == "C":  # N, eval steps and updates above come from train_clean alone (README IMP-02)
+        ctx.update(augmentation=augmentation, aug_dir=root / AUG_DIR_REL)
+    return [], ctx
 
 
 # ---------------------------------------------------------------- run folder and records
@@ -608,6 +891,8 @@ RERUN_SAME = (("code files SHA-256", ("code", "files_sha256_lf")), ("config SHA-
               ("list files SHA-256", ("lists", "files_sha256")),
               ("requirements SHA-256", ("env", "requirements_sha256")), ("torch", ("env", "torch")),
               ("CUDA", ("env", "cuda")), ("GPU", ("env", "gpu", "name")))
+# Condition C only (absent from A and smoke records, so not part of RERUN_SAME, which other scripts read).
+RERUN_SAME_AUG = ("augmentation files SHA-256", ("data", "augmentation", "files_sha256"))
 
 
 def _get(d, path):
@@ -637,6 +922,8 @@ def rerun_diff(prev_dir, record, log_rows, pred_path):
         return {**out, "comparable": False, "reason": "the previous attempt did not complete"}
     differ = [name for name, path in RERUN_SAME
               if _get(prev, path) is None or _get(prev, path) != _get(record, path)]
+    if _get(prev, RERUN_SAME_AUG[1]) != _get(record, RERUN_SAME_AUG[1]):  # both None for A and smoke
+        differ.append(RERUN_SAME_AUG[0])
     if differ:
         return {**out, "comparable": False,
                 "reason": f"differs from the previous attempt or not recorded there: {', '.join(differ)}"}
@@ -757,8 +1044,27 @@ def run(args, cfg, cfg_bytes, ctx):
         train, val = td["train"], td["validation"]
         if budget(len(train), cfg["epochs"]) != ctx["n_total"]:
             raise RuntimeError("train_clean rows changed after preflight")
+        # Condition C: read after the budget recheck, so N and the eval steps come from train_clean alone
+        # (README IMP-02), and before the data record, so a refused set leaves no data block.
+        aug = None
+        if cond == "C":
+            try:
+                aug = load_augmentation(ctx["aug_dir"], ctx["augmentation"]["files_sha256"])
+            except data_lists.ListError as exc:
+                for e in exc.errors:  # IDs, file names and counts only
+                    files.log(f"FAIL {e}")
+                raise
         record["data"] = {"train_rows": len(train), "validation_rows": len(val),
                           "validation_clean_rows": sum(r[3] for r in val)}
+        if aug is not None:
+            counts = label_counts(aug)
+            record["data"].update(train_rows=len(train) + len(aug), train_clean_rows=len(train),
+                                  augmentation_rows=len(aug),
+                                  augmentation={**ctx["augmentation"], "label_counts": counts})
+            files.log(f"augmentation: {len(aug)} rows of {AUG_DIR_REL}/{AUG_LIST} (label 1: {counts['1']}, label "
+                      f"0: {counts['0']}) appended after {len(train)} train_clean rows; N stays {ctx['n_total']}")
+            train = train + aug  # train_clean rows first, then the augmentation rows in train_aug.csv order
+        del aug
         progress["phase"] = "setup"
         record["determinism"] = apply_determinism(cfg)
         device = torch.device("cuda")
@@ -950,18 +1256,26 @@ def parse_args(argv):
     p.add_argument("--model", choices=sorted(model_specs.MODELS))
     g = p.add_mutually_exclusive_group(required=True)
     g.add_argument("--smoke", action="store_true", help="stage-1 smoke run (seed and updates from the config)")
-    g.add_argument("--seed", type=int, help="stage-2 run with this seed (must be in the config seeds)")
+    g.add_argument("--seed", type=int, help="stage-2 run (condition A) or stage-4 run (condition C) with this "
+                                            "seed (must be in the config seeds)")
     g.add_argument("--smoke-summary", action="store_true", help="summarise runs/s1-*-smoke-s0/run.json")
+    p.add_argument("--condition", choices=CONDITIONS, default="A",
+                   help="A (default): train_clean, runs/s2-<model>-A-s<seed>; C: train_clean + the augmentation "
+                        f"rows of {AUG_DIR_REL}/{AUG_LIST} with the same N, runs/s4-<model>-C-s<seed> (not with "
+                        "--smoke)")
     p.add_argument("--lists", choices=("official", "trial"), default="official",
                    help="common lists (trial only with --smoke)")
     p.add_argument("--rerun", action="store_true", help="archive the previous attempt and run again")
     p.add_argument("--preflight-only", action="store_true",
                    help="run the preflight of this run, create nothing, exit 0 if it would start")
     args = p.parse_args(argv)
-    if args.smoke_summary and (args.model or args.rerun or args.lists != "official" or args.preflight_only):
+    if args.smoke_summary and (args.model or args.rerun or args.lists != "official" or args.preflight_only
+                               or args.condition != "A"):
         p.error("--smoke-summary takes no other option")
     if not args.smoke_summary and not args.model:
         p.error("--model is required")
+    if args.smoke and args.condition != "A":
+        p.error(f"--condition {args.condition} is not allowed with --smoke")
     return args
 
 
@@ -978,9 +1292,11 @@ def main(argv=None):
         say(f"preflight failed: {len(errors)} error(s); nothing created")
         return 1
     if args.preflight_only:
+        aug = (f", augmentation {sum(ctx['augmentation']['label_counts'].values())} rows"
+               if ctx["condition"] == "C" else "")
         say(f"preflight passed: {ctx['run_id']} would start (lists {ctx['lists']['mode']}, git tracked check "
             f"{ctx['lists']['git_tracked_checked']}, N {ctx['n_total']}, updates {ctx['n_run']}, eval at "
-            f"{ctx['eval_at']}); --preflight-only: nothing created")
+            f"{ctx['eval_at']}{aug}); --preflight-only: nothing created")
         return 0
     return run(args, cfg, cfg_bytes, ctx)
 

@@ -1,0 +1,54 @@
+{
+  "dataset": "leolee99/NotInject",
+  "dataset_url": "https://huggingface.co/datasets/leolee99/NotInject",
+  "revision": "847ae76cf8fea5ed325429e569ae8cfef022d2e0",
+  "license": "mit",
+  "license_note": "data card metadata at the revision: license mit (README 3.4)",
+  "download_method": "urllib from Hugging Face resolve URLs pinned to revision (scripts/fetch_external.py --download)",
+  "excluded_from_download": [
+    ".gitattributes (Hub LFS config, not data)",
+    "data/test-00000-of-00001.parquet (same git blob (LFS pointer) as data/NotInject_three-00000-of-00001.parquet, not a split of the data card)",
+    "data/train-00000-of-00001.parquet (same git blob (LFS pointer) as data/NotInject_one-00000-of-00001.parquet, not a split of the data card)",
+    "data/validation-00000-of-00001.parquet (same git blob (LFS pointer) as data/NotInject_two-00000-of-00001.parquet, not a split of the data card)"
+  ],
+  "verification": "size and SHA-256 compared with the values pinned in scripts/fetch_external.py; git blob SHA-1 (for LFS files: LFS SHA-256, LFS size and the git blob SHA-1 of the LFS pointer) and the file set of the revision compared with the Hugging Face tree API at revision; rows not parsed (parquet is not parsed in this environment)",
+  "all_checks_passed": true,
+  "files": [
+    {
+      "path": "README.md",
+      "source_url": "https://huggingface.co/datasets/leolee99/NotInject/resolve/847ae76cf8fea5ed325429e569ae8cfef022d2e0/README.md",
+      "size_bytes": 2973,
+      "sha256": "ffaf685021522a526f94af2047e5099ec6b7439a462c67e0ecaca0d631a0d43f",
+      "git_blob_sha1": "87958379fac69a6ea287107a5c5e48baf1ebe1d8",
+      "matches_hub_blob": true
+    },
+    {
+      "path": "data/NotInject_one-00000-of-00001.parquet",
+      "source_url": "https://huggingface.co/datasets/leolee99/NotInject/resolve/847ae76cf8fea5ed325429e569ae8cfef022d2e0/data/NotInject_one-00000-of-00001.parquet",
+      "size_bytes": 10859,
+      "sha256": "5b1d3a8ec341205305efd8c6d2cabeb5ba0f594dd8726b08ee7fde1a46ddc6ec",
+      "lfs_pointer_git_blob_sha1": "4dc626d1c0a07b8604baf934b23daaee09785034",
+      "matches_hub_lfs": true,
+      "matches_hub_blob": true
+    },
+    {
+      "path": "data/NotInject_three-00000-of-00001.parquet",
+      "source_url": "https://huggingface.co/datasets/leolee99/NotInject/resolve/847ae76cf8fea5ed325429e569ae8cfef022d2e0/data/NotInject_three-00000-of-00001.parquet",
+      "size_bytes": 13009,
+      "sha256": "d5c685b123570c092a0f374ba6bdf324b2026d905a2751a243eb2bb360d411a8",
+      "lfs_pointer_git_blob_sha1": "8b0b7cf318071c63df75a63bca9a6fdee75b44e8",
+      "matches_hub_lfs": true,
+      "matches_hub_blob": true
+    },
+    {
+      "path": "data/NotInject_two-00000-of-00001.parquet",
+      "source_url": "https://huggingface.co/datasets/leolee99/NotInject/resolve/847ae76cf8fea5ed325429e569ae8cfef022d2e0/data/NotInject_two-00000-of-00001.parquet",
+      "size_bytes": 11183,
+      "sha256": "a5a8c1b3b851b0b5acc3b6caf8bfee26d7da631b2967dd31ca90358df8883feb",
+      "lfs_pointer_git_blob_sha1": "68d9cb25f3886a4587dbbd391ab8a71b7dbad3e1",
+      "matches_hub_lfs": true,
+      "matches_hub_blob": true
+    }
+  ],
+  "note": "Raw files are byte-identical to the Hub. Do not edit them; write converted or processed data elsewhere. External rows are used for the final evaluation only (README 3.4, EXT-02)."
+}
