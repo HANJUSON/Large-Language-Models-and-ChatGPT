@@ -36,3 +36,6 @@ data/error_review/**/*.csv text eol=lf
 
 # Keep downloaded external evaluation datasets and their records byte-identical (hashes in download_manifest.json and external_rules.json).
 data/external/** -text
+
+# Keep the freeze records LF so their bytes are the same on every checkout (scripts/make_freeze.py).
+freeze/** text eol=lf

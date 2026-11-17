@@ -1,0 +1,198 @@
+{
+  "attempt": 1,
+  "budget": {
+    "N": 2073,
+    "epochs": 3,
+    "eval_steps": [
+      691,
+      1382,
+      2073
+    ],
+    "grad_accum": 4,
+    "micro_batch": 4,
+    "update_size": 16,
+    "updates_run": 2073
+  },
+  "checkpoint": {
+    "kept": true,
+    "path": "runs/s4-roberta-C-s2026/checkpoint/model.safetensors",
+    "reload_check": {
+      "max_abs_margin_diff": 0.0,
+      "passed": true,
+      "prediction_flips": 0,
+      "seconds": 4.280022800026927,
+      "state_dict_equal": true
+    },
+    "sha256": "3cd393efa1c54a2028cac7f8a863481d0dd8ea72784bc323905ac908cac706cd",
+    "size": 498612960,
+    "step": 691
+  },
+  "code": {
+    "files_sha256_lf": {
+      "scripts/build_lists.py": "e4ed79f2ef5aabd6017bac4b64a6346f9ae3d9c8d927a8301bdc6369664b5958",
+      "scripts/data_lists.py": "9cf7f9e2ac8fba44858e0e26ad7f25104bf4937954fe686c43f9185b562b0368",
+      "scripts/eval_lib.py": "d809caf4e7ef106ecef142f6e642a3fcd8cce0a979f8b92a166817724e95fb04",
+      "scripts/model_specs.py": "cb240a2a0d9b9101fd55bd1652a26c64ff446beb5836dcbe56483f156e0d6d1a",
+      "scripts/train.py": "550d54509a3686432520b3bd945612c361d47b4505a18e5e66a222a28f4e4b2e"
+    },
+    "git_commit": "14c66c4b99f480b5e1b2f819df8acf2fa81fed18",
+    "git_dirty": [],
+    "git_dirty_other_count": 2
+  },
+  "condition": "C",
+  "config": {
+    "copy": "runs/s4-roberta-C-s2026/config.json",
+    "path": "configs/train.json",
+    "sha256": "9ca0d0372205edc90e01a9b4ad91b820ef37edd0597d96e364b7575adb72de4f"
+  },
+  "data": {
+    "augmentation": {
+      "build_train_aug_sha256_lf": "40bd0bdca8027c67f6b7c399f85c557a31deefa583287c6df32ca203fd60ad26",
+      "dir": "data/cases/train",
+      "files_sha256": {
+        "cases.csv": "dc23890d1f12268292884f2936f4ff2ab3dc2f622c41098a455a38196bbc7d8d",
+        "cases_meta.json": "e9b462f085caab3dcbcc726c9ec456233c9615c2b20056f0abfa4f2667bd9acb",
+        "review.csv": "074caebfa00948ab408a0f6d1a13aa2862c62ea5eda58398749b86fc450bdfc9",
+        "test_overlap.json": "02194ee45d4c7ecabece5210eae142d64eab0103ecdc574e1e8e3b648da08b67",
+        "train_aug.csv": "b5685fcd007800e52aa28ae2e14eb174f4fc427a51299dd9a30c499cde3a0754"
+      },
+      "label_counts": {
+        "0": 850,
+        "1": 847
+      }
+    },
+    "augmentation_rows": 1697,
+    "train_clean_rows": 11050,
+    "train_rows": 12747,
+    "truncation": {
+      "train": {
+        "max_length": 256,
+        "max_tokens": 136,
+        "median_tokens": 12,
+        "rows": 12747,
+        "rows_over_max_length": 0
+      },
+      "validation": {
+        "max_length": 256,
+        "max_tokens": 44,
+        "median_tokens": 10,
+        "rows": 2101,
+        "rows_over_max_length": 0
+      }
+    },
+    "validation_clean_rows": 2097,
+    "validation_rows": 2101
+  },
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "float32_matmul_precision": "highest",
+    "fp32_precision": {
+      "cuda_matmul": "ieee",
+      "cudnn_conv": "ieee",
+      "cudnn_rnn": "ieee",
+      "global": "ieee"
+    },
+    "nondeterministic_warnings": [],
+    "use_deterministic_algorithms": true,
+    "warn_only": false
+  },
+  "env": {
+    "cuda": "13.0",
+    "cudnn": 92400,
+    "gpu": {
+      "capability": [
+        12,
+        0
+      ],
+      "driver": "610.88",
+      "name": "NVIDIA GeForce RTX 5060",
+      "total_memory_bytes": 8546484224
+    },
+    "huggingface_hub": "2.4.0",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.3",
+    "requirements_sha256": "19408fb3dc10eceacfc939e864b74988ecce77d375b9902778e3f814d2888b57",
+    "safetensors": "0.8.0",
+    "scikit_learn": "1.9.1",
+    "tokenizers": "0.23.3",
+    "torch": "2.14.1+cu130",
+    "transformers": "5.22.2"
+  },
+  "failure": null,
+  "finished_utc": "2026-11-17T12:47:13Z",
+  "lists": {
+    "build_lists_check": "passed",
+    "build_lists_sha256_lf": "e4ed79f2ef5aabd6017bac4b64a6346f9ae3d9c8d927a8301bdc6369664b5958",
+    "dataset_revision": "002a9dd18514abd021869823d6b0429b38606d99",
+    "dir": "data/processed",
+    "files_sha256": {
+      "test_clean_preaug.csv": "7915f168ee6c6848f0eba6d13824f6ace5fbe80b5a4e8b1730df7ca998ab4aa4",
+      "test_excluded_preaug.csv": "1259e8b25dffa44b8b35dfc2f9187267bef28d5c19df3fa0343f57c75b391b2a",
+      "train_clean.csv": "1dbb9244b99eca35ae65608f994dc1aa8f1901e950e19af979cd59ee586b6ca3",
+      "train_excluded.csv": "141659b27a306789510f254b77685a8c6f5e449490792f60d6025cf58d55293b",
+      "validation_clean.csv": "d0a669d85f5307cfc461fbb88192c83ff5ee84ba519f22ba7bbe76ee1513c626",
+      "validation_excluded.csv": "bb17ceb728ac292e39ac2dd0f237610ee9119a77d35dd31930f1e6ff6a8bb072"
+    },
+    "git_tracked_checked": true,
+    "lists_meta_sha256": "ee6608111be35f096da6ace6ed4add8b06b46f70a64fa90706ef979d7a54447e",
+    "mode": "official",
+    "review_sha256": "193e3bcd438661c4662a9e487b22f89287dcac0df25697e3bf0e1bcd96b754cd",
+    "train_clean_rows": 11050
+  },
+  "model": {
+    "attn_implementation": "eager",
+    "key": "roberta",
+    "parameters": 124647170,
+    "precision": "bf16",
+    "repo": "FacebookAI/roberta-base",
+    "revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "tokenizer_fingerprint": "0f49de6c1aae4b1b86b2badcb8000545cbb34cf6399caebbe84d76ccb636cb0e",
+    "weights": {
+      "file": "model.safetensors",
+      "sha256": "5bde1d28afb363d0103324efeb5afc8b2b397fe5e04beabb9b1ef355255ade81",
+      "size": 498818054
+    }
+  },
+  "model_key": "roberta",
+  "optimizer": {
+    "decay_elements": 124525056,
+    "decay_tensors": 77,
+    "foreach": null,
+    "fused": null,
+    "no_decay_elements": 122114,
+    "no_decay_tensors": 124
+  },
+  "resources": {
+    "eval_s": [
+      1.3364243999822065,
+      1.283880600007251,
+      1.2819358999840915
+    ],
+    "load_s": 1.1890805999864824,
+    "memory_window": "torch.cuda.max_memory_allocated / max_memory_reserved after reset_peak_memory_stats right after CUDA init; covers tokenizer, model load, all updates and evals; read before the reload check",
+    "peak_memory_allocated_bytes": 2582459904,
+    "peak_memory_reserved_bytes": 2896166912,
+    "reload_s": 4.280022800026927,
+    "save_s": [
+      0.6735953000024892
+    ],
+    "time_window": "per update: wall time of one optimizer update (all micro-batches, clip, step, schedule) between cuda.synchronize calls; evals, saves and logging excluded",
+    "update_seconds_median": 0.20190939999883994,
+    "update_seconds_total": 421.09596009971574
+  },
+  "run_id": "s4-roberta-C-s2026",
+  "schema": 1,
+  "seed": 2026,
+  "selection": {
+    "saved_steps": [
+      691
+    ],
+    "selected_step": 691
+  },
+  "stage": "s4",
+  "started_utc": "2026-11-17T12:39:54Z",
+  "status": "completed",
+  "wall_s": 438.95089029998053
+}

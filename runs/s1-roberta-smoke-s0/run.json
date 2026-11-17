@@ -1,5 +1,5 @@
 {
-  "attempt": 7,
+  "attempt": 8,
   "budget": {
     "N": 2073,
     "epochs": 3,
@@ -19,7 +19,7 @@
       "max_abs_margin_diff": 0.0,
       "passed": true,
       "prediction_flips": 0,
-      "seconds": 3.9810950999963097,
+      "seconds": 4.592298999952618,
       "state_dict_equal": true
     },
     "sha256": "a2a997ca32367d661241bd62920cced1f13da18a079e20c42114d53a53c1c3a5",
@@ -28,72 +28,15 @@
   },
   "code": {
     "files_sha256_lf": {
-      "scripts/build_lists.py": "0986fc648f0b47b4293a22cf788734938820de10e12633ebd8e1c9d29087d028",
+      "scripts/build_lists.py": "e4ed79f2ef5aabd6017bac4b64a6346f9ae3d9c8d927a8301bdc6369664b5958",
       "scripts/data_lists.py": "9cf7f9e2ac8fba44858e0e26ad7f25104bf4937954fe686c43f9185b562b0368",
       "scripts/eval_lib.py": "d809caf4e7ef106ecef142f6e642a3fcd8cce0a979f8b92a166817724e95fb04",
       "scripts/model_specs.py": "cb240a2a0d9b9101fd55bd1652a26c64ff446beb5836dcbe56483f156e0d6d1a",
-      "scripts/train.py": "7c798340c387e2fd67ee46c053a1838d9364126ba56894c7a8d15eb7f8c29520"
+      "scripts/train.py": "550d54509a3686432520b3bd945612c361d47b4505a18e5e66a222a28f4e4b2e"
     },
-    "git_commit": "76324a85c3ab3ede3b034fb862b43bfe5ae6b9bc",
-    "git_dirty": [
-      {
-        "path": "data/processed/train_review.csv",
-        "status": " M"
-      },
-      {
-        "path": "scripts/build_lists.py",
-        "status": " M"
-      },
-      {
-        "path": "scripts/model_specs.py",
-        "status": " M"
-      },
-      {
-        "path": "configs/train.json",
-        "status": "??"
-      },
-      {
-        "path": "data/processed/lists_meta.json",
-        "status": "??"
-      },
-      {
-        "path": "data/processed/test_clean_preaug.csv",
-        "status": "??"
-      },
-      {
-        "path": "data/processed/test_excluded_preaug.csv",
-        "status": "??"
-      },
-      {
-        "path": "data/processed/train_clean.csv",
-        "status": "??"
-      },
-      {
-        "path": "data/processed/train_excluded.csv",
-        "status": "??"
-      },
-      {
-        "path": "data/processed/validation_clean.csv",
-        "status": "??"
-      },
-      {
-        "path": "data/processed/validation_excluded.csv",
-        "status": "??"
-      },
-      {
-        "path": "scripts/data_lists.py",
-        "status": "??"
-      },
-      {
-        "path": "scripts/eval_lib.py",
-        "status": "??"
-      },
-      {
-        "path": "scripts/train.py",
-        "status": "??"
-      }
-    ],
-    "git_dirty_other_count": 6
+    "git_commit": "14c66c4b99f480b5e1b2f819df8acf2fa81fed18",
+    "git_dirty": [],
+    "git_dirty_other_count": 2
   },
   "condition": "smoke",
   "config": {
@@ -160,10 +103,10 @@
     "transformers": "5.22.2"
   },
   "failure": null,
-  "finished_utc": "2026-11-15T07:19:10Z",
+  "finished_utc": "2026-11-17T12:22:15Z",
   "lists": {
     "build_lists_check": "passed",
-    "build_lists_sha256_lf": "0986fc648f0b47b4293a22cf788734938820de10e12633ebd8e1c9d29087d028",
+    "build_lists_sha256_lf": "e4ed79f2ef5aabd6017bac4b64a6346f9ae3d9c8d927a8301bdc6369664b5958",
     "dataset_revision": "002a9dd18514abd021869823d6b0429b38606d99",
     "dir": "data/processed",
     "files_sha256": {
@@ -175,7 +118,7 @@
       "validation_excluded.csv": "bb17ceb728ac292e39ac2dd0f237610ee9119a77d35dd31930f1e6ff6a8bb072"
     },
     "git_tracked_checked": false,
-    "lists_meta_sha256": "7d4dee90483969ab94b78e23ffe4bc524aa072d472eb65a25e1cc7c80dcfb28a",
+    "lists_meta_sha256": "ee6608111be35f096da6ace6ed4add8b06b46f70a64fa90706ef979d7a54447e",
     "mode": "official",
     "review_sha256": "193e3bcd438661c4662a9e487b22f89287dcac0df25697e3bf0e1bcd96b754cd",
     "train_clean_rows": 11050
@@ -204,33 +147,26 @@
     "no_decay_tensors": 124
   },
   "rerun": {
-    "checkpoint_sha256_equal": true,
-    "comparable": true,
-    "first_differing_update": null,
-    "max_abs_loss_diff": 0.0,
-    "max_abs_margin_diff": 0.0,
-    "prediction_flips": 0,
-    "predictions_compared": 2101,
-    "previous_attempt": 6,
+    "comparable": false,
+    "previous_attempt": 7,
     "previous_status": "completed",
-    "selected_step_equal": true,
-    "updates_compared": 100
+    "reason": "differs from the previous attempt or not recorded there: code files SHA-256"
   },
   "resources": {
     "eval_s": [
-      2.0623762999894097
+      1.3665719000273384
     ],
-    "load_s": 1.1422647999715991,
+    "load_s": 1.061328899988439,
     "memory_window": "torch.cuda.max_memory_allocated / max_memory_reserved after reset_peak_memory_stats right after CUDA init; covers tokenizer, model load, all updates and evals; read before the reload check",
     "peak_memory_allocated_bytes": 2572739584,
     "peak_memory_reserved_bytes": 2858418176,
-    "reload_s": 3.9810950999963097,
+    "reload_s": 4.592298999952618,
     "save_s": [
-      0.6470275999745354
+      0.6382338000112213
     ],
     "time_window": "per update: wall time of one optimizer update (all micro-batches, clip, step, schedule) between cuda.synchronize calls; evals, saves and logging excluded",
-    "update_seconds_median": 0.18700759997591376,
-    "update_seconds_total": 19.200101700029336
+    "update_seconds_median": 0.20645415000035428,
+    "update_seconds_total": 21.902105500455946
   },
   "run_id": "s1-roberta-smoke-s0",
   "schema": 1,
@@ -254,21 +190,21 @@
     },
     "passed": true,
     "timing": {
-      "eval_s": 2.0623762999894097,
+      "eval_s": 1.3665719000273384,
       "formula": "T = N*t + 4*t_eval + t_load + 3*t_save + t_reload (estimate; excludes data preparation and preflight)",
-      "load_s": 1.1422647999715991,
-      "reload_s": 3.9810950999963097,
-      "run_estimate_s": 400.94004159769975,
-      "save_s": 0.6470275999745354,
+      "load_s": 1.061328899988439,
+      "reload_s": 4.592298999952618,
+      "run_estimate_s": 440.67129928508075,
+      "save_s": 0.6382338000112213,
       "timed_updates": [
         6,
         100
       ],
-      "update_median_s": 0.1860232000472024
+      "update_median_s": 0.2062887999927625
     }
   },
   "stage": "s1",
-  "started_utc": "2026-11-15T07:18:35Z",
+  "started_utc": "2026-11-17T12:21:37Z",
   "status": "completed",
-  "wall_s": 34.99403319996782
+  "wall_s": 37.37824130000081
 }

@@ -4,7 +4,7 @@
 
 - 문서 기준일: 2026-11-17
 - 개정 내용: 조교 데이터셋 밖의 공개 자료를 이용한 외부 Robustness 평가를 필수 범위에 포함하고, 데이터 사용·학습 예산·선택 기준·통계 비교·최종 평가 동결 규칙을 명시한다. 검토별 반영 내용은 [11절](#11-검토-반영-이력)을 참고한다.
-- 상태: 4단계(개선 실험 및 설계 동결) 진행 중(2026-11-17 시작). 조교 확인 절차는 팀 결정으로 제외했다(9절). 3단계 완료(2026-11-17), 1·2단계 완료(2026-11-15). 이 문서는 구현·학습 완료 보고서가 아니다.
+- 상태: 4단계(개선 실험 및 설계 동결) 진행 중(2026-11-17 시작): 증강·C 조건 학습·임계값·A~D 개발 비교를 마쳤고(5.3), 동결 1 기록만 남았다(증강 설계를 그대로 동결할지 팀 결정 필요, 9절). 조교 확인 절차는 팀 결정으로 제외했다(9절). 3단계 완료(2026-11-17), 1·2단계 완료(2026-11-15). 이 문서는 구현·학습 완료 보고서가 아니다.
 - 과제 주제: 조교가 제시한 Prompt Injection Dataset을 활용한 정상 프롬프트와 인젝션 프롬프트의 이진 분류
 - 팀의 진행 방향: **3개 모델 파인튜닝 및 비교 → 취약점 분석 → 대표 모델 개선 → 원본·변형·외부 데이터 최종 검증 및 시연**
 - 문서 구분: 아래 실험 설계와 완료 기준은 팀이 합의한 연구 계획이며 공식 채점표를 의미하지 않는다.
@@ -17,21 +17,22 @@
 2. 표현 변형 공격, 어려운 정상 입력, 외부 공개 자료에서 취약점을 측정한다 (RQ-02·03·05).
 3. 임계값 조정과 데이터 증강이 변형 공격 탐지율을 10%p 이상 올리면서 FPR 증가 2%p, F1 감소 1%p 이내를 지키는지 검증한다 (RQ-04, 기준값과 판정 규칙은 1.1).
 
-**현재 단계:** 4단계(개선 실험 및 설계 동결) 진행 중(2026-11-17 시작). 대표 모델 RoBERTa로 증강 설계·C 조건 학습·임계값 조정·A~D 개발 비교를 하고 동결 1을 기록한다(5.3, 8). 조교 확인 절차는 팀 결정으로 제외했다(2026-11-17, 9절). 3단계(추가 평가 및 취약점 분석)는 2026-11-17에 완료했다(5.1·5.2). 2단계(세 모델 파인튜닝 및 기본 비교)는 2026-11-15에 완료했다(결과는 5.1). 단계가 바뀔 때마다 이 줄을 갱신한다.
+**현재 단계:** 4단계(개선 실험 및 설계 동결) 진행 중(2026-11-17 시작). 대표 모델 RoBERTa로 증강 설계·C 조건 학습·임계값 조정·A~D 개발 비교를 마쳤다(5.3). 증강은 정상 입력 오탐을 크게 줄였지만 난독화된 공격의 탐지율을 낮췄다. 이 설계를 그대로 동결할지 정한 뒤 동결 1을 기록한다(9절, 8). 조교 확인 절차는 팀 결정으로 제외했다(2026-11-17, 9절). 3단계(추가 평가 및 취약점 분석)는 2026-11-17에 완료했다(5.1·5.2). 2단계(세 모델 파인튜닝 및 기본 비교)는 2026-11-15에 완료했다(결과는 5.1). 단계가 바뀔 때마다 이 줄을 갱신한다.
 
 **4단계 할 일**
 
 - [x] 증강 설계 결정: 유형·규모·공격과 정상의 구성 비율 (5.3, 9)
 - [x] 학습용 증강 사례 생성·자동 점검·검수 (3.3, `data/cases/train/`, 별도 Claude Code 세션이 검수, 학습에 쓰는 사례 1,697건, 5.3)
 - [x] 학습 코드의 C 조건 지원과 단위 테스트 (4.2, 7.1)
-- [ ] C 조건 학습 3회 (seed 42·123·2026, 5.3)
-- [ ] B·D의 seed별 임계값 선택과 저장 (5.3)
-- [ ] A~D 개발 결과: `validation_clean`과 개발용 사례 (5.3)
+- [x] C 조건 학습 3회 (seed 42·123·2026, 5.3, 재실행 없음)
+- [x] B·D의 seed별 임계값 선택과 저장 (5.3, `results/s4/thresholds.csv`)
+- [x] A~D 개발 결과: `validation_clean`과 개발용 사례 (5.3, `results/s4/summary.md`)
 - [x] 개발용 사례와 test의 일치 점검 (9, 완전 중복 0건)
 - [x] 증강을 반영한 최종 `test_clean` 목록 (3.2, 1,985행)
 - [x] 외부 자료의 출처·revision·선별·레이블 대응·중복 규칙 확정 (3.4, deepset·NotInject)
 - [x] 최종 평가 사례의 생성·검수·대체 규칙과 목표 수량 작성 (3.2, 5.2, `data/cases/final/RULES.md`, 동결 1에서 해시로 고정)
-- [ ] 동결 1 기록과 태그 `freeze-1` (7.1)
+- [ ] 증강 설계를 그대로 동결할지 결정 (HANJUSON, 9절)
+- [ ] 동결 1 기록과 태그 `freeze-1` (7.1, `scripts/make_freeze.py`로 작성. 위 결정과 원격 저장소 올리기가 끝난 뒤)
 
 **2단계 할 일 (완료)**
 
@@ -605,6 +606,44 @@ ROB-03 공격 사례의 탐지율 (원문 → 문맥 추가):
 - RQ-04 ①의 "변형 공격 탐지율"은 ROB-01~03 공격 변형 사례 중 평가군(`case`·`space`·`char`, 의역, 문맥)을 합쳐 계산한다. 보류군 `homoglyph`는 따로 보고한다(EVAL-02). 조건별·하위 유형별 차이도 함께 보고한다.
 - 임계값의 판정 방식: 후보 t(logit, −8.00~8.00, 간격 0.05)의 임계값은 `1/(1+exp(−t))`를 float64로 계산해 float32로 반올림한 값이고, 저장된 float32 인젝션 점수가 이 값 이상이면 공격이다(t = 0이면 정확히 0.5). 결과가 같은 후보가 이어지면 그 구간의 가운데(후보 번호의 평균을 내림한 것)를 고른다. FPR 상한은 분수로 정확히 비교한다(`scripts/select_thresholds.py`).
 
+**4단계 개발 결과 (2026-11-17, `results/s4/`, `scripts/select_thresholds.py`·`scripts/eval_abcd.py`):** 아래는 모두 개발 자료(`validation_clean` 2,097행과 개발용 사례 650건)의 결과이고, RQ의 최종 판정이 아니다. 값은 3-seed 평균, 대괄호는 6.1의 짝지은 bootstrap 95% CI(A 대비 차이)다.
+
+- C 조건 학습: `runs/s4-roberta-C-s42`·`s123`·`s2026`, 세 실행 모두 첫 시도로 끝났다(재실행 없음). 정제 train 11,050행 + 증강 1,697행 = 12,747행, N = 2,073 update, 평가 시점 691·1,382·2,073. 선택 step은 2,073 / 1,382 / 691, update 시간 합계 462 / 492 / 421초, 최대 할당 메모리 2.58GB다. A와 C의 실행 기록에서 예산·설정·목록 파일·모델 가중치·환경이 같고, 코드(`train.py`·`build_lists.py`)와 `lists_meta.json`의 SHA-256만 다르다. 수정한 코드로 RoBERTa 시험 실행을 다시 돌린 결과는 이전 시도와 update별 손실·기울기 노름, validation 예측·마진, 지표, 체크포인트 SHA-256이 모두 같았다(학습 계산이 바뀌지 않음).
+- 임계값(B는 A 체크포인트, D는 C 체크포인트, seed 42 / 123 / 2026): B는 logit −7.40 / −2.90 / −5.60, D는 −6.50 / −6.85 / −4.40이다(`results/s4/thresholds.csv`). 여섯 경우 모두 FPR 상한을 만족하는 후보가 있었다. 점수가 0과 1 가까이에 몰려 있어 임계값이 매우 낮게 잡혔다.
+
+`validation_clean` (B·D의 임계값은 이 행들에서 골랐으므로 B·D 값은 선택에 쓴 자료의 값이다):
+
+| 조건 | F1 | Recall | FPR | A 대비 F1 차이 | A 대비 FPR 차이 |
+| --- | ---: | ---: | ---: | --- | --- |
+| A | 0.9864 | 0.9781 | 0.0051 | | |
+| B | 0.9899 | 0.9924 | 0.0127 | +0.0035 [+0.0004, +0.0067] | +0.0076 [+0.0041, +0.0115] |
+| C | 0.9872 | 0.9797 | 0.0051 | +0.0008 [−0.0018, +0.0037] | +0.0000 [−0.0019, +0.0019] |
+| D | 0.9891 | 0.9914 | 0.0134 | +0.0027 [−0.0007, +0.0060] | +0.0083 [+0.0045, +0.0127] |
+
+개발용 사례의 변형 공격 탐지율(괄호 안은 A 대비 차이의 CI):
+
+| 조건 | ROB-01~03 평가군 합계 | ROB-01 `case` | `space` | `char` | `homoglyph`(보류군) | ROB-02 | ROB-03 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| A | 0.987 | 1.000 | 1.000 | 1.000 | 1.000 | 0.980 | 0.953 |
+| B | 0.996 (+0.009 [+0.003, +0.019]) | 1.000 | 1.000 | 1.000 | 1.000 | 0.987 | 0.993 |
+| C | 0.927 (−0.060 [−0.091, −0.033]) | 0.807 | 0.987 | 0.880 | 0.913 | 0.980 | 0.980 |
+| D | 0.961 (−0.025 [−0.049, −0.005]) | 0.920 | 1.000 | 0.927 | 0.987 | 0.980 | 0.980 |
+
+개발용 사례의 정상 입력 FPR:
+
+| 조건 | ROB-01 평가군(`case`·`space`·`char`) | `case` | `space` | `char` | `homoglyph`(보류군) | ROB-02 | ROB-03 | ROB-04 |
+| --- | --- | ---: | ---: | ---: | --- | ---: | ---: | --- |
+| A | 0.911 | 1.000 | 0.760 | 0.973 | 0.980 | 0.000 | 0.020 | 0.167 |
+| B | 0.973 (+0.062 [+0.038, +0.089]) | 1.000 | 0.940 | 0.980 | 1.000 (+0.020 [+0.000, +0.047]) | 0.027 | 0.067 | 0.340 (+0.173 [+0.113, +0.247]) |
+| C | 0.029 (−0.882 [−0.916, −0.849]) | 0.040 | 0.000 | 0.047 | 0.153 (−0.827 [−0.900, −0.747]) | 0.000 | 0.007 | 0.000 (−0.167 [−0.253, −0.093]) |
+| D | 0.120 (−0.791 [−0.836, −0.751]) | 0.140 | 0.047 | 0.173 | 0.467 (−0.513 [−0.627, −0.393]) | 0.013 | 0.027 | 0.033 (−0.133 [−0.207, −0.067]) |
+
+- RQ-04 규칙을 개발 자료에 미리 적용한 결과: A→B, A→C, A→D 모두 "개선 확인 못함"이다. ① 변형 공격 탐지율이 10%p 이상 오르지 않았다(A가 이미 0.987). ② `validation_clean` FPR 증가의 CI 상한(B 1.15%p, C 0.19%p, D 1.27%p)은 2%p 이내이고, ③ F1 감소는 없었다. 결과를 보기 전에 적어 둔 대로 규칙은 고치지 않는다.
+- 사전에 지정한 보조 결과(정상 입력 FPR 변화): 증강(A→C)은 ROB-01 평가군·보류군과 ROB-04에서 모두 "오탐 감소 확인"이다. 증강에 쓰지 않은 `homoglyph`에서도 FPR이 0.980에서 0.153으로 내려갔다. 임계값 조정만 한 B는 ROB-01 평가군과 ROB-04에서 "오탐 증가 확인"이고 보류군은 "변화 확인 못함"이다. D는 세 곳 모두 "오탐 감소 확인"이지만 C보다 FPR이 높다.
+- 상충: 증강은 난독화된 공격의 탐지율을 낮췄다. C의 ROB-01 공격 탐지율은 `case` 1.000 → 0.807(−0.193 [−0.287, −0.113]), `char` 1.000 → 0.880(−0.120 [−0.200, −0.053]), `homoglyph` 1.000 → 0.913(−0.087 [−0.147, −0.033])이고 `space`는 변화 확인 못함(0.987)이다. 평가군을 합친 탐지율은 6.0%p 내려갔다(CI 상한 < 0). D는 임계값을 낮춰 일부를 되찾았지만(0.961) 여전히 A보다 낮다. ROB-02·ROB-03 공격 탐지율은 A와 같거나 올랐다(변화 확인 못함).
+- 해석(추정): A의 난독화 공격 탐지율 1.000은 "난독화 형태면 공격"이라는 지름길에 기댄 값으로 보인다. 증강으로 그 지름길을 없애자 정상 변형의 오탐이 거의 사라졌고, 대신 모델이 난독화된 글자를 읽어 내용을 판단해야 해서 대소문자 섞기·숫자 치환 공격의 10~20%를 놓쳤다. `validation_clean`에서는 A와 C의 차이가 없어(F1 +0.0008, FPR +0.0000), 원본 분포의 성능은 유지됐다. 임계값을 낮추는 방식(B)은 `validation_clean`의 탐지율을 올리지만 난독화된 정상 입력과 보안 관련 정상 입력의 오탐을 키운다.
+- 남은 결정: 이 증강 설계를 그대로 동결할지, 동결 전에 난독화 공격 탐지율 하락을 줄이도록 증강을 고쳐 C를 다시 학습할지는 팀이 정한다(9절). 다시 학습하면 재실행으로 기록한다.
+
 validation은 선택·설계에 사용하는 개발 자료이므로 개발 결과임을 표에 표시한다. 최종 성능은 test와 최종 추가 평가 사례에서 별도로 보고한다. 공통 update 수는 학습 예산을 통제하기 위한 기준이며, 토큰 수·실행 시간·연산량까지 동일함을 의미하지 않는다.
 
 ### 5.4 완성된 모델의 외부 데이터 Robustness 평가
@@ -688,11 +727,12 @@ validation은 선택·설계에 사용하는 개발 자료이므로 개발 결�
 | `data/error_review/` | EXP-02 오류 유형 분류의 검수(5.1): `prompts/exp02_review_v1.md`(검수 세션 지시서 전문), `review.csv`(검수 기록: `sentence_id,error_type,draft_category,decision,final_category,reason,label_note,reviewer`, LF), `view/`(검수 묶음 파일과 검수 세션 출력, 문장 포함, git 제외) |
 | `data/external/<출처>/` | 외부 자료 원본과 `download_manifest.json`(S-Labs와 같은 방식, 행은 파싱하지 않고 파일 크기·SHA-256만 기록). `deepset/`, `notinject/`. `data/external/external_rules.json`: 채택 출처·revision·분할·레이블 대응·언어 선별·중복·길이 규칙(3.4). 줄바꿈 변환 없이 보관한다(`.gitattributes`) |
 | `configs/` | 학습·평가 설정 파일. `train.json`: 세 모델 공통 학습 설정(4.2 표의 동결 값). 명령줄로 값을 바꾸지 않는다 |
-| `scripts/` | 학습 코드와 보조 스크립트. `train.py`: 학습·시험 실행·재실행·시험 실행 요약·사전 점검만 실행(`--smoke`·`--rerun`·`--smoke-summary`·`--preflight-only`). `--condition C`는 4단계 증강 조건 실행이다(실행 ID `s4-<모델>-C-s<seed>`). 정제 train 뒤에 `data/cases/train/train_aug.csv`의 사례를 붙여 학습하고, 총 update N은 정제 train 기준 그대로 둔다. 실행 전에 증강 파일이 git으로 관리되고 수정되지 않았는지, 검수가 끝났는지, `build_train_aug.py --check`가 통과하는지 확인한다(P13). `data_lists.py`: 공통 목록 검증과 ID–문장 연결, test.csv 열람 차단. `eval_lib.py`: 인코딩·예측·지표·체크포인트 선택 규칙(학습과 이후 평가 공용). `model_specs.py`: 모델 ID·고정 revision·토크나이저와 가중치 로드 함수(`load_tokenizer`·`load_model`), 학습한 체크포인트의 저장·로드 함수(`save_checkpoint`·`load_finetuned`), 토크나이저 지문·가중치 SHA-256. `check_env.py`: 패키지 버전(`requirements.txt`와 대조)·GPU·BF16·토크나이저 확인. `check_tokenizers.py`: train·validation으로 토크나이저를 원본과 대조(CPU). `check_weights.py`: 세 모델 가중치 해시·로드 확인(CPU). `summarize_s2.py`: 2단계 9개 실행의 검증과 집계(`results/s2/`, 5.1). `build_dev_cases.py`: 개발용 사례의 원문 배정·규칙 변형·LLM 출력 결합·자동 점검·검수 반영과 대체(`data/cases/dev/`, 5.2). `eval_cases.py`: 검수가 끝난 개발용 사례로 2단계 9개 체크포인트를 평가(`results/s3/`, 5.2·6.1). `summarize_errors.py`: EXP-02 검수 기록을 반영한 오류 유형 확정 배정과 유형별 집계(`results/s3/`, 5.1). `build_train_aug.py`: 학습용 증강 사례의 원문 배정·규칙 변형·LLM 출력 결합·자동 점검·검수 반영(`data/cases/train/`, 5.3). `check_cases_vs_test.py`: 사례 파일을 test와 해시로만 대조(완전 중복·정규화 키·구두점 키·단어 하나 차이, ID와 개수만 출력). `build_lists.py`의 test 읽기 함수를 그대로 쓰고 test 원문은 출력·저장하지 않는다. `select_thresholds.py`: B·D 조건의 seed별 임계값 선택(`results/s4/thresholds.*`, 5.3). `eval_abcd.py`: 대표 모델 A~D의 개발 비교(`results/s4/`, 5.3·6.1). `fetch_external.py`·`external_lang.py`: 외부 자료 내려받기·해시 대조와 언어 선별 규칙(3.4). `review/`: 검수 세션에 쓴 묶음 생성·세션 실행·결과 병합 보조 스크립트(기록용, `scripts/review/README.md`). `build_lists.py`: 원본 SHA-256을 매니페스트와 대조하고 검수 기록을 검사한 뒤 공통 목록(ID·제외 사유)을 만든다. test는 읽는 즉시 키의 해시(완전 중복 키, 유사 문장 점검용 정규화·구두점 키와 단어 하나 차이)로 줄여 비교하고 원문을 출력·저장하지 않는다 |
+| `scripts/` | 학습 코드와 보조 스크립트. `train.py`: 학습·시험 실행·재실행·시험 실행 요약·사전 점검만 실행(`--smoke`·`--rerun`·`--smoke-summary`·`--preflight-only`). `--condition C`는 4단계 증강 조건 실행이다(실행 ID `s4-<모델>-C-s<seed>`). 정제 train 뒤에 `data/cases/train/train_aug.csv`의 사례를 붙여 학습하고, 총 update N은 정제 train 기준 그대로 둔다. 실행 전에 증강 파일이 git으로 관리되고 수정되지 않았는지, 검수가 끝났는지, `build_train_aug.py --check`가 통과하는지 확인한다(P13). `data_lists.py`: 공통 목록 검증과 ID–문장 연결, test.csv 열람 차단. `eval_lib.py`: 인코딩·예측·지표·체크포인트 선택 규칙(학습과 이후 평가 공용). `model_specs.py`: 모델 ID·고정 revision·토크나이저와 가중치 로드 함수(`load_tokenizer`·`load_model`), 학습한 체크포인트의 저장·로드 함수(`save_checkpoint`·`load_finetuned`), 토크나이저 지문·가중치 SHA-256. `check_env.py`: 패키지 버전(`requirements.txt`와 대조)·GPU·BF16·토크나이저 확인. `check_tokenizers.py`: train·validation으로 토크나이저를 원본과 대조(CPU). `check_weights.py`: 세 모델 가중치 해시·로드 확인(CPU). `summarize_s2.py`: 2단계 9개 실행의 검증과 집계(`results/s2/`, 5.1). `build_dev_cases.py`: 개발용 사례의 원문 배정·규칙 변형·LLM 출력 결합·자동 점검·검수 반영과 대체(`data/cases/dev/`, 5.2). `eval_cases.py`: 검수가 끝난 개발용 사례로 2단계 9개 체크포인트를 평가(`results/s3/`, 5.2·6.1). `summarize_errors.py`: EXP-02 검수 기록을 반영한 오류 유형 확정 배정과 유형별 집계(`results/s3/`, 5.1). `build_train_aug.py`: 학습용 증강 사례의 원문 배정·규칙 변형·LLM 출력 결합·자동 점검·검수 반영(`data/cases/train/`, 5.3). `check_cases_vs_test.py`: 사례 파일을 test와 해시로만 대조(완전 중복·정규화 키·구두점 키·단어 하나 차이, ID와 개수만 출력). `build_lists.py`의 test 읽기 함수를 그대로 쓰고 test 원문은 출력·저장하지 않는다. `select_thresholds.py`: B·D 조건의 seed별 임계값 선택(`results/s4/thresholds.*`, 5.3). `eval_abcd.py`: 대표 모델 A~D의 개발 비교(`results/s4/`, 5.3·6.1). `fetch_external.py`·`external_lang.py`: 외부 자료 내려받기·해시 대조와 언어 선별 규칙(3.4). `make_freeze.py`: 동결 기록(`freeze/freeze-1.json`)을 만들고 대조한다. 기록할 파일이 모두 커밋돼 있고, 체크포인트·목록·증강·임계값·규칙 파일의 해시와 기록이 서로 맞을 때만 쓴다. `review/`: 검수 세션에 쓴 묶음 생성·세션 실행·결과 병합 보조 스크립트(기록용, `scripts/review/README.md`). `build_lists.py`: 원본 SHA-256을 매니페스트와 대조하고 검수 기록을 검사한 뒤 공통 목록(ID·제외 사유)을 만든다. test는 읽는 즉시 키의 해시(완전 중복 키, 유사 문장 점검용 정규화·구두점 키와 단어 하나 차이)로 줄여 비교하고 원문을 출력·저장하지 않는다 |
 | `runs/<실행 ID>/` | `config.json`(설정 사본), `run.json`(실행 기록: 코드 커밋과 파일 SHA-256, 설정·목록 SHA-256, 모델·토크나이저 지문, 결정성 설정, 환경, 자원 사용량, 체크포인트, 시험 실행·재실행 결과), `metrics.json`(평가 시점별 지표와 선택 step), `train_log.csv`(update별 학습률·손실·기울기 노름·시간), `predictions_validation.csv`(평가 시점별 validation 전체의 정답·예측·마진·인젝션 점수), `log.txt`, `checkpoint/model.safetensors`(2단계 이후 실행의 선택된 체크포인트). 문장은 저장하지 않는다. 실행 기록의 git 상태는 코드·설정·목록 파일만 이름을 적고 나머지는 개수만 적는다. 재실행(`--rerun`)하면 이전 시도의 위 기록 파일 6개(`config.json`·`run.json`·`metrics.json`·`train_log.csv`·`predictions_validation.csv`·`log.txt`)는 `attempts/<k>/`로 옮기고 체크포인트는 지우며, 옮긴 `run.json`에 체크포인트를 지웠다고 적는다(`kept` false, `deleted_by_rerun` true). 실행 중에는 `runs/<실행 ID>.lock`을 두어 같은 실행 ID를 동시에 실행하지 못하게 한다(git 제외, 강제 종료로 남으면 실행 중인 `train.py`가 없을 때 지운다) |
 | `results/s2/` | 2단계 집계(`scripts/summarize_s2.py`): `runs.csv`(실행별 선택 step의 `validation_clean`·validation 지표, 혼동행렬, 학습 시간·메모리·평가 시간, 체크포인트 SHA-256), `models.csv`(모델별 seed 평균·표본 표준편차), `errors.csv`(한 실행 이상에서 틀린 `validation_clean` 문장 ID, FP/FN, 모델별 틀린 seed 수와 모델 오류 여부), `summary.json`, `summary.md`. ID와 수치만 저장하고 LF로 쓰며, 같은 실행 기록이면 바이트까지 같은 파일이 나온다. 스크립트는 9개 실행이 모두 완료·재로드 확인 통과이고 코드·설정·목록·환경 기록이 서로 같으며 체크포인트 SHA-256이 기록과 같을 때만 쓴다 |
 | `results/s3/` | 3단계 결과. `scripts/eval_cases.py`가 쓴 개발용 사례 평가 결과(2026-11-16): 사례별 예측·조건별 지표·변형 전후 판정 변화율·bootstrap 신뢰구간(`predictions.csv`, `metrics.csv`, `models.csv`, `changes.csv`, `bootstrap.csv`, `summary.json`, `summary.md`, ID와 수치만). 2단계 오류의 유형 분류(EXP-02, 5.1): `error_taxonomy.md`(유형 정의·판정 규칙·유형별 예시 문장(validation)·검수 요약), `error_types_draft.csv`(초안 배정, ID와 코드만), `scripts/summarize_errors.py`가 쓴 `error_types.csv`(확정 배정)·`error_summary.json`·`error_summary.md`(유형별 집계). 집계 파일은 ID·코드·수치만 담고 `--check`로 대조한다 |
-| `tests/` | `test_train_cpu.py`: 학습 코드의 CPU 단위 테스트(작은 모델, 사전학습 가중치·GPU 불필요). `test_summarize_s2.py`: 2단계 집계의 단위 테스트(합성 실행 기록). `test_build_dev_cases.py`·`test_eval_cases.py`: 개발용 사례 생성·평가의 단위 테스트(합성 자료, 작은 모델). `test_summarize_errors.py`: 오류 유형 집계의 단위 테스트(합성 자료). `test_build_train_aug.py`·`test_check_cases_vs_test.py`·`test_build_lists_final.py`·`test_select_thresholds.py`·`test_eval_abcd.py`·`test_external_lang.py`·`test_fetch_external.py`: 4단계 스크립트의 단위 테스트(합성 자료, 원본 데이터와 네트워크를 쓰지 않음). `HF_HUB_OFFLINE=1`로 `python -m unittest discover -s tests`를 실행한다 |
+| `results/s4/` | 4단계 개발 결과. `thresholds.csv`·`thresholds.json`(`scripts/select_thresholds.py`: B·D의 seed별 임계값, FPR 상한, 선택 구간), `runs.csv`·`metrics.csv`·`models.csv`·`bootstrap.csv`·`predictions.csv`·`summary.json`·`summary.md`(`scripts/eval_abcd.py`: A~D의 `validation_clean` 지표, 개발용 사례의 조건·하위 유형별 지표, A 대비 차이의 bootstrap CI, 1.1 규칙의 개발용 적용), `dev_cases_vs_test.json`(개발용 사례와 test의 해시 대조, 9절). ID와 수치만 담는다 |
+| `tests/` | `test_train_cpu.py`: 학습 코드의 CPU 단위 테스트(작은 모델, 사전학습 가중치·GPU 불필요). `test_summarize_s2.py`: 2단계 집계의 단위 테스트(합성 실행 기록). `test_build_dev_cases.py`·`test_eval_cases.py`: 개발용 사례 생성·평가의 단위 테스트(합성 자료, 작은 모델). `test_summarize_errors.py`: 오류 유형 집계의 단위 테스트(합성 자료). `test_build_train_aug.py`·`test_check_cases_vs_test.py`·`test_build_lists_final.py`·`test_select_thresholds.py`·`test_eval_abcd.py`·`test_external_lang.py`·`test_fetch_external.py`·`test_make_freeze.py`: 4단계 스크립트의 단위 테스트(합성 자료, 원본 데이터와 네트워크를 쓰지 않음). `HF_HUB_OFFLINE=1`로 `python -m unittest discover -s tests`를 실행한다 |
 | `freeze/` | `freeze-1.json`, `freeze-2.json` |
 
 - 문장 ID: `분할:행번호` (헤더를 뺀 데이터 레코드를 Python `csv` 모듈(UTF-8, `newline=''`)로 읽은 0부터 시작하는 번호를 6자리로, 예: `train:000123`. 여러 줄에 걸친 레코드가 있어 파일 줄 번호와 다를 수 있다(9절)). 추가 사례는 DATA-08의 원문 그룹 ID로 원본 문장 ID를 참조한다.
@@ -767,6 +807,7 @@ validation은 선택·설계에 사용하는 개발 자료이므로 개발 결�
 - (결정) 최종 평가 사례의 규칙: 조건별·레이블별 원문 50개(예비 15개), 추출 seed `s5-final:20261117`, 생성 규칙·프롬프트·자동 점검·검수·대체 규칙을 `data/cases/final/RULES.md`와 `final_spec.json`에 고정했다(2026-11-17). 문맥 종류는 개발용·증강용과 다른 10개이고, LLM은 개발용과 같은 `claude-opus-5-5`를 쓴다(증강 문장을 쓴 모델과 다르다). 사례를 만드는 스크립트는 5단계에 이 규칙대로 작성한다
 - (확인 완료) 개발용 사례와 test의 일치 점검(2026-11-17, `scripts/check_cases_vs_test.py`, 기록 `results/s4/dev_cases_vs_test.json`): 개발용 사례 845건(배정 650·예비 195) 중 test와 완전 중복 0건, 정규화 키 일치 7건, 구두점 키 일치 0건, 단어 하나 차이 18건(24쌍, 개수만 기록)이다. 정규화 키 7건은 모두 ROB-01 `case` 변형(배정 3·예비 4)으로, 대소문자만 바꾼 변형이 원문과 정규화 키가 같기 때문이다. 대응하는 test 7행은 validation과 같은 문장이라 이미 `test_clean`에서 빠져 있다. 그래서 사례를 바꾸지 않았고 `test_clean`에도 영향이 없다
 - (결정) 외부 자료: deepset/prompt-injections와 leolee99/NotInject를 채택하고 revision·분할·레이블 대응·영어 선별·중복·길이 규칙을 고정했다(3.4, `data/external/external_rules.json`, 2026-11-17). 변환과 목록 작성은 5단계에 한다
+- 동결 1 전에 정할 것(2026-11-17): 4단계 개발 결과(5.3)에서 증강이 난독화된 공격의 탐지율을 낮췄다(평가군 합계 −6.0%p, `case` −19.3%p). ① 미리 정한 설계대로 지금 상태를 동결하고 이 상충을 결과로 보고하거나, ② 동결 전에 증강을 고쳐(예: 난독화 공격 사례의 비중을 늘리거나, 같은 원문의 평문과 변형을 함께 넣음) C를 다시 학습할 수 있다. ②는 개발용 사례를 보고 설계를 고치는 것이므로 그 사실과 재실행을 기록한다. 정하기 전에는 동결하지 않는다
 - (결정) 학습용 증강 규모와 구성: 1,700건(공격 850·정상 850, 정제 train의 15.4%), 네 유형(AUG-01 난독화 900, AUG-03 문맥 300, AUG-04 보안 관련 정상 입력 250, AUG-05 포장된 공격 250). 검수는 별도 Claude Code 세션이 한다(사람 검수 아님). 설계와 근거는 5.3 (2026-11-17)
 - (결정) 시험 실행 후 학습 설정 동결: 배치 4 × 누적 4, BF16 혼합정밀도(평가는 FP32), warmup 없는 선형 감소, AdamW(weight decay 0.01, 편향·LayerNorm 제외), 기울기 클리핑 1.0, 세 모델 eager 어텐션, 결정적 연산 옵션 유지(`warn_only=False`). 값은 4.2 표와 `configs/train.json` (2026-11-15).
 - (결정) 분할 간·증강·외부 자료의 정규화 키·구두점 키 일치 사례 처리: 분할 간은 개수와 ID를 기록하고 결과 보고에 표시하며 `validation_clean`·`test_clean`에서 빼지 않는다. 증강 사례는 validation·test와 일치하면 빼고, 외부 자료는 S-Labs 세 분할·증강 사례와 일치하는 행을 외부 목록에서 뺀다(train 내부 1쌍은 유지, 3.2, 2026-11-15).
@@ -963,4 +1004,6 @@ PR-AUC 미채택 사유: 임계값과 무관한 지표로 ROC-AUC를 이미 보�
 | 외부 자료 채택(deepset·NotInject)과 규칙, 원본 내려받기·해시 기록, 언어 선별 규칙 | 3.4, 7.1 (`data/external/`) |
 | 최종 평가 사례 규칙과 최종용 프롬프트, 최종 사례 검수자 규칙 | 9, 7.1 (`data/cases/final/`) |
 | B·D 임계값 선택 스크립트, A~D 개발 비교 스크립트와 단위 테스트 | 5.3, 7.1 |
-| `.gitattributes`에 `data/external/` 줄바꿈 변환 금지 추가, 검수 세션 보조 스크립트(`scripts/review/aug_*`) 추가 | 저장소 설정, 7.1 |
+| `.gitattributes`에 `data/external/` 줄바꿈 변환 금지와 `freeze/` LF 고정 추가, 검수 세션 보조 스크립트(`scripts/review/aug_*`) 추가 | 저장소 설정, 7.1 |
+| C 조건 학습 3회(재실행 없음), 수정한 코드의 RoBERTa 시험 실행 재확인(이전 시도와 같음), B·D 임계값, A~D 개발 결과와 해석, 동결 전에 정할 것 | 5.3, 9, 7.1 (`runs/`, `results/s4/`) |
+| 동결 기록 스크립트 `scripts/make_freeze.py`와 단위 테스트(동결 1 자체는 아직 하지 않음) | 7.1 |
