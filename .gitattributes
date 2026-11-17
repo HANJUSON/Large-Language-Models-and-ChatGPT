@@ -24,3 +24,12 @@ configs/** text eol=lf
 
 # Keep stage results LF so their bytes are the same on every checkout (scripts/summarize_s2.py output).
 results/** text eol=lf
+
+# Keep evaluation and augmentation case files LF so build_dev_cases.py --check and their SHA-256 are the same on every checkout.
+data/cases/**/*.csv text eol=lf
+data/cases/**/*.json text eol=lf
+data/cases/**/*.md text eol=lf
+
+# Keep the EXP-02 review prompt LF like the other review records.
+data/error_review/**/*.md text eol=lf
+data/error_review/**/*.csv text eol=lf

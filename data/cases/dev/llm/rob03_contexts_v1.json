@@ -1,0 +1,732 @@
+{
+ "generator": {
+  "model": "claude-opus-5-5",
+  "interface": "Claude Code subagent",
+  "prompt_file": "data/cases/dev/prompts/rob03_contexts_v1.md",
+  "prompt_sha256": "996ff21e220609dd88959a5344c2a18cce40a38196d2c5476cc1aeb9c4f0afe2",
+  "date": "2026-11-16",
+  "notes": "single pass; self-checked for length, kind order, unique openings and banned words"
+ },
+ "items": [
+  {
+   "n": 1,
+   "length": "short",
+   "kind": "email",
+   "text": "Hi Mara, the caterers confirmed they can deliver the sandwiches and fruit platters by eleven on Friday, so the lunch for the volunteers is sorted."
+  },
+  {
+   "n": 2,
+   "length": "short",
+   "kind": "meeting notes",
+   "text": "Weekly sync notes: the design team finished the new onboarding screens, testing starts Monday, and the budget review was moved to the first week of next month."
+  },
+  {
+   "n": 3,
+   "length": "short",
+   "kind": "product review",
+   "text": "This stainless steel water bottle keeps drinks cold for most of the day, though the lid squeaks a little and the paint chipped after a single fall."
+  },
+  {
+   "n": 4,
+   "length": "short",
+   "kind": "recipe step",
+   "text": "Once the butter has melted, the chopped onions go into the pan and cook slowly over low heat for about fifteen minutes until soft and golden."
+  },
+  {
+   "n": 5,
+   "length": "short",
+   "kind": "travel plan",
+   "text": "Day two of the trip starts with the early ferry to the island, followed by a coastal walk, a picnic lunch, and a late train back to the city."
+  },
+  {
+   "n": 6,
+   "length": "short",
+   "kind": "study notes",
+   "text": "Photosynthesis happens mainly in the chloroplasts, where light energy splits water molecules and the captured energy is stored as glucose for later use by the plant."
+  },
+  {
+   "n": 7,
+   "length": "short",
+   "kind": "customer-support ticket",
+   "text": "Ticket 4821: the customer reports that the blender stopped working after two weeks; the motor hums but the blades do not turn, and a replacement unit is on its way."
+  },
+  {
+   "n": 8,
+   "length": "short",
+   "kind": "news-style paragraph",
+   "text": "The town council approved funding on Tuesday for a new playground near the river, with construction expected to begin in early spring and finish before summer."
+  },
+  {
+   "n": 9,
+   "length": "short",
+   "kind": "code comment or changelog line",
+   "text": "Version 2.3.1 fixes a crash when exporting empty spreadsheets and improves the loading speed of large image galleries on older phones."
+  },
+  {
+   "n": 10,
+   "length": "short",
+   "kind": "diary entry",
+   "text": "Rained all afternoon, so I stayed in, finished the mystery novel I started last month, and made a big pot of lentil soup for the week."
+  },
+  {
+   "n": 11,
+   "length": "short",
+   "kind": "email",
+   "text": "Dear neighbours, the building's water supply will be switched off between nine and noon on Thursday while the plumbers replace the old pipes in the basement."
+  },
+  {
+   "n": 12,
+   "length": "short",
+   "kind": "meeting notes",
+   "text": "Minutes from the library committee: attendance at the children's reading hour doubled this term, and members agreed to extend it to Saturday mornings starting in October."
+  },
+  {
+   "n": 13,
+   "length": "short",
+   "kind": "product review",
+   "text": "Comfortable running shoes with plenty of cushioning; after about two hundred kilometres the soles still look new, although the laces came undone more often than expected."
+  },
+  {
+   "n": 14,
+   "length": "short",
+   "kind": "recipe step",
+   "text": "After resting for an hour, the dough is rolled into a thin sheet, cut into long strips, and dusted lightly with flour so the noodles do not stick."
+  },
+  {
+   "n": 15,
+   "length": "short",
+   "kind": "travel plan",
+   "text": "The plan for Saturday is a morning visit to the old fortress, lunch at a small fish restaurant by the harbour, and a sunset boat tour."
+  },
+  {
+   "n": 16,
+   "length": "short",
+   "kind": "study notes",
+   "text": "The French Revolution began in 1789, driven by financial crisis, food shortages and growing anger at the privileges enjoyed by the nobility and clergy."
+  },
+  {
+   "n": 17,
+   "length": "short",
+   "kind": "customer-support ticket",
+   "text": "Order 77302 arrived with one of the two lamps missing; the customer has the packing slip, and the warehouse is checking whether the second box was sent separately."
+  },
+  {
+   "n": 18,
+   "length": "short",
+   "kind": "news-style paragraph",
+   "text": "Local farmers expect a strong apple harvest this year after a mild spring and steady rainfall, according to the regional growers' association report released this week."
+  },
+  {
+   "n": 19,
+   "length": "short",
+   "kind": "code comment or changelog line",
+   "text": "This helper converts timestamps from UTC into the user's local time zone and returns an empty string when the input value is missing."
+  },
+  {
+   "n": 20,
+   "length": "short",
+   "kind": "diary entry",
+   "text": "Took the long way home through the park today and saw the first yellow leaves on the maple trees; autumn always seems to arrive overnight."
+  },
+  {
+   "n": 21,
+   "length": "short",
+   "kind": "email",
+   "text": "Hello everyone, the photos from the company picnic have been uploaded to the shared folder, and there are some great shots from the tug of war."
+  },
+  {
+   "n": 22,
+   "length": "short",
+   "kind": "meeting notes",
+   "text": "Project kickoff summary: the client wants a simpler checkout page, the first prototype is due in three weeks, and two developers will join from the mobile team."
+  },
+  {
+   "n": 23,
+   "length": "short",
+   "kind": "product review",
+   "text": "The coffee grinder is quiet and easy to clean, but the coarse setting still produces quite a lot of fine powder, which makes French press coffee slightly muddy."
+  },
+  {
+   "n": 24,
+   "length": "short",
+   "kind": "recipe step",
+   "text": "While the rice simmers, the vegetables are stir-fried in a hot wok with garlic, ginger and a splash of soy sauce until just tender."
+  },
+  {
+   "n": 25,
+   "length": "short",
+   "kind": "travel plan",
+   "text": "Our route through the mountains covers about forty kilometres a day, with nights booked in two small guesthouses and one campsite beside a glacier lake."
+  },
+  {
+   "n": 26,
+   "length": "short",
+   "kind": "study notes",
+   "text": "In supply and demand analysis, a price ceiling set below the equilibrium price usually creates a shortage because buyers want more than sellers will offer."
+  },
+  {
+   "n": 27,
+   "length": "short",
+   "kind": "customer-support ticket",
+   "text": "Customer cannot log in to the mobile banking app after the latest update; reinstalling did not help, and the issue has been passed to the app team."
+  },
+  {
+   "n": 28,
+   "length": "short",
+   "kind": "news-style paragraph",
+   "text": "A new bakery opened on Main Street this weekend, drawing long queues for its sourdough loaves and cinnamon rolls on both Saturday and Sunday morning."
+  },
+  {
+   "n": 29,
+   "length": "short",
+   "kind": "code comment or changelog line",
+   "text": "Changelog: removed the deprecated export button, updated the date picker to support week numbers, and fixed a typo in the settings page header."
+  },
+  {
+   "n": 30,
+   "length": "short",
+   "kind": "diary entry",
+   "text": "My sister visited today and we spent hours sorting through old family photographs, laughing at the haircuts and trying to remember who everyone was."
+  },
+  {
+   "n": 31,
+   "length": "short",
+   "kind": "email",
+   "text": "Good morning, the quarterly report is finished and attached, and the figures for the northern region look much better than the estimates from last spring."
+  },
+  {
+   "n": 32,
+   "length": "short",
+   "kind": "meeting notes",
+   "text": "Notes from the parents' evening: the school trip to the science museum is confirmed for May, and the cost per student will stay the same as last year."
+  },
+  {
+   "n": 33,
+   "length": "short",
+   "kind": "product review",
+   "text": "These noise cancelling headphones are excellent on long flights, but the ear cushions get warm after an hour and the carrying case feels rather bulky."
+  },
+  {
+   "n": 34,
+   "length": "short",
+   "kind": "recipe step",
+   "text": "The cake bakes for thirty five minutes at one hundred and eighty degrees, or until a skewer pushed into the centre comes out clean."
+  },
+  {
+   "n": 35,
+   "length": "short",
+   "kind": "travel plan",
+   "text": "The itinerary for the conference week includes a Monday arrival, three days of talks, a free Thursday afternoon for the museum, and a Friday morning flight home."
+  },
+  {
+   "n": 36,
+   "length": "short",
+   "kind": "study notes",
+   "text": "The second law of motion states that force equals mass times acceleration, so doubling the force on an object with constant mass doubles its acceleration."
+  },
+  {
+   "n": 37,
+   "length": "short",
+   "kind": "customer-support ticket",
+   "text": "The customer was charged twice for the same yoga class subscription in March; billing confirmed the duplicate payment and issued a refund to the original card."
+  },
+  {
+   "n": 38,
+   "length": "short",
+   "kind": "news-style paragraph",
+   "text": "Volunteers collected more than three hundred kilograms of litter from the beach on Sunday during the annual coastal clean-up, organisers said in a statement afterwards."
+  },
+  {
+   "n": 39,
+   "length": "short",
+   "kind": "code comment or changelog line",
+   "text": "The retry loop waits a little longer after each failed request, up to a maximum of thirty seconds, to avoid flooding the server during outages."
+  },
+  {
+   "n": 40,
+   "length": "short",
+   "kind": "diary entry",
+   "text": "Finally planted the tomato seedlings in the raised bed this morning, and by evening the cat had already dug up two of them looking for a warm spot."
+  },
+  {
+   "n": 41,
+   "length": "short",
+   "kind": "email",
+   "text": "Hi Tom, the replacement parts for the printer arrived this morning, and the technician thinks the machine will be running again by tomorrow afternoon."
+  },
+  {
+   "n": 42,
+   "length": "short",
+   "kind": "meeting notes",
+   "text": "Retrospective notes: deployments went smoothly this sprint, but too many tasks were added midway, so the team will try a stricter planning session next time."
+  },
+  {
+   "n": 43,
+   "length": "short",
+   "kind": "product review",
+   "text": "A sturdy camping tent that went up in under ten minutes; it stayed dry through a heavy storm, although the zips on the side door feel a bit flimsy."
+  },
+  {
+   "n": 44,
+   "length": "short",
+   "kind": "recipe step",
+   "text": "Next, the soaked chickpeas are drained, blended with tahini, lemon juice and a little cold water, and seasoned with salt until the hummus is smooth."
+  },
+  {
+   "n": 45,
+   "length": "short",
+   "kind": "travel plan",
+   "text": "For the long weekend we plan to drive to the lake on Friday evening, rent kayaks on Saturday, and visit the farmers' market on the way back Sunday."
+  },
+  {
+   "n": 46,
+   "length": "short",
+   "kind": "study notes",
+   "text": "Mitosis produces two identical daughter cells, while meiosis produces four genetically different cells with half the number of chromosomes, which is essential for sexual reproduction."
+  },
+  {
+   "n": 47,
+   "length": "short",
+   "kind": "customer-support ticket",
+   "text": "Reported issue: the washing machine displays error code E21 and does not drain; a technician visit has been scheduled for Wednesday between eight and twelve."
+  },
+  {
+   "n": 48,
+   "length": "short",
+   "kind": "news-style paragraph",
+   "text": "The regional train line will run a reduced timetable during the holiday period while engineers upgrade signalling equipment between the two busiest stations."
+  },
+  {
+   "n": 49,
+   "length": "short",
+   "kind": "code comment or changelog line",
+   "text": "Refactored the invoice generator to share formatting code with the receipt module, which removes about two hundred duplicated lines without changing the output."
+  },
+  {
+   "n": 50,
+   "length": "short",
+   "kind": "diary entry",
+   "text": "Woke up early and watched the fog lift slowly off the valley, then walked to the bakery and ate a warm croissant on the bench outside."
+  },
+  {
+   "n": 51,
+   "length": "short",
+   "kind": "email",
+   "text": "Dear members, the annual general meeting of the gardening club will take place in the community hall on the twelfth, followed by tea and cake."
+  },
+  {
+   "n": 52,
+   "length": "short",
+   "kind": "meeting notes",
+   "text": "Marketing meeting recap: the spring campaign reached more people than planned, the newsletter open rate rose slightly, and the video budget will increase next quarter."
+  },
+  {
+   "n": 53,
+   "length": "short",
+   "kind": "product review",
+   "text": "The electric kettle boils water quickly and looks lovely on the counter, but the handle gets hot near the top and the water gauge is hard to read."
+  },
+  {
+   "n": 54,
+   "length": "short",
+   "kind": "recipe step",
+   "text": "The tomato sauce simmers gently for forty minutes, with fresh basil stirred in at the very end so the leaves keep their bright colour and aroma."
+  },
+  {
+   "n": 55,
+   "length": "short",
+   "kind": "travel plan",
+   "text": "The backpacking plan covers four cities in twelve days, travelling mainly by overnight bus to save money and spending two or three nights in each place."
+  },
+  {
+   "n": 56,
+   "length": "short",
+   "kind": "study notes",
+   "text": "An adjective describes a noun, while an adverb usually modifies a verb, an adjective or another adverb and often tells how, when or where something happens."
+  },
+  {
+   "n": 57,
+   "length": "short",
+   "kind": "customer-support ticket",
+   "text": "Case 3390: the subscriber received the March issue of the magazine with several pages printed upside down, and a fresh copy has been posted today."
+  },
+  {
+   "n": 58,
+   "length": "short",
+   "kind": "news-style paragraph",
+   "text": "Attendance at the city's summer jazz festival reached a record high this year, with more than forty thousand visitors enjoying free concerts across five open-air stages."
+  },
+  {
+   "n": 59,
+   "length": "short",
+   "kind": "code comment or changelog line",
+   "text": "Added unit tests for the shopping cart total calculation, covering discounts, free shipping thresholds and rounding of prices with three decimal places."
+  },
+  {
+   "n": 60,
+   "length": "short",
+   "kind": "diary entry",
+   "text": "Spent the evening repairing my old bicycle, replacing the chain and patching the back tyre, and it now rides more smoothly than it has in years."
+  },
+  {
+   "n": 61,
+   "length": "short",
+   "kind": "email",
+   "text": "Hello all, the office kitchen will be cleaned on Friday afternoon, and the cleaning crew will clear out the fridge and wipe down every shelf after lunch."
+  },
+  {
+   "n": 62,
+   "length": "short",
+   "kind": "meeting notes",
+   "text": "Neighbourhood association notes: the street party is set for the last Saturday in June, three residents offered to bring grills, and the permit application was submitted."
+  },
+  {
+   "n": 63,
+   "length": "short",
+   "kind": "product review",
+   "text": "Solid wooden desk that took about an hour to assemble; the surface is wide enough for two monitors, though one drawer sticks slightly when fully loaded."
+  },
+  {
+   "n": 64,
+   "length": "short",
+   "kind": "recipe step",
+   "text": "When the pancake batter has rested, a ladleful is poured into the hot buttered pan and cooked until bubbles appear, then flipped for another minute."
+  },
+  {
+   "n": 65,
+   "length": "short",
+   "kind": "travel plan",
+   "text": "The train leaves the capital at seven in the morning and reaches the coast by noon, leaving the whole afternoon free for the beach and the old town."
+  },
+  {
+   "n": 66,
+   "length": "short",
+   "kind": "study notes",
+   "text": "The water cycle includes evaporation from oceans, condensation into clouds, precipitation as rain or snow, and collection in rivers, lakes and underground aquifers."
+  },
+  {
+   "n": 67,
+   "length": "short",
+   "kind": "customer-support ticket",
+   "text": "A hotel guest noted that the room heater made a loud rattling noise overnight; maintenance replaced the fan the next morning and the guest received a breakfast voucher."
+  },
+  {
+   "n": 68,
+   "length": "short",
+   "kind": "news-style paragraph",
+   "text": "The museum reopened its natural history wing on Friday after a two-year renovation, adding a new dinosaur skeleton and an interactive gallery about ocean life."
+  },
+  {
+   "n": 69,
+   "length": "short",
+   "kind": "code comment or changelog line",
+   "text": "Bumped the image library to the latest minor version, which resolves the blurry thumbnails on high resolution screens reported by several users last month."
+  },
+  {
+   "n": 70,
+   "length": "short",
+   "kind": "diary entry",
+   "text": "Today was my first pottery class, and my bowl came out lopsided and far too thick, but the teacher said everyone starts that way."
+  },
+  {
+   "n": 71,
+   "length": "short",
+   "kind": "email",
+   "text": "Hi Priya, the flat inspection went well this morning, and the landlord agreed to repaint the hallway and replace the cracked tile in the bathroom."
+  },
+  {
+   "n": 72,
+   "length": "short",
+   "kind": "meeting notes",
+   "text": "Board meeting notes: membership grew by twelve percent, the new website launch slipped to April, and the treasurer presented a balanced budget for the coming year."
+  },
+  {
+   "n": 73,
+   "length": "short",
+   "kind": "product review",
+   "text": "A charming board game for families; rounds take about thirty minutes, the illustrations are beautiful, and even our youngest players picked up the scoring quickly."
+  },
+  {
+   "n": 74,
+   "length": "short",
+   "kind": "recipe step",
+   "text": "Finally, the roasted vegetables are tossed with olive oil, crumbled feta and a handful of chopped parsley, then served warm alongside the grilled bread."
+  },
+  {
+   "n": 75,
+   "length": "short",
+   "kind": "travel plan",
+   "text": "The weekend city break includes a Friday night arrival, a Saturday spent at the covered market and the cathedral, and the afternoon bus home on Sunday."
+  },
+  {
+   "n": 76,
+   "length": "short",
+   "kind": "study notes",
+   "text": "Compound interest grows faster than simple interest because each period's interest is added to the principal and then earns interest itself in later periods."
+  },
+  {
+   "n": 77,
+   "length": "short",
+   "kind": "customer-support ticket",
+   "text": "According to the customer, the tracking page has shown the parcel as in transit for nine days; the courier has opened an investigation and expects an update within forty-eight hours."
+  },
+  {
+   "n": 78,
+   "length": "short",
+   "kind": "news-style paragraph",
+   "text": "Heavy snowfall closed several mountain roads overnight, and local schools announced a late start on Thursday while plough crews work to clear the main routes."
+  },
+  {
+   "n": 79,
+   "length": "short",
+   "kind": "code comment or changelog line",
+   "text": "The cache now expires entries after ten minutes instead of one hour, which keeps prices on the product page closer to what the warehouse reports."
+  },
+  {
+   "n": 80,
+   "length": "short",
+   "kind": "diary entry",
+   "text": "Long day at work, but dinner with old friends from university made up for it, and we stayed at the restaurant talking until they closed."
+  },
+  {
+   "n": 81,
+   "length": "long",
+   "kind": "email",
+   "text": "Hi Jonas, the renovation of the kitchen is finally on schedule again. The cabinet maker delivered the last units yesterday, and the electrician finished the wiring for the new oven this morning. The countertops are being cut this week and should be installed on Thursday if the stone arrives on time. The plumber is booked for Friday to connect the sink and dishwasher, so the whole job might be finished before the weekend."
+  },
+  {
+   "n": 82,
+   "length": "long",
+   "kind": "meeting notes",
+   "text": "Notes from the monthly operations meeting: the warehouse reported fewer late shipments than in any month this year, mostly thanks to the new packing stations. Customer complaints about damaged items dropped by a third. The team discussed hiring two seasonal workers for the holiday rush and agreed to start interviews next week. The finance lead mentioned that fuel costs remain high, so delivery routes will be reviewed again at the next meeting in four weeks."
+  },
+  {
+   "n": 83,
+   "length": "long",
+   "kind": "product review",
+   "text": "I have been using this cordless vacuum cleaner for about three months in a small two-bedroom flat. The suction is strong enough for rugs and pet hair, and the battery easily lasts for a full clean of every room. Emptying the dust bin is a little messy, and the wall mount needed extra screws to feel secure. Overall it is a big improvement over my old corded machine and worth the price."
+  },
+  {
+   "n": 84,
+   "length": "long",
+   "kind": "recipe step",
+   "text": "For the filling, the spinach is wilted in a large pan with a spoonful of butter and then squeezed thoroughly to remove as much liquid as possible. It is chopped finely and mixed with ricotta, grated parmesan, a pinch of nutmeg and one beaten egg. The mixture ends up thick enough to hold its shape on a spoon, which keeps the pastry from turning soggy during the forty minutes in the oven."
+  },
+  {
+   "n": 85,
+   "length": "long",
+   "kind": "travel plan",
+   "text": "The plan for the second week of the holiday is to pick up a rental car in the morning and drive south along the coast road, stopping at small fishing villages for lunch. Two nights are booked at a farmhouse surrounded by olive groves, with a cooking class on the first evening. The last three days are kept free for swimming, reading and perhaps a boat trip to the caves further along the cliffs."
+  },
+  {
+   "n": 86,
+   "length": "long",
+   "kind": "study notes",
+   "text": "Chapter four of the biology textbook explains how enzymes speed up chemical reactions by lowering the activation energy needed for them to happen. Each enzyme has an active site with a particular shape that fits only certain molecules, often compared to a lock and key. Temperature and acidity both affect enzyme activity, and extreme conditions can change the shape of the active site permanently, a process known as denaturation."
+  },
+  {
+   "n": 87,
+   "length": "long",
+   "kind": "customer-support ticket",
+   "text": "Ticket 10457, opened Monday: the customer bought a smart thermostat three weeks ago and reports that it loses its connection to the home network every evening around eight. The router is close by and other devices work normally. Support suggested a firmware update, which the customer installed, but the problem continued. The case has now been escalated to the hardware team, and a replacement unit will be shipped if the logs show a faulty wireless chip."
+  },
+  {
+   "n": 88,
+   "length": "long",
+   "kind": "news-style paragraph",
+   "text": "The riverside district will host its first night market next month, organisers announced on Wednesday. More than sixty stalls selling street food, handmade jewellery, plants and secondhand books are expected to take part, along with live music on a small stage near the old pier. The market will run every Friday evening through the summer if the trial goes well, and nearby streets will be closed to traffic from six until midnight."
+  },
+  {
+   "n": 89,
+   "length": "long",
+   "kind": "code comment or changelog line",
+   "text": "Release notes for version 4.0: the reporting module has been rewritten to load data in smaller batches, which cuts memory use roughly in half on large accounts. Charts now support a dark colour theme, and exported files keep their column widths. Several older import formats were removed because almost nobody used them anymore. A known issue remains with very long project names wrapping awkwardly in the sidebar, and a fix is planned for the next minor release."
+  },
+  {
+   "n": 90,
+   "length": "long",
+   "kind": "diary entry",
+   "text": "It was the first warm day of the year, so I took my lunch to the park and sat by the pond watching the ducks chase each other across the water. In the afternoon I finally cleaned the windows, which made the whole flat feel brighter. Later my neighbour brought over a jar of homemade plum jam, and we chatted on the balcony until the sun went down behind the rooftops."
+  },
+  {
+   "n": 91,
+   "length": "long",
+   "kind": "email",
+   "text": "Dear parents, the school choir has been invited to perform at the town's winter concert on the fourteenth of December. Rehearsals will continue on Tuesday and Thursday afternoons as usual, with one extra Saturday morning session in the week before the concert. The children will wear their dark blue uniforms with white shirts, and the music department will provide matching scarves. Tickets for families will go on sale at the school office from next Monday."
+  },
+  {
+   "n": 92,
+   "length": "long",
+   "kind": "meeting notes",
+   "text": "Summary of the research group meeting: the second round of field samples has been collected and labelled, and the lab expects the first results by the end of the month. Two students presented early findings on soil moisture, which seem to confirm last year's pattern near the river. The group decided to postpone the conference abstract until more data is available and to share the draft chapter with the whole team before the holidays."
+  },
+  {
+   "n": 93,
+   "length": "long",
+   "kind": "product review",
+   "text": "After a month of daily use, this cast iron frying pan has become my favourite piece of cookware. It arrived lightly seasoned, and after a few rounds of frying bacon and potatoes the surface became noticeably smoother and more nonstick. It is heavy, which makes tossing vegetables difficult, and the handle gets very hot. Still, it heats evenly, sears steak beautifully and should last for decades with basic care."
+  },
+  {
+   "n": 94,
+   "length": "long",
+   "kind": "recipe step",
+   "text": "To finish the curry, the coconut milk is poured in once the spices have fried for a couple of minutes and the onions have turned soft and brown. The chicken pieces simmer in the sauce for about twenty minutes until they are cooked through and tender. A squeeze of lime juice and a handful of fresh coriander go in right at the end, and the curry is served with steamed rice and warm flatbread."
+  },
+  {
+   "n": 95,
+   "length": "long",
+   "kind": "travel plan",
+   "text": "Our winter trip begins with an overnight train to the mountains, arriving in the village just after breakfast. The first two days are reserved for ski lessons in the morning and relaxing in the thermal baths in the afternoon. On the third day there is a guided snowshoe hike to a frozen waterfall, followed by dinner in a wooden hut. The return journey is planned for Sunday, with a stop in the old market town on the way."
+  },
+  {
+   "n": 96,
+   "length": "long",
+   "kind": "study notes",
+   "text": "The causes of the First World War are usually grouped into four long-term factors: militarism, alliances, imperialism and nationalism. The alliance network meant that a local conflict in the Balkans quickly drew in the major European powers. Historians also stress the arms race between the great powers and the rigid mobilisation plans prepared by military staffs, which left very little time for diplomacy once the crisis began in the summer of 1914."
+  },
+  {
+   "n": 97,
+   "length": "long",
+   "kind": "customer-support ticket",
+   "text": "Customer contacted support on Friday because the sofa delivered last week has a tear in the fabric on the back cushion, which was not noticed until the packaging was removed. Photos were attached to the case and reviewed by the quality team. The customer prefers a repair rather than a full exchange, so an upholsterer will visit within ten working days. A partial credit for the inconvenience has also been applied to the account."
+  },
+  {
+   "n": 98,
+   "length": "long",
+   "kind": "news-style paragraph",
+   "text": "The city's public library recorded its busiest year on record, with more than half a million books borrowed and a sharp rise in the number of young readers. Library staff credited the new evening opening hours and a summer reading challenge that attracted thousands of children. The library also expanded its collection of audiobooks and language courses, and plans to open a small branch in the eastern suburbs next autumn, funded partly by local businesses."
+  },
+  {
+   "n": 99,
+   "length": "long",
+   "kind": "code comment or changelog line",
+   "text": "This module handles the conversion of uploaded photos into three standard sizes for the gallery: a small thumbnail, a medium preview and a large display version. Images are resized while keeping their original aspect ratio, and transparent backgrounds are filled with white before saving as compressed files. Very large uploads are processed in a background queue so the upload page stays responsive, and failed conversions are logged with the file name and the original dimensions."
+  },
+  {
+   "n": 100,
+   "length": "long",
+   "kind": "diary entry",
+   "text": "Today I finally finished the jigsaw puzzle that has covered the dining table for nearly three weeks. The last section, a pale blue sky with almost no detail, took longer than everything else combined. My brother came over in the evening and placed the final piece with great ceremony, even though he had barely helped at all. We celebrated with takeaway noodles and agreed that the next puzzle will have far fewer clouds."
+  },
+  {
+   "n": 101,
+   "length": "long",
+   "kind": "email",
+   "text": "Hello team, the move to the new office is now set for the last weekend of the month. The removal company will pack everything on Friday afternoon, starting with the desks right after lunch. Each person will receive two labelled boxes on Wednesday for personal items. The new building has a larger kitchen, a quiet room and bicycle storage in the basement, and the first coffee morning there is planned for Monday."
+  },
+  {
+   "n": 102,
+   "length": "long",
+   "kind": "meeting notes",
+   "text": "Notes from the community garden planning meeting: twelve new plots will be marked out along the southern fence, and the waiting list currently has nineteen households on it. The group agreed to buy a second compost bin and a larger water tank before the summer. Volunteers will run a seed swap in early March, and the local primary school asked to use two plots for a class project about growing vegetables from seed to harvest."
+  },
+  {
+   "n": 103,
+   "length": "long",
+   "kind": "product review",
+   "text": "This e-reader has replaced most of the paperback books in my bag. The screen is easy on the eyes even in bright sunlight, the battery lasts for weeks, and the adjustable warm light is pleasant for reading in bed. Page turns are quick, although the menus can feel slow when switching between books. The waterproof casing survived a fall into the bath, which alone makes it worth the slightly higher price."
+  },
+  {
+   "n": 104,
+   "length": "long",
+   "kind": "recipe step",
+   "text": "The bread dough, once it has doubled in size, is knocked back gently and shaped into a round loaf on a floured board. It then rests in a cloth-lined basket for another forty minutes while the oven heats up with a heavy pot inside. The loaf is tipped into the hot pot, scored across the top with a sharp knife and baked with the lid on for the first twenty minutes."
+  },
+  {
+   "n": 105,
+   "length": "long",
+   "kind": "travel plan",
+   "text": "The family road trip is planned in short stages to keep the children happy, with no more than three hours of driving on any single day. The first stop is a dinosaur park, then two nights at a lakeside cabin with canoes available. After that the route heads north to visit grandparents for the weekend, and the final leg follows the scenic valley road home, with a picnic planned beside the old stone bridge."
+  },
+  {
+   "n": 106,
+   "length": "long",
+   "kind": "study notes",
+   "text": "In statistics, the mean is the sum of all values divided by their count, the median is the middle value when the data are sorted, and the mode is the most frequent value. The mean is sensitive to extreme values, so the median often gives a better picture of typical income or house prices. When a distribution is symmetric, all three measures tend to be close together, while skewed data pull the mean toward the longer tail."
+  },
+  {
+   "n": 107,
+   "length": "long",
+   "kind": "customer-support ticket",
+   "text": "Opened by a café owner whose espresso machine stopped heating properly during the busy Saturday morning shift. The display showed normal pressure, but the water came out lukewarm and the steam wand produced very little steam. A technician visited on Monday, found a failed heating element and replaced it under warranty. The owner also asked about a maintenance plan, and a quote for quarterly servicing was sent by post the same afternoon."
+  },
+  {
+   "n": 108,
+   "length": "long",
+   "kind": "news-style paragraph",
+   "text": "A small coastal town has opened a new cycling path that follows a disused railway line for eighteen kilometres between the harbour and the neighbouring village. The project took four years and was funded by the regional council together with local tourism businesses. Benches, picnic areas and information boards about the old railway have been installed along the route, and a bike rental shop opened at the harbour end just in time for the weekend."
+  },
+  {
+   "n": 109,
+   "length": "long",
+   "kind": "code comment or changelog line",
+   "text": "Changelog for the weather widget: temperatures can now be shown in either metric or imperial units, and the choice is remembered between sessions. The hourly forecast scrolls horizontally on narrow screens instead of wrapping onto several lines. Icons for fog and sleet were redrawn to be clearer at small sizes. An old bug that showed tomorrow's sunrise time on the evening view has been fixed, and loading is noticeably faster on slow connections."
+  },
+  {
+   "n": 110,
+   "length": "long",
+   "kind": "diary entry",
+   "text": "Spent most of today in the hospital waiting room while Dad had a routine check on his knee, and everything turned out fine. Afterwards we stopped at the little diner on the corner for pie and coffee, the same place we used to go when I was a child. He told stories about his first job at the shipyard that I had never heard before, and the afternoon ended up being one of the nicest in months."
+  },
+  {
+   "n": 111,
+   "length": "long",
+   "kind": "email",
+   "text": "Hi Lena, the results from the customer survey are in, and they are mostly positive. About eighty percent of respondents rated the new delivery service as good or excellent, and many mentioned the friendly drivers. The main complaint was the narrow two-hour delivery window, which several people found hard to fit around work. The full summary with charts is in the shared drive, and the numbers will be discussed at the review meeting on Thursday."
+  },
+  {
+   "n": 112,
+   "length": "long",
+   "kind": "meeting notes",
+   "text": "Minutes of the tenants' meeting held in the lobby on Monday evening: residents raised concerns about the broken lift on the east side, which has been out of service for two weeks. The building manager confirmed that the replacement part has been ordered and should arrive within ten days. Other topics included recycling bins overflowing on weekends and a proposal to plant flowers in the front courtyard, which received broad support from everyone present."
+  },
+  {
+   "n": 113,
+   "length": "long",
+   "kind": "product review",
+   "text": "These hiking boots were broken in over two weekends and have since handled muddy forest trails, rocky ridges and a full day of rain without any leaks. The ankle support is excellent, and the grip on wet stone feels secure. They are heavier than trail shoes, and the stiff tongue rubbed slightly during the first few walks. For longer trips with a loaded backpack, though, they have been completely reliable and comfortable."
+  },
+  {
+   "n": 114,
+   "length": "long",
+   "kind": "recipe step",
+   "text": "For the dressing, two tablespoons of olive oil are whisked with a teaspoon of honey, a spoonful of mustard and the juice of half a lemon until the mixture thickens slightly. A pinch of salt and some black pepper balance the sweetness. The dressing is poured over the warm potatoes while they are still steaming, so they absorb the flavour, and chopped spring onions are scattered over the top just before serving."
+  },
+  {
+   "n": 115,
+   "length": "long",
+   "kind": "travel plan",
+   "text": "The study trip for the architecture students includes three days in the capital and two days in the industrial port city further north. Guided tours of modern housing projects, the new concert hall and several converted factories are arranged for each morning. Afternoons are left free for sketching and independent visits. Accommodation is a hostel near the central station, and the group will travel between the two cities by regional train on Wednesday."
+  },
+  {
+   "n": 116,
+   "length": "long",
+   "kind": "study notes",
+   "text": "Plate tectonics describes how the outer shell of the Earth is broken into large plates that move slowly over the softer mantle beneath. Where plates pull apart, new crust forms, as along the mid-ocean ridges. Where they collide, one plate may sink under the other, creating deep trenches, volcanoes and mountain ranges. Earthquakes are most common along these boundaries, which explains why certain regions experience them far more often than others."
+  },
+  {
+   "n": 117,
+   "length": "long",
+   "kind": "customer-support ticket",
+   "text": "Ticket summary: a subscriber to the meal kit service received a box with the wrong recipes for the second week in a row, including a dish containing nuts despite a nut allergy noted on the account. The packing team traced the error to a labelling mix-up at the regional depot. The customer received a full refund for both boxes, and the account has been flagged for manual checking before each future delivery is dispatched."
+  },
+  {
+   "n": 118,
+   "length": "long",
+   "kind": "news-style paragraph",
+   "text": "Researchers at the regional university have begun a five-year study of bee populations in urban gardens, parks and rooftop spaces across the city. Residents can register their gardens as observation sites, and volunteers will count visiting insects twice a month during the warmer seasons. Early results from a pilot project suggested that small patches of wildflowers can support a surprising variety of species, even in busy neighbourhoods surrounded by traffic and tall buildings."
+  },
+  {
+   "n": 119,
+   "length": "long",
+   "kind": "code comment or changelog line",
+   "text": "The scheduling function below calculates the next available appointment slot for each clinic room. It skips public holidays, respects the lunch break between twelve and one, and leaves a ten-minute gap after every appointment for cleaning. If no slot is free within the next thirty days, it returns nothing so the booking page can show a waiting list option. The calculation was previously done on every page load and is now cached for five minutes."
+  },
+  {
+   "n": 120,
+   "length": "long",
+   "kind": "diary entry",
+   "text": "This morning the whole street was quiet under a fresh layer of snow, and the neighbourhood children were already building a lopsided snowman by the bus stop. I made pancakes, called my grandmother for her birthday and spent the afternoon knitting a scarf that is slowly turning into a blanket. In the evening the snow started again, and I watched it fall past the streetlight while the radio played old songs."
+  }
+ ]
+}

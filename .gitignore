@@ -24,3 +24,9 @@ runs/*/checkpoint/*.tmp
 runs/*.lock
 runs/*/checkpoint.staging/
 runs/**/*.json.tmp
+
+# Reviewer view written by scripts/build_dev_cases.py --view (read-only aid, never committed)
+data/cases/*/view/
+
+# EXP-02 review batches with validation text and the review session output (merged into results/s3/error_types.csv, never committed)
+data/error_review/view/

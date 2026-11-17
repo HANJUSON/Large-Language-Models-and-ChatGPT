@@ -1,0 +1,4286 @@
+{
+  "allocation": {
+    "per_label": {
+      "label_0": {
+        "reserve": 15,
+        "rob01": 50,
+        "rob02": 50,
+        "rob03": 50
+      },
+      "label_1": {
+        "reserve": 15,
+        "rob01": 50,
+        "rob02": 50,
+        "rob03": 50
+      }
+    },
+    "reserve_used": {
+      "label_0": [],
+      "label_1": []
+    },
+    "rob04_reserve_used": [],
+    "tried": [
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001867",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 0
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000578",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 1
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001741",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 2
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001030",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 3
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000029",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 4
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001483",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 5
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000679",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 6
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001608",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 7
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000454",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 8
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001758",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 9
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001195",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 10
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000316",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 11
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001783",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 12
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001261",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 13
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000719",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 14
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000353",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 15
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000400",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 16
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001298",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 17
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000293",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 18
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001473",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 19
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001133",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 20
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001012",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 21
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001567",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 22
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000067",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 23
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000604",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 24
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000776",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 25
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001112",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 26
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000886",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 27
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001061",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 28
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000163",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 29
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001609",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 30
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001237",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 31
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000874",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 32
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000419",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 33
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001635",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 34
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000547",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 35
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000873",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 36
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000099",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 37
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001642",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 38
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000342",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 39
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000921",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 40
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000844",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 41
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001554",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 42
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:002062",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 43
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000667",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 44
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000913",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 45
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:002000",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 46
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001725",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 47
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001800",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 48
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000230",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 49
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001470",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 0
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000885",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 1
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001316",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 2
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000123",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 3
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000427",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 4
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001802",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 5
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000669",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 6
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000898",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 7
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001829",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 8
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001819",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 9
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001555",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 10
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001552",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 11
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001484",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 12
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000212",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 13
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000739",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 14
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000555",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 15
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:002030",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 16
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000061",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 17
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001465",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 18
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001570",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 19
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000370",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 20
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001245",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 21
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001738",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 22
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001365",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 23
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001388",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 24
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001178",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 25
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000900",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 26
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001993",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 27
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001887",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 28
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001450",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 29
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001219",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 30
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000507",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 31
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:002010",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 32
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000833",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 33
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000438",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 34
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001990",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 35
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000936",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 36
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001966",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 37
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001464",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 38
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001960",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 39
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000847",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 40
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000456",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 41
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000373",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 42
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001422",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 43
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001050",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 44
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001583",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 45
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001290",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 46
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000421",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 47
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:000056",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 48
+      },
+      {
+        "condition": "ROB-01",
+        "group_id": "validation:001513",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 49
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000827",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 0
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000627",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 1
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000326",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 2
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000695",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 3
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001190",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 4
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001182",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 5
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000259",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 6
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001890",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 7
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001950",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 8
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000270",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 9
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000614",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 10
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001767",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 11
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001669",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 12
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001406",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 13
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000252",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 14
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001795",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 15
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000684",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 16
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001905",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 17
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000036",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 18
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:002054",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 19
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000305",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 20
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000302",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 21
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000008",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 22
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001425",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 23
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001358",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 24
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:002068",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 25
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001619",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 26
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000648",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 27
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001894",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 28
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001742",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 29
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001981",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 30
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000624",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 31
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000979",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 32
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000265",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 33
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000208",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 34
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000989",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 35
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000007",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 36
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000731",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 37
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000957",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 38
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001645",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 39
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001544",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 40
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001735",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 41
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001814",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 42
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000860",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 43
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000723",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 44
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001011",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 45
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001907",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 46
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000139",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 47
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000324",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 48
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001427",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 49
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001716",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 0
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001218",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 1
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000945",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 2
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000194",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 3
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001040",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 4
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000812",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 5
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000104",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 6
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000799",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 7
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001060",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 8
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000066",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 9
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001842",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 10
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001158",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 11
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000902",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 12
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000962",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 13
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:002047",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 14
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000158",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 15
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000599",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 16
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001097",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 17
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001506",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 18
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001607",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 19
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000108",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 20
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000132",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 21
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000102",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 22
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001911",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 23
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000048",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 24
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001955",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 25
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000448",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 26
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001500",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 27
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000336",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 28
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000423",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 29
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000908",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 30
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000053",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 31
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000469",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 32
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001811",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 33
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000878",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 34
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000330",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 35
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001820",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 36
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001703",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 37
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001458",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 38
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:002017",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 39
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001038",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 40
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001234",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 41
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000829",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 42
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001786",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 43
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001140",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 44
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000848",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 45
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000782",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 46
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001964",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 47
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:000295",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 48
+      },
+      {
+        "condition": "ROB-02",
+        "group_id": "validation:001596",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 49
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000137",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 0
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001094",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 1
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001681",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 2
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001196",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 3
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000076",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 4
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000801",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 5
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001698",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 6
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000518",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 7
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000453",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 8
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000535",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 9
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000422",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 10
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:002080",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 11
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000298",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 12
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000371",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 13
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000432",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 14
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000938",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 15
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000513",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 16
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000562",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 17
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001385",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 18
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000062",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 19
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000348",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 20
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000378",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 21
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001165",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 22
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000384",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 23
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001533",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 24
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001211",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 25
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000759",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 26
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000506",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 27
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000186",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 28
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000338",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 29
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001999",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 30
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001743",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 31
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000466",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 32
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000155",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 33
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000436",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 34
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001729",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 35
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000664",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 36
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001126",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 37
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000701",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 38
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000575",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 39
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000992",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 40
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000522",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 41
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001134",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 42
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001924",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 43
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001405",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 44
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001250",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 45
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001115",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 46
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:002079",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 47
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001070",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 48
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000755",
+        "label": 1,
+        "outcome": "assigned",
+        "slot": 49
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001329",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 0
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001494",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 1
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001122",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 2
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000264",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 3
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001337",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 4
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000787",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 5
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001660",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 6
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000551",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 7
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000020",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 8
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000141",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 9
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000725",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 10
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000360",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 11
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001517",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 12
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001048",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 13
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000937",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 14
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001035",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 15
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000876",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 16
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001089",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 17
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001736",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 18
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001204",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 19
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000321",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 20
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000325",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 21
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001637",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 22
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001762",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 23
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001486",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 24
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000043",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 25
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001799",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 26
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000001",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 27
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001437",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 28
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001098",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 29
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000198",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 30
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000769",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 31
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001902",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 32
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001709",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 33
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001275",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 34
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001903",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 35
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000726",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 36
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000171",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 37
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001860",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 38
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001620",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 39
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000895",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 40
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000899",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 41
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000299",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 42
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000820",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 43
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000687",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 44
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001831",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 45
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000239",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 46
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:000533",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 47
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001540",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 48
+      },
+      {
+        "condition": "ROB-03",
+        "group_id": "validation:001978",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 49
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-001",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 0
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-002",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 1
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-003",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 2
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-004",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 3
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-005",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 4
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-006",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 5
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-007",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 6
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-008",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 7
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-009",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 8
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-010",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 9
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-011",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 10
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-012",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 11
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-013",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 12
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-014",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 13
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-015",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 14
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-016",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 15
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-017",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 16
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-018",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 17
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-019",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 18
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-020",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 19
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-021",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 20
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-022",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 21
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-023",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 22
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-024",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 23
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-025",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 24
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-026",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 25
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-027",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 26
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-028",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 27
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-029",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 28
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-030",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 29
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-031",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 30
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-032",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 31
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-033",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 32
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-034",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 33
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-035",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 34
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-036",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 35
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-037",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 36
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-038",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 37
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-039",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 38
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-040",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 39
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-041",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 40
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-042",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 41
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-043",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 42
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-044",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 43
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-045",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 44
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-046",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 45
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-047",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 46
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-048",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 47
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-049",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 48
+      },
+      {
+        "condition": "ROB-04",
+        "group_id": "dev-rob04-050",
+        "label": 0,
+        "outcome": "assigned",
+        "slot": 49
+      }
+    ]
+  },
+  "automatic_exclusions": [],
+  "counts": {
+    "assigned_originals": {
+      "ROB-01": {
+        "label_0": 50,
+        "label_1": 50
+      },
+      "ROB-02": {
+        "label_0": 50,
+        "label_1": 50
+      },
+      "ROB-03": {
+        "label_0": 50,
+        "label_1": 50
+      },
+      "ROB-04": {
+        "label_0": 50
+      }
+    },
+    "cases": {
+      "ROB-01": {
+        "case": {
+          "label_0": {
+            "assigned": 50,
+            "reserve": 15
+          },
+          "label_1": {
+            "assigned": 50,
+            "reserve": 15
+          }
+        },
+        "char": {
+          "label_0": {
+            "assigned": 50,
+            "reserve": 15
+          },
+          "label_1": {
+            "assigned": 50,
+            "reserve": 15
+          }
+        },
+        "homoglyph": {
+          "label_0": {
+            "assigned": 50,
+            "reserve": 15
+          },
+          "label_1": {
+            "assigned": 50,
+            "reserve": 15
+          }
+        },
+        "space": {
+          "label_0": {
+            "assigned": 50,
+            "reserve": 15
+          },
+          "label_1": {
+            "assigned": 50,
+            "reserve": 15
+          }
+        }
+      },
+      "ROB-02": {
+        "paraphrase": {
+          "label_0": {
+            "assigned": 50,
+            "reserve": 15
+          },
+          "label_1": {
+            "assigned": 50,
+            "reserve": 15
+          }
+        }
+      },
+      "ROB-03": {
+        "context": {
+          "label_0": {
+            "assigned": 50,
+            "reserve": 15
+          },
+          "label_1": {
+            "assigned": 50,
+            "reserve": 15
+          }
+        }
+      },
+      "ROB-04": {
+        "benign_security": {
+          "label_0": {
+            "assigned": 50,
+            "reserve": 15
+          }
+        }
+      }
+    },
+    "review_decisions_assigned": {
+      "ROB-01": {
+        "label_0": {
+          "exclude": 0,
+          "keep": 200,
+          "pending": 0,
+          "relabel": 0
+        },
+        "label_1": {
+          "exclude": 0,
+          "keep": 200,
+          "pending": 0,
+          "relabel": 0
+        }
+      },
+      "ROB-02": {
+        "label_0": {
+          "exclude": 0,
+          "keep": 50,
+          "pending": 0,
+          "relabel": 0
+        },
+        "label_1": {
+          "exclude": 0,
+          "keep": 50,
+          "pending": 0,
+          "relabel": 0
+        }
+      },
+      "ROB-03": {
+        "label_0": {
+          "exclude": 0,
+          "keep": 50,
+          "pending": 0,
+          "relabel": 0
+        },
+        "label_1": {
+          "exclude": 0,
+          "keep": 50,
+          "pending": 0,
+          "relabel": 0
+        }
+      },
+      "ROB-04": {
+        "label_0": {
+          "exclude": 0,
+          "keep": 50,
+          "pending": 0,
+          "relabel": 0
+        }
+      }
+    },
+    "shortfall": {
+      "ROB-01": {
+        "label_0": 0,
+        "label_1": 0
+      },
+      "ROB-02": {
+        "label_0": 0,
+        "label_1": 0
+      },
+      "ROB-03": {
+        "label_0": 0,
+        "label_1": 0
+      },
+      "ROB-04": {
+        "label_0": 0
+      }
+    }
+  },
+  "flags": [],
+  "generators": {
+    "rob02_paraphrase_v1": {
+      "file": "llm/rob02_paraphrase_v1.json",
+      "generator": {
+        "date": "2026-11-16",
+        "interface": "Claude Code subagent",
+        "model": "claude-opus-5-5",
+        "notes": "single pass with self-check rewrites for length, one-word edits and duplicates",
+        "prompt_file": "data/cases/dev/prompts/rob02_paraphrase_v1.md",
+        "prompt_sha256": "8374bf205af71ad6c8edd8a299b96f46680e7c1df0e4147859b2efff2b5feb4f"
+      },
+      "items": 130,
+      "prompt": "prompts/rob02_paraphrase_v1.md",
+      "prompt_sha256_lf": "8374bf205af71ad6c8edd8a299b96f46680e7c1df0e4147859b2efff2b5feb4f",
+      "sha256_lf": "90270d20373617b2ea8a0b49950191f19f572b4a97c16f1235d60e2f28fbed3e"
+    },
+    "rob03_contexts_v1": {
+      "file": "llm/rob03_contexts_v1.json",
+      "generator": {
+        "date": "2026-11-16",
+        "interface": "Claude Code subagent",
+        "model": "claude-opus-5-5",
+        "notes": "single pass; self-checked for length, kind order, unique openings and banned words",
+        "prompt_file": "data/cases/dev/prompts/rob03_contexts_v1.md",
+        "prompt_sha256": "996ff21e220609dd88959a5344c2a18cce40a38196d2c5476cc1aeb9c4f0afe2"
+      },
+      "items": 120,
+      "prompt": "prompts/rob03_contexts_v1.md",
+      "prompt_sha256_lf": "996ff21e220609dd88959a5344c2a18cce40a38196d2c5476cc1aeb9c4f0afe2",
+      "sha256_lf": "7641ef40122499d2e6173b740ad2513de05b9d7af6cdbfd1e5955157ef5ff24e"
+    },
+    "rob04_benign_v1": {
+      "file": "llm/rob04_benign_v1.json",
+      "generator": {
+        "date": "2026-11-16",
+        "interface": "Claude Code subagent",
+        "model": "claude-opus-5-5",
+        "notes": "single pass; self-checked for length, category order and unique openings",
+        "prompt_file": "data/cases/dev/prompts/rob04_benign_v1.md",
+        "prompt_sha256": "cad536b760aa169281f52bacde7e26dcee0034ec639dde642fac9cde2cae02c8"
+      },
+      "items": 65,
+      "prompt": "prompts/rob04_benign_v1.md",
+      "prompt_sha256_lf": "cad536b760aa169281f52bacde7e26dcee0034ec639dde642fac9cde2cae02c8",
+      "sha256_lf": "19ea965c83ced6fe2f4c16f5bce7c7bee4cfb63ac202e2d47a864cf74eaf2a7c"
+    }
+  },
+  "inputs": {
+    "download_manifest.json": {
+      "path": "datasets/s-labs-prompt-injection/download_manifest.json",
+      "revision": "002a9dd18514abd021869823d6b0429b38606d99",
+      "sha256": "c9c2791b10c2be6e57b65edfb8fd04323b07f49e47dc6fd7d1e83d2ad2ec7d99"
+    },
+    "lists_meta.json": {
+      "path": "data/processed/lists_meta.json",
+      "sha256": "7d4dee90483969ab94b78e23ffe4bc524aa072d472eb65a25e1cc7c80dcfb28a"
+    },
+    "scripts/build_lists.py": {
+      "path": "scripts/build_lists.py",
+      "sha256_lf": "0986fc648f0b47b4293a22cf788734938820de10e12633ebd8e1c9d29087d028"
+    },
+    "scripts/data_lists.py": {
+      "path": "scripts/data_lists.py",
+      "sha256_lf": "9cf7f9e2ac8fba44858e0e26ad7f25104bf4937954fe686c43f9185b562b0368"
+    },
+    "scripts/model_specs.py": {
+      "path": "scripts/model_specs.py",
+      "sha256_lf": "cb240a2a0d9b9101fd55bd1652a26c64ff446beb5836dcbe56483f156e0d6d1a"
+    },
+    "train.csv": {
+      "rows": 11089,
+      "sha256": "bab012fec95d4214599b18777fd6efc5cc5e9545354df581880aeca5c1d487d7",
+      "size": 747016,
+      "via": "download_manifest.json"
+    },
+    "validation.csv": {
+      "rows": 2101,
+      "sha256": "c7d14d24a14dd30a37ebe0de928b8ccdcdf6639c3c2e830b59561e2dd5fb7b55",
+      "size": 122918,
+      "via": "download_manifest.json"
+    },
+    "validation_clean.csv": {
+      "path": "data/processed/validation_clean.csv",
+      "rows": 2097,
+      "sha256": "d0a669d85f5307cfc461fbb88192c83ff5ee84ba519f22ba7bbe76ee1513c626"
+    }
+  },
+  "llm_item_flags": {
+    "rob03_contexts": {
+      "forbidden_word_or_question": [],
+      "line_break": [],
+      "word_count_out_of_range": []
+    },
+    "rob04_items": {
+      "category_not_round_robin": [],
+      "length_out_of_range": [],
+      "line_break": []
+    }
+  },
+  "outputs": {
+    "cases.csv": {
+      "rows": 845,
+      "sha256": "ff216b51f3beaaf9f818850c85bcc50606b3f6793f5a9cec200ea5e172aebf9b"
+    },
+    "originals.csv": {
+      "rows": 330,
+      "sha256": "567ffc43e2997c034a79e38f5af85b7b82f2057c18391e804194107ec7aafd32"
+    },
+    "review.csv": {
+      "rows": 650,
+      "sha256": "d54a3cd598e511f88d7191046a915d557c4be326b8f41f489715afec09c8105b"
+    }
+  },
+  "purpose": "dev",
+  "readme": "README 3.3 DATA-07..12, 5.2 ROB-01..04, 3.2 keys; spec .omc/autopilot/spec-stage3.md",
+  "review_exclusions": [],
+  "rob03_contexts_used": [
+    1,
+    2,
+    4,
+    5,
+    8,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    20,
+    21,
+    22,
+    28,
+    30,
+    32,
+    33,
+    36,
+    39,
+    42,
+    43,
+    45,
+    46,
+    48,
+    49,
+    50,
+    51,
+    52,
+    55,
+    57,
+    59,
+    60,
+    62,
+    64,
+    65,
+    67,
+    71,
+    72,
+    73,
+    75,
+    76,
+    78,
+    80,
+    82,
+    84,
+    85,
+    86,
+    88,
+    89,
+    91,
+    92,
+    94,
+    95,
+    97,
+    98,
+    100,
+    101,
+    104,
+    107,
+    108,
+    110,
+    114,
+    119
+  ],
+  "rob03_plan": [
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        75,
+        71
+      ],
+      "originals": {
+        "label_0": "validation:001329",
+        "label_1": "validation:000137"
+      },
+      "pair": 0,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        33,
+        21
+      ],
+      "originals": {
+        "label_0": "validation:001494",
+        "label_1": "validation:001094"
+      },
+      "pair": 1,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        1,
+        13
+      ],
+      "originals": {
+        "label_0": "validation:001122",
+        "label_1": "validation:001681"
+      },
+      "pair": 2,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        98
+      ],
+      "originals": {
+        "label_0": "validation:000264",
+        "label_1": "validation:001196"
+      },
+      "pair": 3,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        78
+      ],
+      "originals": {
+        "label_0": "validation:001337",
+        "label_1": "validation:000076"
+      },
+      "pair": 4,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        5
+      ],
+      "originals": {
+        "label_0": "validation:000787",
+        "label_1": "validation:000801"
+      },
+      "pair": 5,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        95
+      ],
+      "originals": {
+        "label_0": "validation:001660",
+        "label_1": "validation:001698"
+      },
+      "pair": 6,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        28,
+        12
+      ],
+      "originals": {
+        "label_0": "validation:000551",
+        "label_1": "validation:000518"
+      },
+      "pair": 7,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        97
+      ],
+      "originals": {
+        "label_0": "validation:000020",
+        "label_1": "validation:000453"
+      },
+      "pair": 8,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        22
+      ],
+      "originals": {
+        "label_0": "validation:000141",
+        "label_1": "validation:000535"
+      },
+      "pair": 9,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        49,
+        42
+      ],
+      "originals": {
+        "label_0": "validation:000725",
+        "label_1": "validation:000422"
+      },
+      "pair": 10,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        82
+      ],
+      "originals": {
+        "label_0": "validation:000360",
+        "label_1": "validation:002080"
+      },
+      "pair": 11,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        57,
+        2
+      ],
+      "originals": {
+        "label_0": "validation:001517",
+        "label_1": "validation:000298"
+      },
+      "pair": 12,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        64
+      ],
+      "originals": {
+        "label_0": "validation:001048",
+        "label_1": "validation:000371"
+      },
+      "pair": 13,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        101
+      ],
+      "originals": {
+        "label_0": "validation:000937",
+        "label_1": "validation:000432"
+      },
+      "pair": 14,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        119
+      ],
+      "originals": {
+        "label_0": "validation:001035",
+        "label_1": "validation:000938"
+      },
+      "pair": 15,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        36
+      ],
+      "originals": {
+        "label_0": "validation:000876",
+        "label_1": "validation:000513"
+      },
+      "pair": 16,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        114
+      ],
+      "originals": {
+        "label_0": "validation:001089",
+        "label_1": "validation:000562"
+      },
+      "pair": 17,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        104
+      ],
+      "originals": {
+        "label_0": "validation:001736",
+        "label_1": "validation:001385"
+      },
+      "pair": 18,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        4
+      ],
+      "originals": {
+        "label_0": "validation:001204",
+        "label_1": "validation:000062"
+      },
+      "pair": 19,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        84
+      ],
+      "originals": {
+        "label_0": "validation:000321",
+        "label_1": "validation:000348"
+      },
+      "pair": 20,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        89
+      ],
+      "originals": {
+        "label_0": "validation:000325",
+        "label_1": "validation:000378"
+      },
+      "pair": 21,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        55
+      ],
+      "originals": {
+        "label_0": "validation:001637",
+        "label_1": "validation:001165"
+      },
+      "pair": 22,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        76,
+        15
+      ],
+      "originals": {
+        "label_0": "validation:001762",
+        "label_1": "validation:000384"
+      },
+      "pair": 23,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        107
+      ],
+      "originals": {
+        "label_0": "validation:001486",
+        "label_1": "validation:001533"
+      },
+      "pair": 24,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        73,
+        52
+      ],
+      "originals": {
+        "label_0": "validation:000043",
+        "label_1": "validation:001211"
+      },
+      "pair": 25,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        59
+      ],
+      "originals": {
+        "label_0": "validation:001799",
+        "label_1": "validation:000759"
+      },
+      "pair": 26,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        8,
+        32
+      ],
+      "originals": {
+        "label_0": "validation:000001",
+        "label_1": "validation:000506"
+      },
+      "pair": 27,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        92
+      ],
+      "originals": {
+        "label_0": "validation:001437",
+        "label_1": "validation:000186"
+      },
+      "pair": 28,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        86
+      ],
+      "originals": {
+        "label_0": "validation:001098",
+        "label_1": "validation:000338"
+      },
+      "pair": 29,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        17,
+        60
+      ],
+      "originals": {
+        "label_0": "validation:000198",
+        "label_1": "validation:001999"
+      },
+      "pair": 30,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        43,
+        72
+      ],
+      "originals": {
+        "label_0": "validation:000769",
+        "label_1": "validation:001743"
+      },
+      "pair": 31,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        16,
+        48
+      ],
+      "originals": {
+        "label_0": "validation:001902",
+        "label_1": "validation:000466"
+      },
+      "pair": 32,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        91
+      ],
+      "originals": {
+        "label_0": "validation:001709",
+        "label_1": "validation:000155"
+      },
+      "pair": 33,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        94
+      ],
+      "originals": {
+        "label_0": "validation:001275",
+        "label_1": "validation:000436"
+      },
+      "pair": 34,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        65
+      ],
+      "originals": {
+        "label_0": "validation:001903",
+        "label_1": "validation:001729"
+      },
+      "pair": 35,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        108
+      ],
+      "originals": {
+        "label_0": "validation:000726",
+        "label_1": "validation:000664"
+      },
+      "pair": 36,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        30
+      ],
+      "originals": {
+        "label_0": "validation:000171",
+        "label_1": "validation:001126"
+      },
+      "pair": 37,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        18
+      ],
+      "originals": {
+        "label_0": "validation:001860",
+        "label_1": "validation:000701"
+      },
+      "pair": 38,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        85
+      ],
+      "originals": {
+        "label_0": "validation:001620",
+        "label_1": "validation:000575"
+      },
+      "pair": 39,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        14,
+        39
+      ],
+      "originals": {
+        "label_0": "validation:000895",
+        "label_1": "validation:000992"
+      },
+      "pair": 40,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        67,
+        20
+      ],
+      "originals": {
+        "label_0": "validation:000899",
+        "label_1": "validation:000522"
+      },
+      "pair": 41,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        80,
+        62
+      ],
+      "originals": {
+        "label_0": "validation:000299",
+        "label_1": "validation:001134"
+      },
+      "pair": 42,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        100
+      ],
+      "originals": {
+        "label_0": "validation:000820",
+        "label_1": "validation:001924"
+      },
+      "pair": 43,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        88
+      ],
+      "originals": {
+        "label_0": "validation:000687",
+        "label_1": "validation:001405"
+      },
+      "pair": 44,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        110
+      ],
+      "originals": {
+        "label_0": "validation:001831",
+        "label_1": "validation:001250"
+      },
+      "pair": 45,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        46
+      ],
+      "originals": {
+        "label_0": "validation:000239",
+        "label_1": "validation:001115"
+      },
+      "pair": 46,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        51
+      ],
+      "originals": {
+        "label_0": "validation:000533",
+        "label_1": "validation:002079"
+      },
+      "pair": 47,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        45
+      ],
+      "originals": {
+        "label_0": "validation:001540",
+        "label_1": "validation:001070"
+      },
+      "pair": 48,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        50
+      ],
+      "originals": {
+        "label_0": "validation:001978",
+        "label_1": "validation:000755"
+      },
+      "pair": 49,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        7,
+        79
+      ],
+      "originals": {
+        "label_0": "validation:001970",
+        "label_1": "validation:000117"
+      },
+      "pair": 50,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        25,
+        26
+      ],
+      "originals": {
+        "label_0": "validation:001087",
+        "label_1": "validation:001793"
+      },
+      "pair": 51,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        6
+      ],
+      "originals": {
+        "label_0": "validation:000410",
+        "label_1": "validation:001194"
+      },
+      "pair": 52,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        31
+      ],
+      "originals": {
+        "label_0": "validation:000032",
+        "label_1": "validation:001578"
+      },
+      "pair": 53,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        102
+      ],
+      "originals": {
+        "label_0": "validation:001818",
+        "label_1": "validation:001779"
+      },
+      "pair": 54,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        56
+      ],
+      "originals": {
+        "label_0": "validation:000046",
+        "label_1": "validation:000138"
+      },
+      "pair": 55,
+      "position": "prefix"
+    },
+    {
+      "classes": [
+        "long"
+      ],
+      "context_classes": [
+        "long"
+      ],
+      "context_ids": [
+        87
+      ],
+      "originals": {
+        "label_0": "validation:001581",
+        "label_1": "validation:000586"
+      },
+      "pair": 56,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        29
+      ],
+      "originals": {
+        "label_0": "validation:001529",
+        "label_1": "validation:000966"
+      },
+      "pair": 57,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        40,
+        23
+      ],
+      "originals": {
+        "label_0": "validation:001634",
+        "label_1": "validation:000891"
+      },
+      "pair": 58,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        24,
+        35
+      ],
+      "originals": {
+        "label_0": "validation:001205",
+        "label_1": "validation:000636"
+      },
+      "pair": 59,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        63,
+        70
+      ],
+      "originals": {
+        "label_0": "validation:001022",
+        "label_1": "validation:000587"
+      },
+      "pair": 60,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short",
+        "short"
+      ],
+      "context_classes": [
+        "short",
+        "short"
+      ],
+      "context_ids": [
+        54,
+        69
+      ],
+      "originals": {
+        "label_0": "validation:000563",
+        "label_1": "validation:001186"
+      },
+      "pair": 61,
+      "position": "both"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        77
+      ],
+      "originals": {
+        "label_0": "validation:001129",
+        "label_1": "validation:001643"
+      },
+      "pair": 62,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        44
+      ],
+      "originals": {
+        "label_0": "validation:000344",
+        "label_1": "validation:000644"
+      },
+      "pair": 63,
+      "position": "suffix"
+    },
+    {
+      "classes": [
+        "short"
+      ],
+      "context_classes": [
+        "short"
+      ],
+      "context_ids": [
+        58
+      ],
+      "originals": {
+        "label_0": "validation:000502",
+        "label_1": "validation:000296"
+      },
+      "pair": 64,
+      "position": "suffix"
+    }
+  ],
+  "rule_versions": {
+    "held_out": "ROB-01 homoglyph (never used for training augmentation)",
+    "homoglyph_map": {
+      "A": "U+0410",
+      "B": "U+0412",
+      "C": "U+0421",
+      "E": "U+0415",
+      "H": "U+041D",
+      "K": "U+041A",
+      "M": "U+041C",
+      "O": "U+041E",
+      "P": "U+0420",
+      "T": "U+0422",
+      "X": "U+0425",
+      "a": "U+0430",
+      "c": "U+0441",
+      "e": "U+0435",
+      "i": "U+0456",
+      "o": "U+043E",
+      "p": "U+0440",
+      "x": "U+0445",
+      "y": "U+0443"
+    },
+    "leet_map": {
+      "a": "4",
+      "e": "3",
+      "i": "1",
+      "o": "0",
+      "s": "5",
+      "t": "7"
+    },
+    "max_tokens": 256,
+    "rob01": "rob01-v1",
+    "rob03": "rob03-v1"
+  },
+  "rules": {
+    "checks": "exact text = any train/validation row -> exclude; normalised/punct key -> flag (ROB-04: exclude); ROB-02 same punct key or README 3.2 one-word edit of its original -> exclude; duplicate dev text -> the later case excluded; one excluded case excludes its group",
+    "replacement": "next unused reserve original of the same label (ROB-04: next reserve item), used once tried; review exclusions only via --apply-review, recorded in review_exclusions and replayed",
+    "rob01_case": "each ASCII letter upper with p=0.5 else lower; >= ceil(30%) of the letters change case; up to 20 redraws (21 draws), then letters still in their original case are flipped in a seeded order",
+    "rob01_char": "a e i o s t (either case) -> 4 3 1 0 5 7, p=0.5 each, one rng.choice position if none changed",
+    "rob01_homoglyph": "Latin -> Cyrillic look-alikes (rule_versions.homoglyph_map), p=0.5 each, one rng.choice position if none changed; held-out (never used for augmentation)",
+    "rob01_space": "k = rng.choice((1, 2)) longest words of >= 4 ASCII letters (ties: earlier) spelled out with single spaces; every inter-word whitespace run next to a token holding a spelled-out word becomes 2-3 spaces (rng.choice, ascending), so spelled-out word boundaries stay visible; then round(g / 3) of the g other runs (rng.sample) become 2-3 spaces",
+    "rob03": "pair index = rob03 slot 0-49 / reserve 50-64, shared by the attack and benign original; positions cycle prefix, suffix, both over a seeded order, prefix/suffix alternate short/long, both = two short; first queue passage (same class, then short) with <= 256 tokens for both originals and all three tokenizers; else the first candidate and the non-fitting original is excluded"
+  },
+  "schema": 1,
+  "script": {
+    "path": "scripts/build_dev_cases.py",
+    "sha256_lf": "d62e6470cd10a4f6bf709040ecfbe5605df535c3a3a61ff42707902628d04457"
+  },
+  "seeds": {
+    "allocation": "random.Random(f's3-dev:20261116:label{label}').shuffle(sorted IDs)",
+    "extraction_seed": 20261116,
+    "rob01": "random.Random(f'rob01-v1:{case_id}')",
+    "rob03": "random.Random('rob03-v1'): pair order, short queue, long queue"
+  },
+  "token_lengths_assigned": {
+    "ROB-01": {
+      "bert": {
+        "max": 91,
+        "median": 24.0,
+        "n": 400,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 98,
+        "median": 25.0,
+        "n": 400,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 98,
+        "median": 28.0,
+        "n": 400,
+        "over_256": 0
+      }
+    },
+    "ROB-02": {
+      "bert": {
+        "max": 38,
+        "median": 12.5,
+        "n": 100,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 37,
+        "median": 12.0,
+        "n": 100,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 37,
+        "median": 12.0,
+        "n": 100,
+        "over_256": 0
+      }
+    },
+    "ROB-03": {
+      "bert": {
+        "max": 103,
+        "median": 72.5,
+        "n": 100,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 102,
+        "median": 69.0,
+        "n": 100,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 109,
+        "median": 75.5,
+        "n": 100,
+        "over_256": 0
+      }
+    },
+    "ROB-03 both": {
+      "bert": {
+        "max": 86,
+        "median": 71.0,
+        "n": 30,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 84,
+        "median": 68.0,
+        "n": 30,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 89,
+        "median": 75.0,
+        "n": 30,
+        "over_256": 0
+      }
+    },
+    "ROB-03 prefix": {
+      "bert": {
+        "max": 100,
+        "median": 87.5,
+        "n": 38,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 96,
+        "median": 86.0,
+        "n": 38,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 101,
+        "median": 88.5,
+        "n": 38,
+        "over_256": 0
+      }
+    },
+    "ROB-03 suffix": {
+      "bert": {
+        "max": 103,
+        "median": 91.5,
+        "n": 32,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 102,
+        "median": 89.0,
+        "n": 32,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 109,
+        "median": 93.0,
+        "n": 32,
+        "over_256": 0
+      }
+    },
+    "ROB-04": {
+      "bert": {
+        "max": 36,
+        "median": 26.5,
+        "n": 50,
+        "over_256": 0
+      },
+      "deberta": {
+        "max": 35,
+        "median": 25.0,
+        "n": 50,
+        "over_256": 0
+      },
+      "roberta": {
+        "max": 37,
+        "median": 26.0,
+        "n": 50,
+        "over_256": 0
+      }
+    }
+  },
+  "tokenizers": {
+    "bert": "4d03705f0a40bce5fc03ae80e84ff8ec33eafd64ec90aded019d2be80300fc52",
+    "deberta": "4adacb9141d658578ad4de72802c8cb37d4f9618ee7652dc6f6e7a85ac037b5b",
+    "roberta": "0f49de6c1aae4b1b86b2badcb8000545cbb34cf6399caebbe84d76ccb636cb0e"
+  },
+  "train_patterns": {
+    "counts": {
+      "alternating_case": {
+        "label_0": 7,
+        "label_1": 13,
+        "rows": 20
+      },
+      "cyrillic": {
+        "label_0": 0,
+        "label_1": 0,
+        "rows": 0
+      },
+      "leetspeak": {
+        "label_0": 0,
+        "label_1": 22,
+        "rows": 22
+      },
+      "multiple_spaces": {
+        "label_0": 0,
+        "label_1": 3,
+        "rows": 3
+      },
+      "non_ascii": {
+        "label_0": 0,
+        "label_1": 22,
+        "rows": 22
+      },
+      "spaced_letters": {
+        "label_0": 0,
+        "label_1": 12,
+        "rows": 12
+      }
+    },
+    "definitions": {
+      "alternating_case": "an ASCII letter run of >= 4 letters whose case alternates at every letter",
+      "cyrillic": "a character in U+0400-U+04FF",
+      "leetspeak": "a token (maximal ASCII letter/digit run) of letters and the digits 0 1 3 4 5 7 with at least one of each whose de-leeted form (0->o, 1->i or l, 3->e, 4->a, 5->s, 7->t) is a word of >= 3 letters occurring as an all-letter token in the train or validation texts (base64-like fragments, codes and numbers such as mp3 or 4k do not count)",
+      "multiple_spaces": "two or more spaces between non-space characters",
+      "non_ascii": "a non-ASCII character (README 3.2: all such train rows are injections, a shortcut candidate)",
+      "spaced_letters": ">= 4 single ASCII letters separated by single spaces"
+    },
+    "rob01_subtypes": {
+      "case": {
+        "patterns": {
+          "alternating_case": {
+            "label_0": 7,
+            "label_1": 13,
+            "rows": 20
+          }
+        },
+        "train": "present"
+      },
+      "char": {
+        "patterns": {
+          "leetspeak": {
+            "label_0": 0,
+            "label_1": 22,
+            "rows": 22
+          }
+        },
+        "train": "present"
+      },
+      "homoglyph": {
+        "patterns": {
+          "cyrillic": {
+            "label_0": 0,
+            "label_1": 0,
+            "rows": 0
+          }
+        },
+        "train": "new"
+      },
+      "space": {
+        "patterns": {
+          "multiple_spaces": {
+            "label_0": 0,
+            "label_1": 3,
+            "rows": 3
+          },
+          "spaced_letters": {
+            "label_0": 0,
+            "label_1": 12,
+            "rows": 12
+          }
+        },
+        "train": "present"
+      }
+    },
+    "scope": "original train rows (README 5.2)"
+  }
+}

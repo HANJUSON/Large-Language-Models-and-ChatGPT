@@ -1,0 +1,160 @@
+{
+ "script": {
+  "path": "scripts/summarize_errors.py",
+  "sha256_lf": "e54e77a36b998b346dfae940b4655d5ad0afeaf6423af9b9eb3b26d824b5d857"
+ },
+ "inputs": {
+  "results/s2/errors.csv": "9a5c8f1fff78b1f84b861e438ed45b8a89e68707a5c275edd7b1e3f90ad080fb",
+  "results/s3/error_types_draft.csv": "a634359123a80a9d75438cc281f5eaccabad00b93e5473c34860d7db2a0cab19",
+  "data/error_review/review.csv": "1c4f95a0b593cdb1f387e7ab3dba1606b06e22a4e5542621f767b307ca81c918"
+ },
+ "models": [
+  "bert",
+  "roberta",
+  "deberta"
+ ],
+ "reviewers": [
+  "llm:claude-opus-5-5:exp02_review_v1"
+ ],
+ "decisions": {
+  "keep": 107,
+  "change": 1
+ },
+ "changes": [
+  [
+   "validation:001274",
+   "FN-PERSUADE",
+   "FN-PROBE"
+  ]
+ ],
+ "label_notes": [
+  "validation:000441",
+  "validation:000579"
+ ],
+ "counts": {
+  "FN": {
+   "FN-SECDOC": {
+    "bert": 4,
+    "roberta": 4,
+    "deberta": 4,
+    "any_model": 4,
+    "all_models": 4,
+    "any_run": 4
+   },
+   "FN-EMBED": {
+    "bert": 0,
+    "roberta": 1,
+    "deberta": 1,
+    "any_model": 2,
+    "all_models": 0,
+    "any_run": 4
+   },
+   "FN-CLAIM": {
+    "bert": 3,
+    "roberta": 1,
+    "deberta": 1,
+    "any_model": 4,
+    "all_models": 0,
+    "any_run": 10
+   },
+   "FN-FRAME": {
+    "bert": 4,
+    "roberta": 0,
+    "deberta": 1,
+    "any_model": 5,
+    "all_models": 0,
+    "any_run": 9
+   },
+   "FN-REPACK": {
+    "bert": 9,
+    "roberta": 1,
+    "deberta": 3,
+    "any_model": 10,
+    "all_models": 0,
+    "any_run": 18
+   },
+   "FN-PERSUADE": {
+    "bert": 4,
+    "roberta": 3,
+    "deberta": 1,
+    "any_model": 6,
+    "all_models": 0,
+    "any_run": 15
+   },
+   "FN-PROBE": {
+    "bert": 5,
+    "roberta": 4,
+    "deberta": 5,
+    "any_model": 6,
+    "all_models": 3,
+    "any_run": 17
+   },
+   "FN-OTHER": {
+    "bert": 0,
+    "roberta": 0,
+    "deberta": 0,
+    "any_model": 0,
+    "all_models": 0,
+    "any_run": 1
+   },
+   "total": {
+    "bert": 29,
+    "roberta": 14,
+    "deberta": 16,
+    "any_model": 37,
+    "all_models": 7,
+    "any_run": 78
+   }
+  },
+  "FP": {
+   "FP-INTENT": {
+    "bert": 4,
+    "roberta": 1,
+    "deberta": 2,
+    "any_model": 4,
+    "all_models": 1,
+    "any_run": 9
+   },
+   "FP-SECMETA": {
+    "bert": 2,
+    "roberta": 3,
+    "deberta": 2,
+    "any_model": 3,
+    "all_models": 2,
+    "any_run": 4
+   },
+   "FP-PSYCH": {
+    "bert": 4,
+    "roberta": 0,
+    "deberta": 0,
+    "any_model": 4,
+    "all_models": 0,
+    "any_run": 7
+   },
+   "FP-TECH": {
+    "bert": 1,
+    "roberta": 1,
+    "deberta": 3,
+    "any_model": 4,
+    "all_models": 0,
+    "any_run": 10
+   },
+   "FP-OTHER": {
+    "bert": 0,
+    "roberta": 0,
+    "deberta": 0,
+    "any_model": 0,
+    "all_models": 0,
+    "any_run": 0
+   },
+   "total": {
+    "bert": 11,
+    "roberta": 5,
+    "deberta": 7,
+    "any_model": 15,
+    "all_models": 3,
+    "any_run": 30
+   }
+  }
+ }
+}
